@@ -1,0 +1,182 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+    width: 100vw;
+    height: 100vh;
+}
+
+.microskool-button{
+    background-color: rgb(83, 83, 170);
+    margin: 5px;
+    color: white;
+}
+
+.microskool-outline-button{
+    color: rgb(83, 83, 170);
+    border: 2px solid rgb(83, 83, 170);
+    margin: 5px;
+}
+
+.mother{
+width: 100%;
+height: 98vh;
+overflow: auto;
+} 
+.centered{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.microskool-title{
+    color: rgb(83, 83, 170);
+    font-weight: bold;
+
+}
+
+.shadow{
+    box-shadow: 0 0 14px lightgray;
+}
+
+.margin{
+    margin: 5px;
+}
+
+input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.microskool-icon{
+    width: 50px;
+    height: 50px;
+
+}
+
+.grid-menu{
+    margin:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+font-size: x-small;
+    cursor: pointer;
+}
+.grid-menu:hover{
+    background-color: rgb(83, 83, 170);
+    color: white;
+}
+
+.grid-menu .icon{
+font-size: xx-large;
+}
+.navigation{
+    background-color: white;
+    float: left;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 40%;
+ max-width: 180px;
+ transition: max-width 2s ease-in-out;
+ 
+}
+.board{ 
+    max-width: 80%;
+    min-width: 60%;
+    float: left; 
+ width: 60%;
+    height: 100vh;
+    overflow: auto;
+    transition: width 2s ease-in-out;
+}
+.menu-icon{
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 0 10px lightgray;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    float: left;
+    font-size: x-large;
+}
+.menu-icon img{
+    width: 85%;
+    height: 85%;
+}
+
+.menu-item{
+cursor: pointer;
+height: 60px;
+}
+.menu-item.active{
+    color: rgb(83, 83, 170);
+}
+
+.item-text{
+    align-items: center;
+    display: flex;
+    height: 100%;
+    font-size: small;
+    
+}
+
+.title{
+    color: rgb(83, 83, 170);
+    font-weight: bold;
+    padding-top: 20px;
+}
+.no-btn{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.navbtn{
+    float: right;
+    margin: 5px;
+}
+
+.navigation.fall{
+    max-width: 70px;
+}
+
+.board.fall{
+    width: 78%;  
+    max-width: 88%; 
+}
+
+.item-text.fall{
+    display: none;
+}
+
+.padding{
+    padding: 20px;
+}
+.modal{
+    position: absolute !important;
+    background-color: rgba(0, 0, 0, 0.06);
+    display: flex !important;
+    
+ 
+}
+
+.modal .content{
+    background-color: white;
+    box-sizing: 0 0 90px lightgray;
+  
+  
+}
+
+.screen{
+    background-color: black;
+    color: white;
+}
+
+.microskool-border{
+    color: rgb(83, 83, 170);
+    border: 1px solid rgb(83, 83, 170);
+}

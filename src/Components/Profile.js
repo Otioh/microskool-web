@@ -3,20 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
 import twelve from '../Images/twelve.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import { updateUser } from '../Redux/Reducers/userReducer';
 
-import { setEdit, setLogout } from '../Redux/Reducers/generalReducer';
+import { setEdit, setLogout, setUploadPix } from '../Redux/Reducers/generalReducer';
 import { funSeque } from 'flame-tools';
+import UploadPix from './UploadPix';
 
 
 
 function Profile() {
   const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
   const user=useSelector((state)=>state.userReducer.user);
-  const {edit, logout}=useSelector((state)=>state.generalReducer.general);
+  const {edit, logout, uploadPix}=useSelector((state)=>state.generalReducer.general);
   const [pereson, setPerson]=useState({...user});
   
   let dispatch=useDispatch()
@@ -38,8 +39,12 @@ function Profile() {
 </div>
 <div className='card-body'>
 
-<img alt={user.first_name} src={twelve} style={{borderRadius:'50%', height:'200px', width:'200px', boxShadow:'0 0 4px black'}} />
-
+<img alt={user.first_name} src={twelve} style={{borderRadius:'50%', height:'auto', width:'95%', boxShadow:'0 0 4px black'}} />
+<button className='btn microskool-button'  style={{width:'97%'}} onClick={()=>{
+  dispatch(setUploadPix(true))
+}}>
+<FontAwesomeIcon icon={faCamera}></FontAwesomeIcon> Edit Picture
+</button>
 <br/>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon> {user.email}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPhone}></FontAwesomeIcon> {user.phone}</div>
@@ -47,9 +52,15 @@ function Profile() {
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faSchool}></FontAwesomeIcon> {user.institution}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPeopleGroup}></FontAwesomeIcon> {user.department}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faLevelUp}></FontAwesomeIcon> {user.level}</div>
+{
+uploadPix?<Modal config={{align:'flex-start', justify:'left'}} header={'Upload Your Profile Picture'}footer={<><button className='btn microskool-button' onClick={()=>{
+dispatch(setUploadPix(false))
+}}> <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> </button> <button className='btn-close' onClick={()=>dispatch(setUploadPix(false))}></button> </>} body={<UploadPix/>} />:<></>
+}
+
 { edit?<Modal config={{align:'flex-end', justify:'left'}} header={'Update Your Profile'} body={<>
-      Select Profile Picture
-      <input type='file' className='form-control' accept='.jpg, .png, .jpeg'  />
+
+  
       <input placeholder='First Name' value={pereson.first_name} className='form-control form-text'onChange={(e)=>{
 setPerson({...pereson, first_name:e.target.value})
         }} />
@@ -59,9 +70,16 @@ setPerson({...pereson, surname:e.target.value})
       <input placeholder='JAMB/Matric' value={pereson.matric} className='form-control form-text'onChange={(e)=>{
 setPerson({...pereson, matric:e.target.value})
         }} />
-<input type={'text'} placeholder='Institution' value={pereson.institution} className='form-control' onChange={(e)=>{
+<select className='form-select' 
+onChange={(e)=>{
 setPerson({...pereson, institution:e.target.value})
-        }} />
+        }} >
+        <option>
+          University of Calabar
+        </option>
+
+</select>
+
 
         <select placeholder='Faculty' className='form-select' onChange={(e)=>{
 setPerson({...pereson, department:e.target.value})
@@ -86,7 +104,7 @@ setPerson({...pereson, level:e.target.value})
         </select>
 
 
-      </>} footer={<><button className='btn btn-outline-success' onClick={()=>{
+      </>} footer={<><button className='btn microskool-button' onClick={()=>{
         dispatch( updateUser(pereson) )
       dispatch(setEdit(false))
       }}> <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> </button> <button className='btn-close' onClick={()=>dispatch(setEdit(false))}></button> </>} />:<></> }
@@ -130,17 +148,42 @@ dispatch(setLogout(true))
 <hr/>
 <div className='hist' style={{width:'100%'}}>
   <h6>Transactions History</h6>
-<ul className='list-group '>
-  <li className='list-group-item d-flex justify-content-between align-items-center'>
-<span>Coins Transfer</span> <span>
-Transfered from Microskool to Microskool2
-</span> <span>
-2,000
-</span> <span>
-12/12/2022
-</span>
-  </li>
-  </ul>
+
+  <div className='table-responsive'>
+<table className='table table-warning table-hover' style={{fontSize:'small'}}>
+<thead>
+  <th>
+    Item
+  </th>
+  <th>
+    Description
+  </th>
+  <th>
+    Amount
+  </th>
+  <th>
+
+    Date
+  </th>
+</thead>
+<tbody>
+  <tr>
+    <td>
+      Reward Earned
+    </td>
+    <td>
+      This is the details of the transaction
+    </td>
+    <td>
+      1,000
+    </td>
+    <td>
+      12/12/2022
+    </td>
+  </tr>
+</tbody>
+</table>
+  </div>
   
 </div>
   </div>

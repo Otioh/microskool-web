@@ -21,11 +21,25 @@ const generalReducer=createSlice({
         addPeriod:false,
         viewAssignment:false,
         addAssignment:false,
+        uploadPix:false,
+        assign:{
+            id:'hdhs',
+            question:'What is a noun',
+            date:'23/23',
+            deadline:'23/23/',
+            lecturer:'Mr Effiong',
+            user:'bryonerim@gmail.com',
+            image:'http://192.168.43.31:3000/static/media/twelve.87605878a6985f4c4e97.png',
+            course:'GSS101'
+        }
         }
     },
     reducers:{
         setEdit:(state, action)=>{
             state.general.edit= action.payload;
+        },
+        setUploadPix:(state, action)=>{
+            state.general.uploadPix=action.payload;
         },
         updateTimeTable:(state, action)=>{
 state.general.timeTable.push(action.payload)
@@ -74,5 +88,5 @@ state.general.timeTable.push(action.payload)
 
     }
 })
-export const {setEdit, setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign}=generalReducer.actions;
+export const {setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign}=generalReducer.actions;
 export default generalReducer.reducer;

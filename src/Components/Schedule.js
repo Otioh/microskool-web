@@ -68,21 +68,21 @@ let navigate=useNavigate();
     </h6>
 
     <div className="table-responsive" >
-    <table className={`table table-light table-striped table-hover table-condensed `}>
+    <table className={`table table-info table-striped table-hover table-condensed `}>
 
         <thead>
 <th>
-    Course
+    COURSE
 </th>
 <th>
-    Time-In
+    IN
 </th>
 
 <th>
-    Time-Out
+    OUT
 </th>
 <th>
-    Venue
+    VENUE
 </th>
 
 

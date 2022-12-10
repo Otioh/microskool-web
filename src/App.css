@@ -167,8 +167,31 @@ height: 60px;
 .modal .content{
     background-color: white;
     box-sizing: 0 0 90px lightgray;
-  
-  
+  transition: height 1s ease-in-out;
+  animation: modalAnimate 1.2s;
+}
+
+@keyframes modalAnimate {
+    0%{
+height: 50px;
+background-color: rgba(83, 83, 170, 0.9);
+    }
+    25%{
+height: 150px;
+background-color: rgba(83, 83, 170, 0.1);
+    }
+    50%{
+height: 250px;
+background-color: rgba(0, 0, 0, 0.1);
+    }
+    75%{
+height: 350px;
+background-color: rgba(255, 255, 255, 0.1);
+    }
+    100%{
+height: auto;
+
+    }
 }
 
 .screen{
@@ -180,3 +203,4 @@ height: 60px;
     color: rgb(83, 83, 170);
     border: 1px solid rgb(83, 83, 170);
 }
+

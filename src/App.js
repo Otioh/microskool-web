@@ -19,6 +19,7 @@ import ScheduleContribute from './Components/ScheduleContribute';
 import Assignments from './Components/Assignments';
 import Lectures from './Components/Lectures';
 import Player from './Components/player';
+import Viewer from './Components/Viewer';
 
 
 function App() {
@@ -44,6 +45,7 @@ const email=useSelector((state)=>state.userReducer.user.email);
   <Route path='/assignment' element={<Assignments/>}/>
   <Route path='/lectures' element={<Lectures/>}/>
   <Route path='/player' element={<Player/>}/>
+  <Route path='/viewer' element={<Viewer/>}/>
 
 </Routes>
 

@@ -6,6 +6,7 @@ import Navigation from './Navigation';
 import { setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
 import AddAssignment from './AddAssignment';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 function Assignments() {
@@ -23,6 +24,7 @@ const closePopAss=()=>{
 }
 
   let dispatch =useDispatch();
+  let navigate=useNavigate()
   return (
     <div>
       <Navigation active={'assignment'} />
@@ -45,8 +47,7 @@ Assignments for you
 {
   assignments.map((assignment, key)=>{
     return <li key={key} style={{cursor:'pointer'}} className='list-group-item d-flex justify-content-between align-items-center' onClick={()=>{
-setAssign({...assign, image:assignment.image, course:assignment.course, deadline:assignment.deadline, lecturer:assignment.lecturer})    
-      dispatch(setViewAssignment(true))
+navigate('/viewer')
     }}>
     <img style={{width:'50px', height:'50px', borderRadius:'17px'}} src={assignment.image} alt={assignment.course} />
     <span>  {

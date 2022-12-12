@@ -37,7 +37,7 @@ if(password===passwordConfirm){
     axios.post('http://192.168.43.31:5000/users', {email,password, first_name, surname, phone, matric}).then((response)=>{
 
     if(response.data.success){
-        funSeque(2, ()=>{
+        funSeque({delaySeconds:2}, ()=>{
         dispatch(setalert({...alert, cap:'Congrats', status:true, type:'success', msg:response.data.message}))
 },
 ()=>{

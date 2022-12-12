@@ -21,7 +21,7 @@ return state.userReducer.user;
    const [email, setEmail]= useState(user.email);
    const [password, setpassword] = useState(user.password)
 let navigate=useNavigate();
-let next='/dashboard';
+let next='/synch';
 const  verified= ()=>{
   dispatch(setload(true))
     let neu=false;
@@ -48,7 +48,7 @@ const process=  ()=>{
     axios.post('http://localhost:5000/auth', {email,password}).then((response)=>{
 
     if(response.data.success){
-    funSeque({delaySeconds:2, isAsync:true, isPromise:true},()=>{
+    funSeque({delaySeconds:2, isPromise:true},()=>{
 dispatch(updateUser(response.data.data[0]))
     },
      ()=>{

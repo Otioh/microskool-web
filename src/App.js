@@ -1,8 +1,8 @@
 import './App.css';
 import Login from './Components/Login';
-import { Route, Routes} from 'react-router-dom';
+import { Route, Routes, useNavigate} from 'react-router-dom';
 import Signup from './Components/Signup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dashboard from './Components/Dashboard';
 import Loader from './Components/Loader';
 import Calculator from './Components/Calculator';
@@ -20,11 +20,18 @@ import Assignments from './Components/Assignments';
 import Lectures from './Components/Lectures';
 import Player from './Components/player';
 import Viewer from './Components/Viewer';
+import Synch from './Components/Synch';
 
 
 function App() {
 const dis=useSelector((state)=>state.displayReducer.display)
 const email=useSelector((state)=>state.userReducer.user.email);
+let navigate=useNavigate()
+useEffect(()=>{
+  if(email===""){
+    navigate('/login')
+  }
+}, [email])
 
   return (
 <>
@@ -46,6 +53,7 @@ const email=useSelector((state)=>state.userReducer.user.email);
   <Route path='/lectures' element={<Lectures/>}/>
   <Route path='/player' element={<Player/>}/>
   <Route path='/viewer' element={<Viewer/>}/>
+  <Route path='/synch' element={<Synch/>}/>
 
 </Routes>
 

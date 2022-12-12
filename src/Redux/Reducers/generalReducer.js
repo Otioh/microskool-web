@@ -6,6 +6,7 @@ const generalReducer=createSlice({
         general:{
         courses:[{code:'GSS101', title:'Use of English 1', department:'GSS', level:'100'}],
         timeTable:[],
+        myCourses:['GSS222'],
         assignments:[{
             id:'hdhs',
             question:'What is a noun',
@@ -37,6 +38,9 @@ const generalReducer=createSlice({
     reducers:{
         setEdit:(state, action)=>{
             state.general.edit= action.payload;
+        },
+        setCourse:(state, action)=>{
+            state.general.courses= action.payload;
         },
         setUploadPix:(state, action)=>{
             state.general.uploadPix=action.payload;
@@ -88,5 +92,5 @@ state.general.timeTable.push(action.payload)
 
     }
 })
-export const {setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign}=generalReducer.actions;
+export const {setCourse, setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign}=generalReducer.actions;
 export default generalReducer.reducer;

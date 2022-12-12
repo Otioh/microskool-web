@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
 import twelve from '../Images/twelve.png';
@@ -11,6 +11,7 @@ import { updateUser } from '../Redux/Reducers/userReducer';
 import { setEdit, setLogout, setUploadPix } from '../Redux/Reducers/generalReducer';
 import { funSeque } from 'flame-tools';
 import UploadPix from './UploadPix';
+import axios from 'axios';
 
 
 
@@ -19,10 +20,30 @@ function Profile() {
   const user=useSelector((state)=>state.userReducer.user);
   const {edit, logout, uploadPix}=useSelector((state)=>state.generalReducer.general);
   const [pereson, setPerson]=useState({...user});
+  const [campuses, setcampuses] = useState([]);
+  const [departments, setdepartments] = useState([]);
   
   let dispatch=useDispatch()
   let navigate=useNavigate();
-  
+  useEffect(()=>{
+axios.get('http://192.168.43.31:5000/campuses').then((response)=>{
+
+  if(response.data.success){
+    setcampuses(response.data.data)
+  }
+})
+
+
+
+axios.get('http://192.168.43.31:5000/departments').then((response)=>{
+
+  if(response.data.success){
+    setdepartments(response.data.data)
+  }
+})
+
+
+  }, [])
 
   return (
     <div>
@@ -39,7 +60,7 @@ function Profile() {
 </div>
 <div className='card-body'>
 
-<img alt={user.first_name} src={twelve} style={{borderRadius:'50%', height:'auto', width:'95%', boxShadow:'0 0 4px black'}} />
+<img alt={user.first_name} src={user.image} style={{borderRadius:'50%', height:'auto', width:'95%', boxShadow:'0 0 4px black'}} />
 <button className='btn microskool-button'  style={{width:'97%'}} onClick={()=>{
   dispatch(setUploadPix(true))
 }}>
@@ -72,27 +93,48 @@ setPerson({...pereson, matric:e.target.value})
         }} />
 <select className='form-select' 
 onChange={(e)=>{
-setPerson({...pereson, institution:e.target.value})
+setPerson({...pereson, institution:e.target.value.split('---')[0], campus:e.target.value.split('---')[1]})
         }} >
-        <option>
-          University of Calabar
-        </option>
+      {
+        user.institution===""?        <option >
+Select Campus        </option>
+:        <option value={user.institution}>
+{user.institution}
+</option>
 
+      }
+{
+  campuses.map((campus)=>{
+return    <option value={`${campus.name}---${campus.acro}`}>
+   {`${campus.name}---${campus.acro}`}
+    </option>
+  })
+}
 </select>
 
 
-        <select placeholder='Faculty' className='form-select' onChange={(e)=>{
+        <select  className='form-select' onChange={(e)=>{
 setPerson({...pereson, department:e.target.value})
         }}>
-        <option value={user.department}>
-          {user.department} --Department
-        </option>
-        <option value='Computer Science'>
-          Computer Science
-        </option>
+             {
+        user.department===""?        <option >
+Select Department        </option>
+:        <option value={user.department}>
+{user.department}
+</option>
+
+      }
+{
+  departments.map((departmen)=>{
+return    <option value={`${departmen.name}`}>
+   {`${departmen.name}`}
+    </option>
+  })
+}
+
         </select>
 
-        <select placeholder='Faculty' className='form-select' onChange={(e)=>{
+        <select  className='form-select' onChange={(e)=>{
 setPerson({...pereson, level:e.target.value})
         }}>
         <option value={user.level}>
@@ -107,6 +149,9 @@ setPerson({...pereson, level:e.target.value})
       </>} footer={<><button className='btn microskool-button' onClick={()=>{
         dispatch( updateUser(pereson) )
       dispatch(setEdit(false))
+      axios.post('http://192.168.43.31:5000/users/'+user.email+'', pereson).then((response)=>{
+console.log(response.data );
+      })
       }}> <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> </button> <button className='btn-close' onClick={()=>dispatch(setEdit(false))}></button> </>} />:<></> }
 
       { logout?<Modal config={{align:'flex-end', justify:'right'}} header={'Confirm Logout'} body={<>
@@ -136,20 +181,21 @@ dispatch(setLogout(true))
 </div>
 </div>
   </div>
-  <div className='col-sm-6'>
+  <div className='col-sm-5'>
 <div className='card'>
   <div className='card-header'>
 <div className='title'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> Earnings</div>
   </div>
   <div className='card-body'>
 <h1 >
-  <FontAwesomeIcon style={{color:'gold'}} icon={faCoins}></FontAwesomeIcon> 2,000.00
+  <FontAwesomeIcon style={{color:'gold'}} icon={faCoins}></FontAwesomeIcon> {parseFloat(user.coins).toFixed(2)}
 </h1>
 <hr/>
 <div className='hist' style={{width:'100%'}}>
   <h6>Transactions History</h6>
 
   <div className='table-responsive'>
+    
 <table className='table table-warning table-hover' style={{fontSize:'small'}}>
 <thead>
   <th>
@@ -196,7 +242,7 @@ dispatch(setLogout(true))
 </div>
   </div>
 
-  <div className='col-sm-2'>
+  <div className='col-sm-3'>
     <div className='card'>
       <div className='card-header'>
 <div className='title'>

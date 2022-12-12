@@ -68,6 +68,12 @@ let navigate=useNavigate();
     </h6>
 
     <div className="table-responsive" >
+    <button  className="btn microskool-border" onClick={()=>{
+navigate('/contribute')
+}}>
+    <FontAwesomeIcon icon={faEdit} />  Contribute
+</button>
+
     <table className={`table table-info table-striped table-hover table-condensed `}>
 
         <thead>
@@ -267,11 +273,6 @@ return null;
 
     </table>
 </div>
-<button style={{position:"fixed", bottom:"6%", right:"2%", zIndex:"200"}} className="btn microskool-border" onClick={()=>{
-navigate('/contribute')
-}}>
-    <FontAwesomeIcon icon={faEdit} />  Contribute
-</button>
 </div>
 </div>
 </div>

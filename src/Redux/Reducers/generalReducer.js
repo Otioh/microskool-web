@@ -4,9 +4,9 @@ const generalReducer=createSlice({
     name:"general",
     initialState:{
         general:{
-        courses:[{code:'GSS101', title:'Use of English 1', department:'GSS', level:'100'}],
+        courses:[],
         timeTable:[],
-        myCourses:['GSS222'],
+        myCourses:[],
         assignments:[{
             id:'hdhs',
             question:'What is a noun',

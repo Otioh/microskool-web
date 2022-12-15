@@ -74,9 +74,7 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPeopleGroup}></FontAwesomeIcon> {user.department}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faLevelUp}></FontAwesomeIcon> {user.level}</div>
 {
-uploadPix?<Modal config={{align:'flex-start', justify:'left'}} header={'Upload Your Profile Picture'}footer={<><button className='btn microskool-button' onClick={()=>{
-dispatch(setUploadPix(false))
-}}> <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> </button> <button className='btn-close' onClick={()=>dispatch(setUploadPix(false))}></button> </>} body={<UploadPix/>} />:<></>
+uploadPix?<Modal config={{align:'flex-start', justify:'left'}} header={'Upload Your Profile Picture'}footer={<> <button className='btn-close' onClick={()=>dispatch(setUploadPix(false))}></button> </>} body={<UploadPix/>} />:<></>
 }
 
 { edit?<Modal config={{align:'flex-end', justify:'left'}} header={'Update Your Profile'} body={<>

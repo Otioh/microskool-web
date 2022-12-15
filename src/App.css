@@ -79,7 +79,7 @@ font-size: xx-large;
     height: 100vh;
     width: 40%;
  max-width: 180px;
- transition: max-width 2s ease-in-out;
+ transition: max-width 1s ease-in-out;
  
 }
 .board{ 
@@ -89,11 +89,11 @@ font-size: xx-large;
  width: 60%;
     height: 100vh;
     overflow: auto;
-    transition: width 2s ease-in-out;
+    transition: width 1s ease-in-out;
 }
 .menu-icon{
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     box-shadow: 0 0 10px lightgray;
     border-radius: 50%;
     display: flex;
@@ -101,7 +101,7 @@ font-size: xx-large;
     justify-content: center;
     margin: 5px;
     float: left;
-    font-size: x-large;
+    font-size: large;
 }
 .menu-icon img{
     width: 85%;

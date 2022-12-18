@@ -7,6 +7,7 @@ const displayReducer=createSlice({
         navigationFall:true,
         theme:'light',
        load:false,
+       spin:false,
        alert:{
        msg:"Enter your details",
        cap:"Welcome",
@@ -32,8 +33,12 @@ const displayReducer=createSlice({
           
             state.display.alert=
             {...state.display.alert, ...payload}
+        },
+        setspin:(state, {type, payload})=>{
+          
+            state.display.spin=payload
         }
     }
 })
-export const {updateDisplay, toggleNavFall, setload, setalert}=displayReducer.actions;
+export const {updateDisplay, toggleNavFall, setload, setalert, setspin}=displayReducer.actions;
 export default displayReducer.reducer;

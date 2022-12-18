@@ -10,7 +10,7 @@ import Search from './Components/Search';
 import Reference from './Components/Reference';
 import Profile from './Components/Profile';
 import Schedule from './Components/Schedule';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setalert } from './Redux/Reducers/displayReducer';
 import { setload } from './Redux/Reducers/displayReducer';
 import Verify from './Components/Verify';
@@ -21,21 +21,30 @@ import Lectures from './Components/Lectures';
 import Player from './Components/player';
 import Viewer from './Components/Viewer';
 import Synch from './Components/Synch';
+import Reset from './Components/Reset';
+import Spinner from './Components/Spinner';
 
 
 function App() {
 const dis=useSelector((state)=>state.displayReducer.display)
 const email=useSelector((state)=>state.userReducer.user.email);
 let navigate=useNavigate()
+let dispatch=useDispatch();
 useEffect(()=>{
-  if(email===""){
+ 
+  if( sessionStorage.getItem('email')===null){
     navigate('/login')
+  }
+  
+  if(email==="" && sessionStorage.getItem('email')!==null){
+dispatch(setload(true))
   }
 }, [email])
 
   return (
 <>
 <Loader load={dis.load} />
+<Spinner/>
 <Routes>
   <Route path='/' element={<Login  />} />
   <Route path='/login' element={<Login  />} />
@@ -54,6 +63,7 @@ useEffect(()=>{
   <Route path='/player' element={<Player/>}/>
   <Route path='/viewer' element={<Viewer/>}/>
   <Route path='/synch' element={<Synch/>}/>
+  <Route path='/reset' element={<Reset/>}/>
 
 </Routes>
 

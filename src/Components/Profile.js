@@ -18,7 +18,7 @@ import axios from 'axios';
 function Profile() {
   const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
   const user=useSelector((state)=>state.userReducer.user);
-  const {edit, logout, uploadPix}=useSelector((state)=>state.generalReducer.general);
+  const {edit, logout, uploadPix, myCourses}=useSelector((state)=>state.generalReducer.general);
   const [pereson, setPerson]=useState({...user});
   const [campuses, setcampuses] = useState([]);
   const [departments, setdepartments] = useState([]);
@@ -141,6 +141,19 @@ setPerson({...pereson, level:e.target.value})
         <option value='100'>
           100
         </option>
+        <option value='200'>
+          200
+        </option>
+        <option value='300'>
+          300
+        </option>
+        <option value='400'>
+          400
+        </option>
+
+        <option value='500'>
+          500
+        </option>
         </select>
 
 
@@ -155,6 +168,7 @@ console.log(response.data );
       { logout?<Modal config={{align:'flex-end', justify:'right'}} header={'Confirm Logout'} body={<>
       Sure to logout?
       </>} footer={<><button className='btn btn-danger' onClick={()=>{
+        sessionStorage.clear();
 navigate('/')
 }}>Logout</button><button className='btn-close' onClick={()=>dispatch(setLogout(false))}></button></>} />:<></>}
 
@@ -250,9 +264,16 @@ dispatch(setLogout(true))
       <div className='card-body'>
 
 <ul className='list-group'>
-  <li className='list-group-item'>
-GSS101 
-</li>
+  {
+    myCourses.map((course, key)=>{
+      return   <li key={key} className='list-group-item'>
+      {
+      course
+      } 
+      </li>
+    })
+  }
+
   
 </ul>
       </div>

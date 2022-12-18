@@ -13,6 +13,15 @@ function Synch() {
     
     useEffect(()=>{
       
+
+        axios.get('http://192.168.43.31:5000/users/'+sessionStorage.getItem('email')+'').then((response)=>{
+
+        if(response.data.success){
+    dispatch(updateUser(response.data.data[0]))
+        }
+        
+})
+
 axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
    
 if(response.data.success){

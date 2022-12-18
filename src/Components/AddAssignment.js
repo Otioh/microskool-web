@@ -107,14 +107,17 @@ setlecturer(e.target.value)
 
 
 <div className='col-sm-4'>
-<input className={`form-control`} type='file' onChange={(e)=>{
+  <label for='file'>
+    Select Supporting Image
+  </label>
+<input className={`form-control`} id='file' type='file' onChange={(e)=>{
 setimage(e.target.value)
 }} />
     </div>
         </div>
         <div className='row'>
 <div className='col-sm-4'>
-<button className={`btn microskool-border`}  onClick={saveAssign} >
+<button className={`btn microskool-button`}  onClick={saveAssign} >
     <FontAwesomeIcon icon={faSave}/> Post
 </button>
 </div>

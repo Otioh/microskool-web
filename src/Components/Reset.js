@@ -8,11 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { funSeque} from 'flame-tools';
 import { useSelector, useDispatch} from 'react-redux';
-import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
+import { setalert, setload } from '../Redux/Reducers/displayReducer';
 
-
-
-function Login() {
+function Reset() {
  
  const dispatch= useDispatch()
 const user  = useSelector((state)=>{
@@ -23,15 +21,9 @@ return state.userReducer.user;
    const [email, setEmail]= useState(user.email);
    const [password, setpassword] = useState(user.password)
 let navigate=useNavigate();
-useEffect(()=>{
-    if(sessionStorage.getItem('email')!==null){
-      
-    navigate('/synch')
-    }
-})
 let next='/synch';
 const  verified= ()=>{
-  dispatch(setspin(true))
+  dispatch(setload(true))
     let neu=false;
         axios.get('http://192.168.43.31:5000/auth/'+email).then((response)=>{
             console.log(response.data.data);
@@ -51,40 +43,22 @@ return neu;
         
 }
 
-
-useEffect(()=>{
-
-    if(sessionStorage.getItem('email')==="" || sessionStorage.getItem('email')===null){
-     
-    }else{
-        navigate('/login')
-    }
-  }, [])
-  
-
-
-
-
 const process=  ()=>{
  let ss=false;
-    axios.post('http://192.168.43.31:5000/auth', {email,password}).then((response)=>{
+    axios.post('http://localhost:5000/auth', {email,password}).then((response)=>{
 
     if(response.data.success){
-    funSeque({delaySeconds:2, isPromise:false},()=>{
+    funSeque({delaySeconds:2, isPromise:true},()=>{
 dispatch(updateUser(response.data.data[0]))
-sessionStorage.setItem('email', email)
     },
      ()=>{
         
         dispatch(setalert({status:true,cap:'Email Verification', type:'danger', msg:response.data.message}))
 
         dispatch(setalert({ cap:'Congrats', status:true, type:'success', msg:response.data.message}))
-        dispatch(setspin(false))
+        dispatch(setload(false))
     return true
    
-},
-()=>{
-
 },
 ()=>{
 
@@ -119,12 +93,11 @@ useEffect(() => {
     <>
 
 <div className='mother centered'>
- 
     <div className='card shadow margin'>
 <div className='card-header'>
     <img alt='Logo' className='microskool-icon' src={MicroskoolIcon} />
 <text style={{float:"right"}} className='microskool-title'>
-Login
+Reset
 </text>
 </div>
 <div className='card-body'>
@@ -133,34 +106,19 @@ Login
 <input type='email' className='form-control' value={email} placeholder='E-Mail' onChange={(e)=>{
 setEmail(e.target.value)
 }} />
-<span style={{display:'flex'}}>
-<input type='password' id='password'  className='form-control' value={password} placeholder='Password ' onChange={(e)=>{
-setpassword(e.target.value)
-}} /><button style={{outline:0, border:'none'}} className='btn' id='btn' onClick={()=>{
-document.getElementById('password').type='text';
-document.getElementById('btn').disabled=true
-}}  ><FontAwesomeIcon icon={faEye}></FontAwesomeIcon></button>
-</span>
 </div>
 <div className='card-footer'>
 
 <button className='btn microskool-button' onClick={()=>{
-     funSeque({delaySeconds:2,isPromise:true},verified,process)
+     funSeque({isPromise:true},verified,process)
 }}>
-        <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login
+        <FontAwesomeIcon icon={faKey}></FontAwesomeIcon> Reset
         </button>
-<br/>
-<button className='btn microskool-outline-button' onClick={()=>{
-    navigate('/reset')
+        <button className='btn microskool-outline-button' onClick={()=>{
+    navigate('/login')
 }}>
-        <FontAwesomeIcon icon={faKey}></FontAwesomeIcon> Reset Password
+        <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login?
         </button>   
-<Link to='/signup'>
-
-        <button className='btn microskool-outline-button'>
-        <FontAwesomeIcon icon={faUserLock}></FontAwesomeIcon> Sign Up
-        </button>   
-        </Link>
 
 </div>
     </div>
@@ -171,4 +129,4 @@ document.getElementById('btn').disabled=true
   )
 }
 
-export default Login
+export default Reset

@@ -38,7 +38,12 @@ const closePopAss=()=>{
 <div className='card-header'>
 <span className='title'>
 Assignments for you 
-</span> {user.first_name} <a href='/#/profile'> Edit your [{courses.length}] courses</a>
+</span> {user.first_name} 
+<button  className="btn microskool-border" onClick={()=>{
+dispatch(setaddAssignment(true))
+}}>
+    <FontAwesomeIcon icon={faAdd} />  New 
+</button>
 </div>
 <div className='card-body'>
 <div className='assignment-list'>
@@ -84,11 +89,7 @@ navigate('/viewer')
         { addAssignment?<Modal config={{align:'flex-end', justify:'right'}} body={<AddAssignment/>} header={`Post New Assignment`} footer={<button className='btn-close' onClick={()=>{closePopAss()}} ></button> } />:<></>}
 
         </div>
-        <button style={{position:"fixed", bottom:"6%", right:"2%", zIndex:"200"}} className="btn microskool-border" onClick={()=>{
-dispatch(setaddAssignment(true))
-}}>
-    <FontAwesomeIcon icon={faAdd} />  New Assignment
-</button>
+     
 
       </div>
     </div>

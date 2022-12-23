@@ -14,7 +14,7 @@ function Loader({load}) {
   const user=useSelector((state)=>state.userReducer.user);
   
   useEffect(()=>{
-   
+
     if(sessionStorage.getItem('email')!==null){
     funSeque({delaySeconds:3, isPromise:false}, 
       ()=>{

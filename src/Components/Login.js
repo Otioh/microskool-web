@@ -24,11 +24,15 @@ return state.userReducer.user;
    const [password, setpassword] = useState(user.password)
 let navigate=useNavigate();
 useEffect(()=>{
-    if(sessionStorage.getItem('email')!==null){
+
+    setTimeout(() => {
+        if(sessionStorage.getItem('email')!==null){
       
-    navigate('/synch')
-    }
-})
+            navigate('/synch')
+            }
+    }, 1000);
+   
+}, [])
 let next='/synch';
 const  verified= ()=>{
   dispatch(setspin(true))
@@ -52,14 +56,6 @@ return neu;
 }
 
 
-useEffect(()=>{
-
-    if(sessionStorage.getItem('email')==="" || sessionStorage.getItem('email')===null){
-     
-    }else{
-        navigate('/login')
-    }
-  }, [])
   
 
 

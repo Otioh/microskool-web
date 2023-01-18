@@ -11,6 +11,7 @@ const userReducer=createSlice({
     reducers:{
         updateUser:(state, action)=>{
             state.user= action.payload;
+            
         }
     }
 })

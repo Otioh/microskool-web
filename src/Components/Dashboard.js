@@ -13,7 +13,8 @@ function Dashboard() {
    const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
    const user=useSelector((state)=>state.userReducer.user);
    let navigate=useNavigate();
-   let dispatch=useDispatch()
+   let dispatch=useDispatch();
+   
 if(user.institution===''||user.department===''||user.level===''){
    funSeque({delaySeconds:1}, ()=>{
 

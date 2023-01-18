@@ -27,24 +27,21 @@ function Profile() {
   let navigate=useNavigate();
   useEffect(()=>{
 axios.get('http://192.168.43.31:5000/campuses').then((response)=>{
-
   if(response.data.success){
     setcampuses(response.data.data)
   }
 })
 
-
-
+console.log(myCourses);
 axios.get('http://192.168.43.31:5000/departments').then((response)=>{
-
   if(response.data.success){
     setdepartments(response.data.data)
   }
 })
-
-
   }, [])
 
+
+  
   return (
     <div>
        <Navigation active={'profile'} />

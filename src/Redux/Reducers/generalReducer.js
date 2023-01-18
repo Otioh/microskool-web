@@ -39,6 +39,9 @@ const generalReducer=createSlice({
         setEdit:(state, action)=>{
             state.general.edit= action.payload;
         },
+        setMyCourses:(state, action)=>{
+        state.general.myCourses=action.payload;
+        },
         setCourse:(state, action)=>{
             state.general.courses= action.payload;
         },

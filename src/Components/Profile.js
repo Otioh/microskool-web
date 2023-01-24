@@ -32,7 +32,6 @@ axios.get('http://192.168.43.31:5000/campuses').then((response)=>{
   }
 })
 
-console.log(myCourses);
 axios.get('http://192.168.43.31:5000/departments').then((response)=>{
   if(response.data.success){
     setdepartments(response.data.data)

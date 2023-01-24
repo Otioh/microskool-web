@@ -40,14 +40,21 @@ const  verified= ()=>{
         axios.get('http://192.168.43.31:5000/auth/'+email).then((response)=>{
             console.log(response.data.data);
             if(response.data.success){
-                dispatch(setalert({ status:true, type:'success',cap:'Success', msg:"Authentication Completed"}));
-            neu=true;
+                if(response.data.data){
+                    dispatch(setalert({ status:true, type:'success',cap:'Success', msg:response.data.message}));
+                    next='/verifymail';
+                    neu=true;
+                }else{
+                dispatch(setalert({ status:true, type:'success',cap:'Success', msg:response.data.message}));
+                next='/synch';    
+            }
+                neu=true;
            
            }else{
           
-            dispatch(setalert({ status:true, type:'danger', msg:"Verify your email to continue"}));
+            dispatch(setalert({ status:true, type:'danger', msg:response.data.message}));
           
-            next='/verifymail';
+         
            }
             
         }) 

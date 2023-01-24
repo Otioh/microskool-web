@@ -30,7 +30,7 @@ function Loader({load}) {
 
 
         axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
-          console.log(response.data)
+
          if(response.data.success){
          
            dispatch(setCourse(response.data.data))

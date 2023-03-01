@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
 import twelve from '../Images/twelve.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import { updateUser } from '../Redux/Reducers/userReducer';
@@ -47,7 +47,7 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
     <div className={navFall?'board fall':'board'}>
    <div className='container'>
 <div className='row'>
-  <div className='col-sm-4'>
+  <div className='col-sm-5'>
 <div className='card shadow'>
 <div className='card-header'>
   <div className='title'>
@@ -55,14 +55,18 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
   </div>
 </div>
 <div className='card-body'>
+<div style={{width:'100%', height:'300px', display:'flex', alignItems:'center', justifyContent:'center'}}>
+<div style={{backgroundImage: 'url("'+user.image+'")',backgroundSize:'cover', width:'80%', height:'95%', borderRadius:'50%'}}>
 
-<img alt={user.first_name} src={user.image} style={{borderRadius:'50%', height:'auto', width:'95%', boxShadow:'0 0 4px black'}} />
-<button className='btn microskool-button'  style={{width:'97%'}} onClick={()=>{
+</div>
+</div>
+
+<button className='btn text-microskool'  style={{width:'97%'}} onClick={()=>{
   dispatch(setUploadPix(true))
 }}>
 <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon> Edit Picture
 </button>
-<br/>
+<br/><br/>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon> {user.email}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPhone}></FontAwesomeIcon> {user.phone}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faIdCard}></FontAwesomeIcon> {user.matric}</div>
@@ -192,11 +196,11 @@ dispatch(setLogout(true))
   <div className='col-sm-5'>
 <div className='card'>
   <div className='card-header'>
-<div className='title'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> Earnings</div>
+<div className='title text-success'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> eNaira Earnings</div>
   </div>
   <div className='card-body'>
-<h1 >
-  <FontAwesomeIcon style={{color:'gold'}} icon={faCoins}></FontAwesomeIcon> {parseFloat(user.coins).toFixed(2)}
+<h1 className=' text-success'>
+  <FontAwesomeIcon  icon={faCoins}></FontAwesomeIcon> {parseFloat(user.coins).toFixed(2)}
 </h1>
 <hr/>
 <div className='hist' style={{width:'100%'}}>
@@ -204,7 +208,7 @@ dispatch(setLogout(true))
 
   <div className='table-responsive'>
     
-<table className='table table-warning table-hover' style={{fontSize:'small'}}>
+<table className='table text-success table-hover table-striped table-borderless table-striped-columns' style={{fontSize:'small'}}>
 <thead>
   <th>
     Item
@@ -244,13 +248,14 @@ dispatch(setLogout(true))
   <div className='card-footer'>
   <button className='btn btn-outline-secondary' title='Transfer Coins'><FontAwesomeIcon icon={faCreditCard}></FontAwesomeIcon> Transfer </button>
 <button className='btn btn-outline-secondary' title='Refer & Earn'><FontAwesomeIcon icon={faShareAlt}></FontAwesomeIcon> Refer </button>
+<button className='btn btn-outline-success' title='Withdraw'><FontAwesomeIcon icon={faMoneyBill}></FontAwesomeIcon> Withdraw </button>
 
   </div>
 
 </div>
   </div>
 
-  <div className='col-sm-3'>
+  <div className='col-sm-2'>
     <div className='card'>
       <div className='card-header'>
 <div className='title'>
@@ -264,7 +269,7 @@ dispatch(setLogout(true))
     myCourses.map((course, key)=>{
       return   <li key={key} className='list-group-item'>
       {
-      course
+      course.course
       } 
       </li>
     })
@@ -274,7 +279,9 @@ dispatch(setLogout(true))
 </ul>
       </div>
       <div className='card-footer'>
-      <button className='btn btn-outline-secondary' title='Edit Profile'><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon> </button>
+      <button className='btn btn-outline-secondary' title='Edit Courses' onClick={()=>{
+        navigate('/courses')
+      }}><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon> </button>
       </div>
 
     </div>

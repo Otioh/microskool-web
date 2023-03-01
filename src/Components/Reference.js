@@ -1,5 +1,7 @@
-import React, { useState} from 'react';
-import { useSelector } from 'react-redux';
+import axios from 'axios';
+import React, { useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCourse } from '../Redux/Reducers/generalReducer';
 import Navigation from './Navigation';
 
 
@@ -8,7 +10,17 @@ function Reference() {
    const courses=useSelector((state)=>state.generalReducer.general.courses);
     const [searchTeerm, setsearchTeerm] = useState("");
     const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
-
+    let dispatch=useDispatch()
+useEffect(()=>{
+  axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
+   
+  if(response.data.success){
+  
+      dispatch(setCourse(response.data.data))
+      
+  }
+  })
+}, [])
 
   return (
     <>

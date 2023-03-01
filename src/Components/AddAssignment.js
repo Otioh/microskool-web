@@ -75,8 +75,8 @@ setCourse(e.target.value)
   </option>
 {
   myCourses.map((course, key)=>{
-    return <option value={course} key={key}>
-      {course}
+    return <option value={course.course} key={key}>
+    {course.course}
     </option>
   })
 }

@@ -16,7 +16,7 @@ function UploadPix() {
   
   return (
     <div >
-      <input type={'file'} className='form-control' onChange={(e)=>{
+      <input type={'file'} className='form-control form-control-file' onChange={(e)=>{
         formData.append('avatar', e.target.files[0])
         formData.append('email', user.email)
         axios.post('http://192.168.43.31:5000/profile/'+user.email+'', formData).then((response)=>{

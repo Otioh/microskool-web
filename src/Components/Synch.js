@@ -4,12 +4,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import icon from '../Images/micro.png'; 
-import { setCourse } from '../Redux/Reducers/generalReducer';
+import { setCourse, setMyCourses } from '../Redux/Reducers/generalReducer';
 
 function Synch() {
     let dispatch=useDispatch();
     let navigate=useNavigate();
     const user=useSelector((state)=>state.userReducer.user);
+
+
     
     useEffect(()=>{
       
@@ -20,6 +22,15 @@ function Synch() {
     dispatch(updateUser(response.data.data[0]))
         }
         
+})
+
+
+axios.get('http://192.168.43.31:5000/mycourses/'+sessionStorage.getItem('email')+'').then((response)=>{
+
+if(response.data.success){
+dispatch(setMyCourses(response.data.data))
+}
+
 })
 
 axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{

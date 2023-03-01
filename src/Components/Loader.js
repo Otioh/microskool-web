@@ -5,7 +5,7 @@ import { setload } from '../Redux/Reducers/displayReducer';
 import { updateUser } from '../Redux/Reducers/userReducer';
 import axios from 'axios';
 import {funSeque} from 'flame-tools';
-import { setCourse } from '../Redux/Reducers/generalReducer';
+import { setCourse, setMyCourses } from '../Redux/Reducers/generalReducer';
 
 function Loader({load}) {
   const {edit, logout}=useSelector((state)=>state.generalReducer.general);
@@ -16,27 +16,48 @@ function Loader({load}) {
   useEffect(()=>{
 
     if(sessionStorage.getItem('email')!==null){
-    funSeque({delaySeconds:3, isPromise:false}, 
+    funSeque({delaySeconds:1, isPromise:false}, 
       ()=>{
         axios.get('http://192.168.43.31:5000/users/'+sessionStorage.getItem('email')+'').then((response)=>{
 
         if(response.data.success){
     dispatch(updateUser(response.data.data[0]))
+
         }
         
   })
+
+
+
       },
       ()=>{
 
 
-        axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
+
+
+         axios.get('http://192.168.43.31:5000/mycourses/'+sessionStorage.getItem('email')).then((response)=>{
 
          if(response.data.success){
          
-           dispatch(setCourse(response.data.data))
-           dispatch(setload(false))
+           dispatch(setMyCourses(response.data.data))
+         
          }
          })
+
+      },
+      ()=>{
+     
+        setTimeout(() => {
+          axios.get('http://192.168.43.31:5000/courses/'+user.campus).then((response)=>{
+
+          if(response.data.success){
+          
+            dispatch(setCourse(response.data.data))
+          
+          }
+          })
+        }, 5000);
+        dispatch(setload(false));
       }
       
       )

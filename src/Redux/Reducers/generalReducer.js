@@ -95,5 +95,5 @@ state.general.timeTable.push(action.payload)
 
     }
 })
-export const {setCourse, setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign}=generalReducer.actions;
+export const {setCourse, setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign, setMyCourses}=generalReducer.actions;
 export default generalReducer.reducer;

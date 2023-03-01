@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { setAddPeriod, updateTimeTable } from '../Redux/Reducers/generalReducer';
 import { setalert, setload } from '../Redux/Reducers/displayReducer';
 import Alert from './Alert';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -15,7 +16,7 @@ import Alert from './Alert';
     const myCourses=useSelector((state)=>state.generalReducer.general.myCourses);
     const user=useSelector((state)=>state.userReducer.user);
        const alert=useSelector((state)=>state.displayReducer.display.alert)
-
+let navigate=useNavigate()
     let dispatch=useDispatch();
     const [time_in, setTime_In] = useState("")
     const [time_out, setTime_Out] = useState("")
@@ -67,13 +68,15 @@ setCourse(e.target.value)
   </option>
 {
   myCourses.map((course, key)=>{
-    return <option value={course} key={key}>
-      {course}
+    return <option value={course.course} key={key}>
+      {course.course}
     </option>
   })
 }
 </select>
-<button className='btn'>
+<button className='btn' title='Edit Courses' onClick={()=>{
+  navigate('/courses')
+}}>
   <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
 </button>
 </div>

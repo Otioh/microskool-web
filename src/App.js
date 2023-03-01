@@ -23,6 +23,7 @@ import Viewer from './Components/Viewer';
 import Synch from './Components/Synch';
 import Reset from './Components/Reset';
 import Spinner from './Components/Spinner';
+import Courses from './Components/Courses';
 
 
 function App() {
@@ -64,6 +65,7 @@ dispatch(setload(true))
   <Route path='/viewer' element={<Viewer/>}/>
   <Route path='/synch' element={<Synch/>}/>
   <Route path='/reset' element={<Reset/>}/>
+  <Route path='/courses' element={<Courses/>}/>
 
 </Routes>
 

@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,18 @@ import Navigation from './Navigation';
 const Schedule =()=>{
     const profile=useSelector((state)=>state.userReducer.user);
 const timeTable=useSelector((state)=>state.generalReducer.general.timeTable);
-const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
+useEffect(()=>{
+    localStorage.setItem('last_page', location.hash)
+    
+    }, [])
+    useEffect(()=>{
 
+        if(locked){
+         navigate('/resume')}
+       
+       }, [locked])
+    
 const [mondays]=useState([]);
 const [tuesdays]=useState([]);
 const [wednesdays]=useState([]);
@@ -52,7 +62,7 @@ let navigate=useNavigate();
     return (
         <>
                 <Navigation active={'schedule'} />
-        <div className={navFall?'board fall':'board'}>
+        <div className={navigationFall?'board fall':'board'}>
        
 <div className="container">
 

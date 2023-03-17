@@ -9,7 +9,7 @@ function Reference() {
    const user=useSelector((state)=>state.userReducer.user);
    const courses=useSelector((state)=>state.generalReducer.general.courses);
     const [searchTeerm, setsearchTeerm] = useState("");
-    const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+    const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
     let dispatch=useDispatch()
 useEffect(()=>{
   axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
@@ -21,11 +21,21 @@ useEffect(()=>{
   }
   })
 }, [])
+useEffect(()=>{
+
+  if(locked){
+   navigate('/resume')}
+ 
+ }, [locked])
+useEffect(()=>{
+  localStorage.setItem('last_page', location.hash)
+  
+  }, [])
 
   return (
     <>
       <Navigation active={'reference'} />
-    <div className={navFall?'board fall':'board'}>
+    <div className={navigationFall?'board fall':'board'}>
    
     <div className='container'>
     <br></br><br></br>
@@ -37,10 +47,10 @@ useEffect(()=>{
     Course Reference
 </h4>
 <h6>{user.institution}</h6>
-          <input type="search" className={`form-control`} onChange={(e)=>{
+          <input type="search" className={`form-control`} style={{fontSize:'small'}} onChange={(e)=>{
     setsearchTeerm(e.target.value);
     
-    }} placeholder="Search Course" />
+    }} placeholder="Search Course (type in 3 characters)" />
           </div>
 
 <div className='card shadow'>

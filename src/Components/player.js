@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import Navigation from './Navigation'
 
 function Player() {
-    const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
-    
+    const {navFall, locked}=useSelector((state)=>state.displayReducer.display);
+    useEffect(()=>{
+      localStorage.setItem('last_page', location.hash)
+      
+      }, [])
+      useEffect(()=>{
+
+        if(locked){
+         navigate('/resume')}
+       
+       }, [locked])
   return (
     <>
           <Navigation active={'lectures'} />

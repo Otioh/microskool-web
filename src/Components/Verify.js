@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Alert from './Alert';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
 import { funSeque } from 'flame-tools';
@@ -34,8 +34,7 @@ function Verify({email}) {
 
         </div>
         <div className='col-sm-4'>
-        <Alert msg={alert.msg} cap={alert.cap} type={alert.type} status={alert.status} />
-
+ 
         <div className='card shadow'>
         <div className='card-header'>
 Email Confirmation

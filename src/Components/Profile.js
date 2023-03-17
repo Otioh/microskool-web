@@ -3,28 +3,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
 import twelve from '../Images/twelve.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera, faMoneyBill, faBoxOpen, faBarsProgress, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import { updateUser } from '../Redux/Reducers/userReducer';
-
-import { setEdit, setLogout, setUploadPix } from '../Redux/Reducers/generalReducer';
+import { setEdit, setLogout, setTransactions, setUploadPix } from '../Redux/Reducers/generalReducer';
 import { funSeque } from 'flame-tools';
 import UploadPix from './UploadPix';
 import axios from 'axios';
+import { ProcessManager } from '../Process';
+import { setalert, setLocked } from '../Redux/Reducers/displayReducer';
+
+
+
 
 
 
 function Profile() {
-  const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+  const {navigationFall,locked}=useSelector((state)=>state.displayReducer.display);
   const user=useSelector((state)=>state.userReducer.user);
-  const {edit, logout, uploadPix, myCourses}=useSelector((state)=>state.generalReducer.general);
+  const {edit, logout, uploadPix, myCourses, network, transactions}=useSelector((state)=>state.generalReducer.general);
   const [pereson, setPerson]=useState({...user});
   const [campuses, setcampuses] = useState([]);
   const [departments, setdepartments] = useState([]);
   
   let dispatch=useDispatch()
   let navigate=useNavigate();
+  useEffect(()=>{
+    localStorage.setItem('last_page', location.hash)
+    
+    }, [])
+    useEffect(()=>{
+
+      if(locked){
+       navigate('/resume')}
+     
+     }, [locked])
   useEffect(()=>{
 axios.get('http://192.168.43.31:5000/campuses').then((response)=>{
   if(response.data.success){
@@ -37,6 +51,14 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
     setdepartments(response.data.data)
   }
 })
+
+
+axios.get('http://192.168.43.31:5000/transactions/'+user.email).then((response)=>{
+  if(response.data.success){
+   dispatch( setTransactions(response.data.data))
+  }
+})
+
   }, [])
 
 
@@ -44,7 +66,7 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
   return (
     <div>
        <Navigation active={'profile'} />
-    <div className={navFall?'board fall':'board'}>
+    <div className={navigationFall?'board fall':'board'}>
    <div className='container'>
 <div className='row'>
   <div className='col-sm-5'>
@@ -160,15 +182,27 @@ setPerson({...pereson, level:e.target.value})
       </>} footer={<><button className='btn microskool-button' onClick={()=>{
         dispatch( updateUser(pereson) )
       dispatch(setEdit(false))
+if(network){
       axios.post('http://192.168.43.31:5000/users/'+user.email+'', pereson).then((response)=>{
-console.log(response.data );
+
       })
+
+    }else{
+     let feedback= ProcessManager.addProcess(()=>{
+        axios.post('http://192.168.43.31:5000/users/'+user.email+'', pereson).then((response)=>{
+
+      })
+      })
+      dispatch(setalert({...alert, msg:feedback, type:'bad_network', status:true, cap:'Processor'}))
+      
+    }
       }}> <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> </button> <button className='btn-close' onClick={()=>dispatch(setEdit(false))}></button> </>} />:<></> }
 
       { logout?<Modal config={{align:'flex-end', justify:'right'}} header={'Confirm Logout'} body={<>
       Sure to logout?
       </>} footer={<><button className='btn btn-danger' onClick={()=>{
-        sessionStorage.clear();
+         dispatch( updateUser({}) )
+         localStorage.clear();
 navigate('/')
 }}>Logout</button><button className='btn-close' onClick={()=>dispatch(setLogout(false))}></button></>} />:<></>}
 
@@ -186,6 +220,9 @@ navigate('/')
 <button className='btn btn-outline-secondary' title='Account Security' onClick={()=>{
   navigate('/settings')
 }}><FontAwesomeIcon icon={faUserGear}></FontAwesomeIcon> </button>
+<button className='btn btn-outline-primary' title='Lock' onClick={()=>{
+dispatch(setLocked(true))
+}}><FontAwesomeIcon icon={faLock}></FontAwesomeIcon> </button>
 <button className='btn btn-outline-danger' title='Logout' onClick={()=>{
 dispatch(setLogout(true))
 }}><FontAwesomeIcon icon={faPowerOff}></FontAwesomeIcon> </button>
@@ -193,7 +230,7 @@ dispatch(setLogout(true))
 </div>
 </div>
   </div>
-  <div className='col-sm-5'>
+  <div className='col-sm-4'>
 <div className='card'>
   <div className='card-header'>
 <div className='title text-success'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> eNaira Earnings</div>
@@ -208,14 +245,12 @@ dispatch(setLogout(true))
 
   <div className='table-responsive'>
     
-<table className='table text-success table-hover table-striped table-borderless table-striped-columns' style={{fontSize:'small'}}>
-<thead>
+<table className='table text-success table-hover table-striped table-success table-striped-columns' style={{fontSize:'small'}}>
+<thead className='text-light bg-success'>
   <th>
     Item
   </th>
-  <th>
-    Description
-  </th>
+
   <th>
     Amount
   </th>
@@ -225,20 +260,24 @@ dispatch(setLogout(true))
   </th>
 </thead>
 <tbody>
-  <tr>
-    <td>
-      Reward Earned
-    </td>
-    <td>
-      This is the details of the transaction
-    </td>
-    <td>
-      1,000
-    </td>
-    <td>
-      12/12/2022
-    </td>
-  </tr>
+  {
+    transactions.map((trans)=>{
+      return  <tr>
+      <td>
+       {trans.item}
+      </td>
+  
+      <td>
+      {trans.amount}
+      </td>
+      <td>
+      {trans.date}
+      </td>
+    </tr>
+    })
+  }
+ 
+
 </tbody>
 </table>
   </div>
@@ -246,25 +285,25 @@ dispatch(setLogout(true))
 </div>
   </div>
   <div className='card-footer'>
-  <button className='btn btn-outline-secondary' title='Transfer Coins'><FontAwesomeIcon icon={faCreditCard}></FontAwesomeIcon> Transfer </button>
-<button className='btn btn-outline-secondary' title='Refer & Earn'><FontAwesomeIcon icon={faShareAlt}></FontAwesomeIcon> Refer </button>
-<button className='btn btn-outline-success' title='Withdraw'><FontAwesomeIcon icon={faMoneyBill}></FontAwesomeIcon> Withdraw </button>
-
+  <button className='btn btn-outline-success' title='Opening Wallet' onClick={()=>{
+    navigate('/coins')
+  }}><FontAwesomeIcon icon={faBarsProgress}></FontAwesomeIcon>  </button>
+  
   </div>
 
 </div>
   </div>
 
-  <div className='col-sm-2'>
+  <div className='col-sm-3'>
     <div className='card'>
       <div className='card-header'>
 <div className='title'>
-<FontAwesomeIcon icon={faBookSkull}></FontAwesomeIcon> My Courses
+<FontAwesomeIcon icon={faBookSkull}></FontAwesomeIcon> My Courses [{myCourses.length  }]
 </div>
       </div>
       <div className='card-body'>
 
-<ul className='list-group'>
+<ul className='list-group' style={{fontSize:'small'}}>
   {
     myCourses.map((course, key)=>{
       return   <li key={key} className='list-group-item'>

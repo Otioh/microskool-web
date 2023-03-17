@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAdd, faSave, faCalculator, faRefresh } from '@fortawesome/free-solid-svg-icons';
-import Alert from './Alert';
+
 import { useSelector, useDispatch} from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
 
@@ -53,7 +53,7 @@ for(let i =0;i<courseList.length;i++){
   return (
     <>
     <div className='calculator card padding'>
-  <Alert status={alert.status} cap={alert.cap} msg={alert.msg} type={alert.type} />
+
       <div className='screen'><center>
 Your CGPA currently
 <h2>

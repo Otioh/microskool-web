@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from './Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,7 @@ function Assignments() {
   const user=useSelector((state)=>state.userReducer.user);
   const courses=useSelector((state)=>state.generalReducer.general.courses);
   const assignments=useSelector((state)=>state.generalReducer.general.assignments);
-   const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+   const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
    const [assign, setAssign]=useState({question:'', image:'', course:'', deadline:'', lecturer:''});
    const {viewAssignment, addAssignment}=useSelector((state)=>state.generalReducer.general);
   const closePop=()=>{
@@ -22,13 +22,22 @@ function Assignments() {
 const closePopAss=()=>{
   dispatch(setaddAssignment(false))
 }
+useEffect(()=>{
 
+  if(locked){
+   navigate('/resume')}
+ 
+ }, [locked])
+useEffect(()=>{
+  localStorage.setItem('last_page', location.hash)
+  
+  }, [])
   let dispatch =useDispatch();
   let navigate=useNavigate()
   return (
     <div>
       <Navigation active={'assignment'} />
-      <div className={navFall?'board fall':'board'}>
+      <div className={navigationFall?'board fall':'board'}>
 <div className='container'>
 
 

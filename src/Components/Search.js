@@ -1,9 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Navigation from './Navigation';
 
 function Search() {
+  useEffect(()=>{
+    localStorage.setItem('last_page', location.hash)
+    
+    }, [])
+    
   return (
     <div>
       <Navigation active={'search'} />

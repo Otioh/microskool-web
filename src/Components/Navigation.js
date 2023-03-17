@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faArrowAltCircleLeft, faDashboard, faBookOpen, faVideoCamera, faClock, faCalculator, faListAlt, faUser, faSearch, faGear, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import {  faArrowAltCircleLeft, faHome, faBookOpen, faVideoCamera, faClock, faCalculator, faListAlt, faUser, faSearch, faGear, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import MicroskoolIcon from '../Images/micro.png';
 import {toggleNavFall} from '../Redux/Reducers/displayReducer';
@@ -49,10 +49,10 @@ Search
     navigate('/dashboard')
 }}>
 <div className='menu-icon'>
-    <FontAwesomeIcon icon={faDashboard}></FontAwesomeIcon>
+    <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
 </div>
 <div className={navFall?'item-text fall':'item-text'}>
-Dashboard
+Home
 </div>
 </div>
 

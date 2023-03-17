@@ -1,11 +1,11 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setload } from '../Redux/Reducers/displayReducer';
+import { setalert, setload } from '../Redux/Reducers/displayReducer';
 import { updateUser } from '../Redux/Reducers/userReducer';
 import axios from 'axios';
 import {funSeque} from 'flame-tools';
-import { setCourse, setMyCourses } from '../Redux/Reducers/generalReducer';
+import { setCourse, setMyCourses, setNetwork } from '../Redux/Reducers/generalReducer';
 
 function Loader({load}) {
   const {edit, logout}=useSelector((state)=>state.generalReducer.general);
@@ -15,10 +15,28 @@ function Loader({load}) {
   
   useEffect(()=>{
 
-    if(sessionStorage.getItem('email')!==null){
+    if(localStorage.getItem('email')!==null){
     funSeque({delaySeconds:1, isPromise:false}, 
       ()=>{
-        axios.get('http://192.168.43.31:5000/users/'+sessionStorage.getItem('email')+'').then((response)=>{
+        dispatch(updateUser({email:localStorage.getItem('email') ,
+        phone:localStorage.getItem('phone') ,
+        matric:localStorage.getItem('matric') ,
+        department:localStorage.getItem('department') ,
+        level:localStorage.getItem('level') ,
+        institution:localStorage.getItem('institution') ,
+        first_name:localStorage.getItem('first_name') ,
+        surname:localStorage.getItem('surname') ,
+        campus:localStorage.getItem('campus'), 
+        coins:parseFloat(localStorage.getItem('coins')) ,
+        image:localStorage.getItem('image'),
+        password:localStorage.getItem('password')
+  
+      }))
+
+
+      },
+      ()=>{
+        axios.get('http://192.168.43.31:5000/users/'+localStorage.getItem('email')+'').then((response)=>{
 
         if(response.data.success){
     dispatch(updateUser(response.data.data[0]))
@@ -35,7 +53,7 @@ function Loader({load}) {
 
 
 
-         axios.get('http://192.168.43.31:5000/mycourses/'+sessionStorage.getItem('email')).then((response)=>{
+         axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
 
          if(response.data.success){
          
@@ -43,7 +61,7 @@ function Loader({load}) {
          
          }
          })
-
+   
       },
       ()=>{
      
@@ -57,6 +75,7 @@ function Loader({load}) {
           }
           })
         }, 5000);
+    
         dispatch(setload(false));
       }
       

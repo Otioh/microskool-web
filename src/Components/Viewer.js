@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Navigation from './Navigation';
 import {faBackward} from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,14 @@ import { useNavigate } from 'react-router-dom';
 
 function Viewer() {
     const assign=useSelector((state)=>state.generalReducer.general.assign);
-    const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+    const {navFall, locked}=useSelector((state)=>state.displayReducer.display);
+    useEffect(()=>{
+
+      if(locked){
+       navigate('/resume')}
+     
+     }, [locked])
+     
     let navigate=useNavigate()
   return (
     <div>

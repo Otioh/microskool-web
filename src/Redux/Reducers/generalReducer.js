@@ -6,6 +6,7 @@ const generalReducer=createSlice({
         general:{
         courses:[],
         timeTable:[],
+        transactions:[],
         myCourses:[],
         assignments:[{
             id:'hdhs',
@@ -23,6 +24,11 @@ const generalReducer=createSlice({
         viewAssignment:false,
         addAssignment:false,
         uploadPix:false,
+        addCourse:false,
+        fundCoins:false,
+        transferCoins:false,
+        withdrawCoins:false,
+        network:true,
         assign:{
             id:'hdhs',
             question:'What is a noun',
@@ -39,6 +45,16 @@ const generalReducer=createSlice({
         setEdit:(state, action)=>{
             state.general.edit= action.payload;
         },
+        setFundCoins:(state, action)=>{
+            state.general.fundCoins= action.payload;
+        },
+        setTransferCoins:(state, action)=>{
+            state.general.transferCoins= action.payload;
+        },
+        setWithdrawCoins:(state, action)=>{
+            state.general.withdrawCoins= action.payload;
+        }
+        ,
         setMyCourses:(state, action)=>{
         state.general.myCourses=action.payload;
         },
@@ -47,6 +63,9 @@ const generalReducer=createSlice({
         },
         setUploadPix:(state, action)=>{
             state.general.uploadPix=action.payload;
+        },
+        setNetwork:(state, action)=>{
+            state.general.network=action.payload;
         },
         updateTimeTable:(state, action)=>{
 state.general.timeTable.push(action.payload)
@@ -57,6 +76,9 @@ state.general.timeTable.push(action.payload)
         setAddPeriod:(state, action)=>{
             state.general.addPeriod= action.payload;
         },
+        setaddCourse:(state, action)=>{
+            state.general.addCourse= action.payload;
+        },
         setaddAssignment:(state, action)=>{
             state.general.addAssignment= action.payload;
         },
@@ -65,6 +87,9 @@ state.general.timeTable.push(action.payload)
         },
         setLogout:(state, action)=>{
             state.general.logout= action.payload;
+        },  
+         setTransactions:(state, action)=>{
+            state.general.transactions= action.payload;
         },
         wrongVote:(state, action)=>{
          
@@ -95,5 +120,7 @@ state.general.timeTable.push(action.payload)
 
     }
 })
-export const {setCourse, setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign, setMyCourses}=generalReducer.actions;
+export const {setCourse, setEdit,setUploadPix,  setLogout, wrongVote, correctVote, setAddPeriod, updateTimeTable, setViewAssignment, addAssignment, setaddAssignment, updateAssign, setMyCourses, addCourse, setaddCourse, setNetwork, setTransactions,
+setFundCoins, setTransferCoins, setWithdrawCoins
+}=generalReducer.actions;
 export default generalReducer.reducer;

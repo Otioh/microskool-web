@@ -5,7 +5,8 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import { addAssignment, updateAssign } from '../Redux/Reducers/generalReducer';
 import { setalert, setload } from '../Redux/Reducers/displayReducer';
-import Alert from './Alert';
+
+import { useNavigate } from 'react-router-dom';
 
 
 function AddAssignment() {
@@ -13,7 +14,7 @@ function AddAssignment() {
     const myCourses=useSelector((state)=>state.generalReducer.general.myCourses);
     const user=useSelector((state)=>state.userReducer.user);
        const alert=useSelector((state)=>state.displayReducer.display.alert)
-
+let navigate=useNavigate()
     let dispatch=useDispatch();
     const [question, setquestion] = useState("")
     const [deadline, setdeadline] = useState("")
@@ -64,7 +65,7 @@ dispatch(setalert({status:true, msg:'Added Succesfully', type:'success', cap:'Su
 
   return (
     <div className='container'><div className='row'>
-      <Alert msg={alert.msg} cap={alert.cap} status={alert.status}  type={alert.type} />
+ 
         <div className='col-sm-4'>
         <div style={{display:'flex'}}>
         <select className={`form-select`}  onChange={(e)=>{
@@ -81,7 +82,9 @@ setCourse(e.target.value)
   })
 }
 </select>
-<button className='btn'>
+<button className='btn' onClick={()=>{
+  navigate('/courses')
+}}>
   <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
 </button>
 </div>

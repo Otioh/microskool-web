@@ -13,8 +13,17 @@ import Alert from './Alert';
 function Settings() {
   const [theme, settheme] = useState('light');
 const [dark, setdark] = useState(false);
-const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
+const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
+useEffect(()=>{
+  localStorage.setItem('last_page', location.hash)
+  
+  }, [])
+  useEffect(()=>{
 
+    if(locked){
+     navigate('/resume')}
+   
+   }, [locked])
 useEffect(() => {
   if(dark===true){
     settheme('dark')
@@ -32,7 +41,7 @@ useEffect(() => {
   return (
     <>
      <Navigation active={'settings'} />
-    <div className={navFall?'board fall':'board'}>
+    <div className={navigationFall?'board fall':'board'}>
     <div className='container'>
       <Alert cap={'Settings'} msg={'Customize your settings'} status={true} type={'info'}/>
 <div className='row'>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import MicroskoolIcon from '../Images/micro.png';
 import {faLock, faKey, faUserLock, faEye} from '@fortawesome/free-solid-svg-icons';
-import Alert from './Alert';
+
 import {updateUser} from '../Redux/Reducers/userReducer';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -101,7 +101,7 @@ Reset
 </text>
 </div>
 <div className='card-body'>
-<Alert msg={alert.msg} cap={alert.cap} type={alert.type} status={alert.status} />
+
 
 <input type='email' className='form-control' value={email} placeholder='E-Mail' onChange={(e)=>{
 setEmail(e.target.value)

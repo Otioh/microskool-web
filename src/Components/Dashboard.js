@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faDashboard, faBookOpen,  faBookAtlas, faVideoCamera, faClock, faCalculator, faListAlt, faUser,faCoins, faSearch, faGear } from '@fortawesome/free-solid-svg-icons';
 import Alert from './Alert';
 import Navigation from './Navigation';
@@ -7,14 +7,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { funSeque } from 'flame-tools';
 import { useNavigate } from 'react-router-dom';
 import { setEdit } from '../Redux/Reducers/generalReducer';
+import { setalert } from '../Redux/Reducers/displayReducer';
 
 
 function Dashboard() {
    const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
    const user=useSelector((state)=>state.userReducer.user);
+   const {alert, locked}=useSelector((state)=>state.displayReducer.display)
    let navigate=useNavigate();
    let dispatch=useDispatch();
-   
+   useEffect(()=>{
+      localStorage.setItem('last_page', location.hash)
+      
+      }, [])
+      useEffect(()=>{
+setTimeout(() => {
+   if(locked){
+      navigate('/resume')}
+}, 1000);
+        
+            
+        }, [locked])
 if(user.institution===''||user.department===''||user.level===''){
    funSeque({delaySeconds:1}, ()=>{
 
@@ -28,6 +41,12 @@ dispatch(setEdit(true))
    }
    )
 }
+
+useEffect(()=>{
+dispatch(setalert({...alert, msg:'to Microskool', cap:'Welcome', status:true}))
+}, [])
+
+
   return (
     <>
     <Navigation active={'dashboard'} />
@@ -35,8 +54,8 @@ dispatch(setEdit(true))
 
    
     <div className='container'>
-        <Alert status={true} type='info' msg={`to your Dashboard`} cap={`Welcome`} />
 
+<br/><br/><br/>
 
 <div className='card shadow grid-menu' style={{height:'105px', width:'105px'}}>
 <span className='icon'> <span className='icon'>  <FontAwesomeIcon icon={faVideoCamera}></FontAwesomeIcon></span></span>

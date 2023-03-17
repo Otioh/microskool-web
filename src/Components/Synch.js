@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import icon from '../Images/micro.png'; 
 import { setCourse, setMyCourses } from '../Redux/Reducers/generalReducer';
+import { updateUser } from '../Redux/Reducers/userReducer';
 
 function Synch() {
     let dispatch=useDispatch();
@@ -16,16 +17,17 @@ function Synch() {
     useEffect(()=>{
       
 
-        axios.get('http://192.168.43.31:5000/users/'+sessionStorage.getItem('email')+'').then((response)=>{
+        axios.get('http://192.168.43.31:5000/users/'+localStorage.getItem('email')+'').then((response)=>{
 
         if(response.data.success){
     dispatch(updateUser(response.data.data[0]))
+  
         }
         
 })
 
 
-axios.get('http://192.168.43.31:5000/mycourses/'+sessionStorage.getItem('email')+'').then((response)=>{
+axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')+'').then((response)=>{
 
 if(response.data.success){
 dispatch(setMyCourses(response.data.data))
@@ -46,8 +48,11 @@ if(response.data.success){
 
     }, 
     ()=>{
-      
-navigate('/dashboard')
+      if(localStorage.getItem('last_page')!==null && localStorage.getItem('last_page')!=='#/login' && localStorage.getItem('last_page')!=='#/resume'){
+location.hash=localStorage.getItem('last_page')
+      }else{
+        navigate('/dashboard')
+      }
     })
   return (
     <div className='container'  style={{backgroundColor:'white', display:'flex', alignItems:'center', justifyContent:'center', height:'100vh'}}>

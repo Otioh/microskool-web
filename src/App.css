@@ -207,3 +207,16 @@ height: auto;
 .text-microskool{
     color: rgb(83, 83, 170);
 }
+
+
+
+
+.alert{
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 200000000000000000000;
+    width: 320px;
+    box-shadow: 0 0 28px lightgray;
+    font-size:'x-small';
+}

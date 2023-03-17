@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import MicroskoolIcon from '../Images/micro.png';
 import {faLock, faKey, faUserLock, faEye} from '@fortawesome/free-solid-svg-icons';
-import Alert from './Alert';
+
 import {updateUser} from '../Redux/Reducers/userReducer';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -23,10 +23,12 @@ return state.userReducer.user;
    const [email, setEmail]= useState(user.email);
    const [password, setpassword] = useState(user.password)
 let navigate=useNavigate();
+
+
 useEffect(()=>{
 
     setTimeout(() => {
-        if(sessionStorage.getItem('email')!==null){
+        if(localStorage.getItem('email')!==null){
       
             navigate('/synch')
             }
@@ -38,7 +40,7 @@ const  verified= ()=>{
   dispatch(setspin(true))
     let neu=false;
         axios.get('http://192.168.43.31:5000/auth/'+email).then((response)=>{
-            console.log(response.data.data);
+
             if(response.data.success){
                 if(response.data.data){
                     dispatch(setalert({ status:true, type:'success',cap:'Success', msg:response.data.message}));
@@ -52,7 +54,7 @@ const  verified= ()=>{
            
            }else{
           
-            dispatch(setalert({ status:true, type:'danger', msg:response.data.message}));
+            dispatch(setalert({ status:true, type:'warning', msg:response.data.message}));
           
          
            }
@@ -75,7 +77,18 @@ const process=  ()=>{
     if(response.data.success){
     funSeque({delaySeconds:2, isPromise:false},()=>{
 dispatch(updateUser(response.data.data[0]))
-sessionStorage.setItem('email', email)
+localStorage.setItem('email', email)
+localStorage.setItem('first_name', response.data.data[0].first_name)
+localStorage.setItem('surname', response.data.data[0].surname)
+localStorage.setItem('phone', response.data.data[0].phone)
+localStorage.setItem('matric', response.data.data[0].matric)
+localStorage.setItem('institution', response.data.data[0].institution)
+localStorage.setItem('department', response.data.data[0].department)
+localStorage.setItem('level', response.data.data[0].level)
+localStorage.setItem('campus', response.data.data[0].campus)
+localStorage.setItem('coins', response.data.data[0].coins+'')
+localStorage.setItem('image', response.data.data[0].image)
+localStorage.setItem('password', response.data.data[0].password)
     },
      ()=>{
         
@@ -131,7 +144,7 @@ Login
 </text>
 </div>
 <div className='card-body'>
-<Alert msg={alert.msg} cap={alert.cap} type={alert.type} status={alert.status} />
+
 
 <input type='email' className='form-control' value={email} placeholder='E-Mail' onChange={(e)=>{
 setEmail(e.target.value)

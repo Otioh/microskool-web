@@ -2,7 +2,7 @@ import React, { useState , useEffect} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import MicroskoolIcon from '../Images/micro.png';
 import {faLock,  faUserLock} from '@fortawesome/free-solid-svg-icons';
-import Alert from './Alert';
+
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { funSeque } from 'flame-tools';
@@ -70,7 +70,7 @@ Create Account
 </text>
 </div>
 <div className='card-body'>
-<Alert msg={alert.msg} cap={alert.cap} type={alert.type} status={alert.status} />
+
 
 <input type='text' className='form-control' value={first_name} placeholder='First Name' onChange={(e)=>{
 setfirst_name(e.target.value)
@@ -86,7 +86,7 @@ setmatric(e.target.value)
 }} />
 
 
-<input type='tel' className='form-control' value={phone} placeholder='Phone' onChange={(e)=>{
+<input type='tel' className='form-control' value={phone} placeholder='WhatsApp Phone' onChange={(e)=>{
 setphone(e.target.value)
 }} />
 

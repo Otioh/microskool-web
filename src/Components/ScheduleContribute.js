@@ -5,7 +5,7 @@ import axios from 'axios';
 import Navigation from './Navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
-import Alert from './Alert';
+
 import { useNavigate } from 'react-router-dom';
 import { correctVote, wrongVote , setAddPeriod} from '../Redux/Reducers/generalReducer';
 import Modal from './Modal';
@@ -21,9 +21,21 @@ function ScheduleContribute() {
    const timeTable=useSelector((state)=>state.generalReducer.general.timeTable);
    let nvigate=useNavigate();
    const {addPeriod}=useSelector((state)=>state.generalReducer.general);
-   const alert=useSelector((state)=>state.displayReducer.display.alert)
+   const {alert, locked}=useSelector((state)=>state.displayReducer.display)
    const dispatch= useDispatch()
+   useEffect(()=>{
+    localStorage.setItem('last_page', location.hash)
+    
+    }, [])
+    useEffect(()=>{
+
+      if(locked){
+       navigate('/resume')}
+     
+     }, [locked])
+    
 const closePop=()=>{
+
   dispatch(setAddPeriod(false))
 }
    
@@ -53,7 +65,7 @@ dispatch(setalert({status:true, cap:'Welcome', type:'info', msg:'Any Period that
        <h4>Daily Periods </h4>
 </div>
 <div className='row'>
-  <Alert msg={alert.msg} cap={alert.cap} type={alert.type} status={alert.status} />
+ 
   <div className='col-sm-6'>
     <button className={`btn microskool-border`} style={{margin:"5px"}} onClick={()=>{
 dispatch(setAddPeriod(true))

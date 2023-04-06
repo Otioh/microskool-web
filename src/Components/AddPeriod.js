@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faEdit} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import { setAddPeriod, updateTimeTable } from '../Redux/Reducers/generalReducer';
+import { setAddPeriod, setTimeTable, updateTimeTable } from '../Redux/Reducers/generalReducer';
 import { setalert, setload } from '../Redux/Reducers/displayReducer';
 
 import { useNavigate } from 'react-router-dom';
@@ -35,16 +35,27 @@ useEffect(()=>{
 dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', cap:'Error'}))
       }else{
 
-        dispatch(updateTimeTable({day, course,time_in,time_out,venue, voted:'false', votetype:'', correct:0, wrong:0, user_email:user.email, user:user.first_name+" "+user.surname, id:Math.random(0,200)}))
-dispatch(setAddPeriod(false))
-dispatch(setalert({status:true, msg:'Added Succesfully', type:'success', cap:'Success'}))
-//         axios.get(`https://microskool.com/app/saveperiod.php?email=${sessionStorage.getItem("session")}&&code=${Course}&&day=${day}&&timein=${Time_In}&&timeout=${Time_Out}&&venue=${venue}`).then((res)=>{
-// if(res.data==="success"){
-//   // message.success("Added Succesfully");
-// }else{
-//   // message.error(res.data);
-// }
-// })
+       
+        axios.post('http://192.168.43.31:5000/schedules/', { course, time_in, time_out, venue, day, user:user.email, campus:user.campus, department:user.department }).then((res)=>{
+if(res.data.success){
+
+  dispatch(setalert({ status: true, msg: 'Added Succesfully', type: 'success', cap: 'Success' }))
+  dispatch(setAddPeriod(false))
+  // dispatch(setMyCourses(data.mycourses))
+  axios.get('http://192.168.43.31:5000/schedules/' + localStorage.getItem("campus") + '/' + localStorage.getItem("department")).then((response) => {
+
+    if (response.data.success) {
+      dispatch(setTimeTable(response.data.data))
+    }
+
+  })
+  // message.success("Added Succesfully");
+}else{
+  dispatch(setalert({ status: true, msg: res.data.message, type: 'danger', cap: 'Error' }))
+
+  // message.error(res.data);
+}
+})
 
     }
 

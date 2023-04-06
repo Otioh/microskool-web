@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
 
 import { useNavigate } from 'react-router-dom';
-import { correctVote, wrongVote , setAddPeriod} from '../Redux/Reducers/generalReducer';
+import { correctVote, wrongVote , setAddPeriod, setSecondUser} from '../Redux/Reducers/generalReducer';
 import Modal from './Modal';
 import AddPeriod from './AddPeriod';
 
@@ -23,10 +23,30 @@ function ScheduleContribute() {
    const {addPeriod}=useSelector((state)=>state.generalReducer.general);
    const {alert, locked}=useSelector((state)=>state.displayReducer.display)
    const dispatch= useDispatch()
+   let navigate=useNavigate()
    useEffect(()=>{
     localStorage.setItem('last_page', location.hash)
-    
+
+    axios
+      .get(
+        "http://192.168.43.31:5000/votes/"+user.campus+"/"+user.department+"/"+user.level+"/schedule"
+      )
+      .then((res) => {
+res.data.data.forEach((vote)=>{
+  
+
+  if(vote.type==="correct"){
+         dispatch(correctVote(vote.subject_id));
+         
+  }else{
+         dispatch(wrongVote(vote.subject_id));
+           
+  }
+})
+      });
     }, [])
+
+
     useEffect(()=>{
 
       if(locked){
@@ -77,47 +97,140 @@ dispatch(setAddPeriod(true))
   { addPeriod?<Modal config={{align:'flex-end', justify:'right'}} body={<AddPeriod/>} header={'Add Period'} footer={<button className='btn-close' onClick={()=>{closePop()}} ></button> } />:<></>}
 
   {timeTable.map((period, key)=>{
-return   <>     <li  className={`list-group-item d-flex justify-content-between align-items-center`}>
-          <b className={`list-group-item-text `}>{period.course}</b>
-          <text>
-            {period.time_in} - {period.time_out} <br/>{period.venue}
-          </text>
-         <text>
-          <FontAwesomeIcon icon={faClock} /> {period.day.substring(0,3)}
-         </text>
-        </li>
-
-<span className={`inner`} style={{display:"inline", marginBottom:"5px", backgroundColor:'whitesmoke'}}>
-<button className='btn' style={period.voted==="true" && period.votetype==="correct"? {color:"rgb(83,83,170)"}:{}} onClick={()=>{
-  dispatch(correctVote(period.id));
-  dispatch(setalert({status:true, type:'success', msg:'Voted', cap:'Success'}))
-      axios.get(`https://microskool.com/app/voteperiod.php?email=${sessionStorage.getItem("session")}&&id=${period.id}&&vote=correct`).then((res)=>{
-if(res.data==="success"){
-  dispatch(setalert({status:true, type:'success', msg:'Voted', cap:'Success'}))
-}else{
-  dispatch(setalert({status:true, type:'danger', msg:res.data, cap:'Error'}));
-}
-})               }}>
-         <FontAwesomeIcon icon={faThumbsUp} /> {period.correct}
-        </button>
-        <button className='btn' style={period.voted==="true" && period.votetype==="wrong"? {color:"rgb(83,83,170)"}:{}} onClick={()=>{
-   dispatch(wrongVote(period.id));
-   dispatch(setalert({status:true, type:'success', msg:'Voted', cap:'Success'}))
-axios.get(`https://microskool.com/voteperiod.php?email=${sessionStorage.getItem("session")}&&id=${period.id}&&vote=wrong`).then((res)=>{
-  if(res.data==="success"){
-    dispatch(setalert({status:true, type:'success', msg:'Voted', cap:'Success'}))
-  }else{
-    dispatch(setalert({status:true, type:'danger', msg:res.data, cap:'Error'}));}
-})
-          
-          }}>
-         <FontAwesomeIcon icon={faThumbsDown} /> {period.wrong}
-        </button>
-        <i style={period.user_email===user.email?{color:"rgb(83,83,170)", float:"right", cursor:'pointer'}:{color:"gray", float:"right", cursor:'pointer'}} onClick={()=>{period.user_email===user.email? (function(){nvigate('/profile')})():(function (email){})(period.user_email)}}>
- <FontAwesomeIcon  icon={faUser} /> {period.user_email===user.email?" You": period.user.substring(0,9)}...
- </i> 
-        </span>
- </>
+return (
+  <>
+    {" "}
+    <li
+      className={`list-group-item d-flex justify-content-between align-items-center`}
+    >
+      <b className={`list-group-item-text `}>{period.course}</b>
+      <text>
+        {period.time_in} - {period.time_out} <br />
+        {period.venue}
+      </text>
+      <text>
+        <FontAwesomeIcon icon={faClock} /> {period.day.substring(0, 3)}
+      </text>
+    </li>
+    <span
+      className={`inner`}
+      style={{
+        display: "inline",
+        marginBottom: "5px",
+        backgroundColor: "whitesmoke",
+      }}
+    >
+      <button
+        className="btn"
+        style={
+          period.voted === "true" && period.votetype === "correct"
+            ? { color: "rgb(83,83,170)" }
+            : {}
+        }
+        onClick={() => {
+          axios
+            .post(`http://192.168.43.31:5000/votes`, {
+              subject: "schedule",
+              subject_id: period.id,
+              type: "correct",
+              user: user.email,
+              campus: user.campus,
+              department: user.department,
+              level: user.level,
+            })
+            .then((res) => {
+              if (res.data.success) {
+                dispatch(
+                  setalert({
+                    status: true,
+                    type: "success",
+                    msg: "Voted",
+                    cap: "Success",
+                  })
+                );
+                dispatch(correctVote(period.id));
+              } else {
+                dispatch(
+                  setalert({
+                    status: true,
+                    type: "danger",
+                    msg: res.data.message,
+                    cap: "Error",
+                  })
+                );
+              }
+            });
+        }}
+      >
+        <FontAwesomeIcon icon={faThumbsUp} /> {period.correct}
+      </button>
+      <button
+        className="btn"
+        style={
+          period.voted === "true" && period.votetype === "wrong"
+            ? { color: "brown" }
+            : {}
+        }
+        onClick={() => {
+          axios
+            .post(`http://192.168.43.31:5000/votes`, {
+              subject: "schedule",
+              subject_id: period.id,
+              type: "wrong",
+              user: user.email,
+              campus: user.campus,
+              department: user.department,
+              level: user.level,
+            })
+            .then((res) => {
+              if (res.data.success) {
+                dispatch(
+                  setalert({
+                    status: true,
+                    type: "success",
+                    msg: "Voted",
+                    cap: "Success",
+                  })
+                );
+                dispatch(wrongVote(period.id));
+              } else {
+                dispatch(
+                  setalert({
+                    status: true,
+                    type: "danger",
+                    msg: res.data.message,
+                    cap: "Error",
+                  })
+                );
+              }
+            });
+        }}
+      >
+        <FontAwesomeIcon icon={faThumbsDown} /> {period.wrong}
+      </button>
+      <i
+        style={
+          period.user === user.email
+            ? { color: "rgb(83,83,170)", float: "right", cursor: "pointer" }
+            : { color: "gray", float: "right", cursor: "pointer" }
+        }
+        onClick={() => {
+          period.user === user.email
+            ? (function () {
+                nvigate("/profile");
+              })()
+            : (function (email) {
+                dispatch(setSecondUser(email));
+                navigate("/user-profile");
+              })(period.user);
+        }}
+      >
+        <FontAwesomeIcon icon={faUser} />{" "}
+        {period.user === user.email ? " You" : period.user.substring(0, 5)}...
+      </i>
+    </span>
+  </>
+);
   })
 }
 

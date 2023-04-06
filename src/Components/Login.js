@@ -9,11 +9,14 @@ import axios from 'axios';
 import { funSeque} from 'flame-tools';
 import { useSelector, useDispatch} from 'react-redux';
 import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
+import { data, query } from '../App.Config';
+import {DataGrid} from '@mui/x-data-grid'
 
 
 
 function Login() {
- 
+
+    
  const dispatch= useDispatch()
 const user  = useSelector((state)=>{
 return state.userReducer.user;
@@ -72,7 +75,23 @@ return neu;
 
 const process=  ()=>{
  let ss=false;
-    axios.post('http://192.168.43.31:5000/auth', {email,password}).then((response)=>{
+
+    dispatch(updateUser(data.users[0]))
+    localStorage.setItem('email', email)
+    localStorage.setItem('first_name', data.users[0].first_name)
+    localStorage.setItem('surname', data.users[0].surname)
+    localStorage.setItem('phone', data.users[0].phone)
+    localStorage.setItem('matric', data.users[0].matric)
+    localStorage.setItem('institution', data.users[0].institution)
+    localStorage.setItem('department', data.users[0].department)
+    localStorage.setItem('level', data.users[0].level)
+    localStorage.setItem('campus', data.users[0].campus)
+    localStorage.setItem('coins', data.users[0].coins + '')
+    localStorage.setItem('image', data.users[0].image)
+    localStorage.setItem('password', data.users[0].password)
+
+
+axios.post('http://192.168.43.31:5000/auth', {email,password}).then((response)=>{
 
     if(response.data.success){
     funSeque({delaySeconds:2, isPromise:false},()=>{
@@ -135,16 +154,17 @@ useEffect(() => {
     <>
 
 <div className='mother centered'>
- 
+             
     <div className='card shadow margin'>
 <div className='card-header'>
     <img alt='Logo' className='microskool-icon' src={MicroskoolIcon} />
-<text style={{float:"right"}} className='microskool-title'>
+<b style={{float:"right"}} className='microskool-title'>
 Login
-</text>
+</b>
 </div>
 <div className='card-body'>
 
+                  
 
 <input type='email' className='form-control' value={email} placeholder='E-Mail' onChange={(e)=>{
 setEmail(e.target.value)
@@ -161,7 +181,7 @@ document.getElementById('btn').disabled=true
 <div className='card-footer'>
 
 <button className='btn microskool-button' onClick={()=>{
-     funSeque({delaySeconds:2,isPromise:true},verified,process)
+                          funSeque({ delaySeconds: 2, isPromise: true },verified,process)
 }}>
         <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login
         </button>

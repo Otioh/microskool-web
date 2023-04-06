@@ -7,29 +7,116 @@ import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 import { updateUser } from '../Redux/Reducers/userReducer';
-
+import { DataGrid } from '@mui/x-data-grid';
 import { setCourse, setEdit, setLogout, setMyCourses, setaddCourse } from '../Redux/Reducers/generalReducer';
 import { funSeque } from 'flame-tools';
 import UploadPix from './UploadPix';
 import axios from 'axios';
 import { setalert, setload } from '../Redux/Reducers/displayReducer';
 import { ProcessManager } from '../Process';
-
-
+import { data } from '../App.Config';
+import Menu, { MenuProps } from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import OpenIcon from "@mui/icons-material/ViewColumn";
+import DownlaodIcon from "@mui/icons-material/Edit"; 
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 
 function Courses() {
   const navFall=useSelector((state)=>state.displayReducer.display.navigationFall);
   const user=useSelector((state)=>state.userReducer.user);
+
   const { addCourse, uploadPix, myCourses, network}=useSelector((state)=>state.generalReducer.general);
- 
+  const [courseArr, setcourseArr] = useState([])
   const courses=useSelector((state)=>state.generalReducer.general.courses);
   const [pereson, setPerson]=useState({...user});
   const [campuses, setcampuses] = useState([]);
   const {alert, locked}=useSelector((state)=>state.displayReducer.display)
+  const [courseHodler, setCourseHolder]= useState({})
+
+  const [ added, setAdded ] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+
+    setAnchorEl(null);
+  };
+
+  const selectComponents=(id)=>{
+   setCourseHolder(id)
+    setAdded(false)
+    myCourses.forEach((cur) => {
+      if (id.code === cur.course) {
+     
+        setAdded(true)
+      }
+    })
+   
+  }
+
   useEffect(()=>{
     localStorage.setItem('last_page', location.hash)
     
     }, [])
+
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'code',
+      headerName: 'Code',
+      width: 150,
+
+    },
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 150,
+
+    },
+
+    {
+      field: 'department',
+      headerName: 'Department',
+      width: 150,
+
+
+    },
+    {
+      field: 'level',
+      headerName: 'Level',
+      width: 150,
+      filterable: false,
+      sortable: false,
+
+    },
+    {
+      field: "action",
+      headerName: "Actions",
+      filterable:false,
+      sortable:false,
+      renderCell: () => (
+        <div>
+          <button className='btn text-microskool' 
+            id="demo-positioned-button"
+            aria-controls={open ? 'demo-positioned-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            
+          >
+            <MoreVertOutlinedIcon/>
+          </button>
+         
+        </div>
+      ),
+    },
+  ];
+
+
+
     useEffect(()=>{
 
       if(locked){
@@ -38,7 +125,7 @@ function Courses() {
      }, [locked])
   const [searchTeerm, setsearchTeerm] = useState("");
   const [departments, setdepartments] = useState([]);
-  let added=false;
+  
   let dispatch=useDispatch()
   let navigate=useNavigate();
 const [level, setlevel] = useState('');
@@ -262,10 +349,7 @@ return    <option value={`${departmen.name}`}>
 
 
 
-<span style={{display:'flex', justifyContent:'center', alignItems:'center'}}>    <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon> <input type={'search'} placeholder={' Search Courses ['+courses.length+']'} className=' form-control-plaintext' onChange={(e)=>{
-    setsearchTeerm(e.target.value);
-    
-    }}/>
+<span style={{display:'flex', justifyContent:'center', alignItems:'center'}}> 
     <button className='btn microskool-button' title='New Course' onClick={()=>{
 
      dispatch(setaddCourse(true))
@@ -273,80 +357,111 @@ return    <option value={`${departmen.name}`}>
 
     }}> <FontAwesomeIcon icon={faAdd}></FontAwesomeIcon> </button>
 </span>
-<ul className=' list-group' style={{height:'60vh',fontSize:'small', overflow:'auto'}}>
-{courses.filter((course) => { if(searchTeerm===""){
-            return course;
-        }else if(course.title.toLowerCase().includes(searchTeerm.toLowerCase()) || course.code.toLowerCase().includes(searchTeerm.toLowerCase()) || course.department.toLowerCase().includes(searchTeerm.toLowerCase())){
-return course;
-        }
-        else{
-            return null;
-        }
-    }).map((course, key)=>{
-added=false;
-myCourses.forEach((cur)=>{
-    if(course.code===cur.course){
-      added=true;
-    }
-})
-        return <li key={key} className='list-group-item d-flex justify-content-between align-items-center'>
-<strong>{course.code}</strong>
-<span>{course.title}</span>
-<span>{course.department}</span>
-{
-  added?<button className='btn text-success'><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></button>: <button className='btn text-microskool' onClick={()=>{
 
-    if(network){
-    axios.post('http://192.168.43.31:5000/mycourses', {user:user.email, code:course.code}).then((response)=>{
-    if(response.data.success){
-      dispatch(setalert({...alert, msg:response.data.message, type:'success', status:true, cap:'Success'}))
-   
-    }else{
-      dispatch(setalert({...alert, msg:response.data.message, type:'danger', status:true, cap:'Error'}))
-   
-    } 
-    axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
 
-        if(response.data.success){
-        
-          dispatch(setMyCourses(response.data.data))
-        
-        }
-        })
-    })}
-    else{
-     dispatch(setalert({...alert, msg:ProcessManager.addProcess(
-      ()=>{
-      axios.post('http://192.168.43.31:5000/mycourses', {user:user.email, code:course.code}).then((response)=>{
-      if(response.data.success){
-        dispatch(setalert({...alert, msg:response.data.message, type:'success', status:true, cap:'Success'}))
-     
-      }else{
-        dispatch(setalert({...alert, msg:response.data.message, type:'danger', status:true, cap:'Error'}))
-     
-      }    
-     axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
+                        <div style={{ height: '420px' }}>
+                          <DataGrid
+                            rows={courses}
+                            columns={columns}
+                          onRowClick={(rows) => { selectComponents(rows.row) }}
 
-        if(response.data.success){
-        
-          dispatch(setMyCourses(response.data.data))
-        
-        }
-  
-       
-        })
-    })})
-        
-        , type:'bad_network', status:true, cap:'Processor'}))
+                          />
+                          <Menu
+                            id="demo-positioned-menu"
+                            aria-labelledby="demo-positioned-button"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: 'top',
+                              horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'left',
+                            }}
+                          >
+                            
 
-    }
-}} >Add</button>
-}
-        </li>
- 
-    }) 
-}
-</ul>
+                          {added ? <button className='btn text-success'> <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Added</button>:<MenuItem onClick={(event)=>{
+
+
+
+                         
+
+                                  if (network) {
+                                    axios.post('http://192.168.43.31:5000/mycourses', { user: user.email, code: courseHodler.code }).then((response) => {
+                                    handleClose(event)  
+                                    if (response.data.success) {
+                                        dispatch(setalert({ ...alert, msg: response.data.message, type: 'success', status: true, cap: 'Success' }))
+
+                                      } else {
+                                        dispatch(setalert({ ...alert, msg: response.data.message, type: 'danger', status: true, cap: 'Error' }))
+
+                                      }
+                                      axios.get('http://192.168.43.31:5000/mycourses/' + localStorage.getItem('email')).then((response) => {
+
+                                        if (response.data.success) {
+
+                                          dispatch(setMyCourses(response.data.data))
+
+                                        }
+                                      })
+                                    })
+                                  }
+                                  else {
+                                    handleClose(event)  
+                                    dispatch(setalert({
+                                      ...alert, msg: ProcessManager.addProcess(
+                                        () => {
+                                          axios.post('http://192.168.43.31:5000/mycourses', { user: user.email, code: course.code }).then((response) => {
+                                            if (response.data.success) {
+                                              dispatch(setalert({ ...alert, msg: response.data.message, type: 'success', status: true, cap: 'Success' }))
+
+                                            } else {
+                                              dispatch(setalert({ ...alert, msg: response.data.message, type: 'danger', status: true, cap: 'Error' }))
+
+                                            }
+                                            axios.get('http://192.168.43.31:5000/mycourses/' + localStorage.getItem('email')).then((response) => {
+
+                                              if (response.data.success) {
+
+                                                dispatch(setMyCourses(response.data.data))
+
+                                              }
+
+
+                                            })
+                                          })
+                                        })
+
+                                      , type: 'bad_network', status: true, cap: 'Processor'
+                                    }))
+
+                                  }
+                                
+                              
+
+                            }}>
+
+                              <OpenIcon
+                                sx={{ fontSize: "18px", color: 'rgb(83,83,170)' }}
+                              />
+                              Add
+
+                            </MenuItem>
+                           } <MenuItem onClick={handleClose}>
+
+
+                              <DownlaodIcon
+                                sx={{ fontSize: "18px", color: 'rgb(83,83,170)' }}
+                              />
+                              Edit
+
+                            </MenuItem>
+                          </Menu>
+                        </div>
+
 
     </div>
 

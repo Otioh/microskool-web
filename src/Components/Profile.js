@@ -13,6 +13,7 @@ import UploadPix from './UploadPix';
 import axios from 'axios';
 import { ProcessManager } from '../Process';
 import { setalert, setLocked } from '../Redux/Reducers/displayReducer';
+import { data } from '../App.Config';
 
 
 
@@ -52,7 +53,7 @@ axios.get('http://192.168.43.31:5000/departments').then((response)=>{
   }
 })
 
-
+    dispatch(setTransactions(data.transactions))
 axios.get('http://192.168.43.31:5000/transactions/'+user.email).then((response)=>{
   if(response.data.success){
    dispatch( setTransactions(response.data.data))

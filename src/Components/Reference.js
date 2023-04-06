@@ -2,13 +2,18 @@ import axios from 'axios';
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCourse } from '../Redux/Reducers/generalReducer';
-import Navigation from './Navigation';
+import Navigation from './Navigation';  
+import { DataGrid } from '@mui/x-data-grid';
+
+import { data, query } from '../App.Config';
+
 
 
 
 function Reference() {
    const user=useSelector((state)=>state.userReducer.user);
    const courses=useSelector((state)=>state.generalReducer.general.courses);
+   const [courseArr, setcourseArr] = useState([...data.allcourse])
     const [searchTeerm, setsearchTeerm] = useState("");
     const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
     let dispatch=useDispatch()
@@ -22,6 +27,47 @@ useEffect(()=>{
   }
   })
 }, [])
+
+
+
+
+ 
+
+
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'code',
+      headerName: 'Code',
+      width: 150,
+   
+    },
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 150,
+ 
+    },
+
+    {
+      field: 'department',
+      headerName: 'Department',
+      width: 150,
+ 
+     
+    },
+    {
+      field: 'level',
+      headerName: 'Level',
+      width: 150,
+sortable:false,
+filterable:false,
+
+    },
+  ];
+
+
 useEffect(()=>{
 
   if(locked){
@@ -48,48 +94,24 @@ useEffect(()=>{
     Course Reference
 </h4>
 <h6>{user.institution}</h6>
-          <input type="search" className={`form-control`} style={{fontSize:'small'}} onChange={(e)=>{
-    setsearchTeerm(e.target.value);
-    
-    }} placeholder="Search Course (type in 3 characters)" />
           </div>
 
 <div className='card shadow'>
   
     <div className="table-responsive" >
-    <table className={`table table-light table-striped table-hover table-condensed `}>
-<tbody>
+    
+                  <div style={{ height: '420px' }}>
+                    <DataGrid
+                    rows={courses}
+                      columns={columns}
+                   
+                      />
+                  </div>
 
-        {courses.filter((course) => { if(searchTeerm==="" || searchTeerm.length<3){
-            return null;
-        }else if(course.title.toLowerCase().includes(searchTeerm.toLowerCase()) || course.code.toLowerCase().includes(searchTeerm.toLowerCase()) || course.department.toLowerCase().includes(searchTeerm.toLowerCase())){
-return course;
-        }
-        else{
-            return null;
-        }
-    }).map((course, key)=>{
-        
-       return <tr key={key}>
-        <td>
-        {course.code}
-        </td>
-        <td>
-        {course.title}
-        </td>
-        <td>
-        {course.department} Department
-        </td>
-        <td>
-        {course.level} Level
-        </td>
-       
-      </tr>
-    })}
-        
-</tbody>
-</table>
 </div>
+             
+                
+
 </div>
 </div>
 <div className="col-sm-3">

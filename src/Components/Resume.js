@@ -26,8 +26,11 @@ function Resume() {
 </div>
 <br/>
 <div style={{backgroundColor:'rgba(0,0,0,0.5)', padding:'10px', borderRadius:'7px', color:'white'}}>
+<center>
 <h4>{user.surname} {user.first_name} </h4>
+                  <h6> {user.matric} </h6>
 {user.email}
+              </center>
 </div>
 <div style={{display:'flex'}}>
     <input placeholder='Confirm Password' className='form-control' type={'password'} onChange={(e)=>{

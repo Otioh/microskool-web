@@ -174,7 +174,7 @@ Report a problem <span style={{float:"right"}}><button className="btn btn-outlin
     <div style={{border:"solid 2px lightgray", boxShadow:"none"}} className={`card padding shadow ${theme}`}>
 <div className='card-title'>
 <h6>About Microskool</h6>
-&copy; Microskool 2022 --- version 2.5.0 -- Click to Install <span style={{float:"right"}}><a href="http://microskool.com/downloads" className="btn btn-outline-secondary"><FontAwesomeIcon icon={faDownload} /> </a></span>
+                  &copy; Microskool 2023 --- version 3.0.0 -- Click to Install <span style={{ float: "right" }}><a target="__blank" href="http://microskool.com/downloads" className="btn btn-outline-secondary"><FontAwesomeIcon icon={faDownload} /> </a></span>
 </div>
 <br/>
 <div className='card-footer'>

@@ -5,7 +5,8 @@ import { setalert, setload } from '../Redux/Reducers/displayReducer';
 import { updateUser } from '../Redux/Reducers/userReducer';
 import axios from 'axios';
 import {funSeque} from 'flame-tools';
-import { setCourse, setMyCourses, setNetwork } from '../Redux/Reducers/generalReducer';
+import { setCourse, setMyCourses, setNetwork, setTimeTable } from '../Redux/Reducers/generalReducer';
+import { data } from '../App.Config';
 
 function Loader({load}) {
   const {edit, logout}=useSelector((state)=>state.generalReducer.general);
@@ -51,7 +52,7 @@ function Loader({load}) {
       ()=>{
 
 
-
+        // dispatch(setMyCourses(data.mycourses))
 
          axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
 
@@ -61,11 +62,22 @@ function Loader({load}) {
          
          }
          })
+
+
+        // dispatch(setMyCourses(data.mycourses))
+        axios.get('http://192.168.43.31:5000/schedules/' + localStorage.getItem("campus") + '/' + localStorage.getItem("department")).then((response) => {
+
+          if (response.data.success) {
+            dispatch(setTimeTable(response.data.data))
+          }
+
+        })
    
       },
       ()=>{
      
         setTimeout(() => {
+          // dispatch(setCourse(data.allcourse))
           axios.get('http://192.168.43.31:5000/courses/'+user.campus).then((response)=>{
 
           if(response.data.success){

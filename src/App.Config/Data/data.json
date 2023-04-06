@@ -1,0 +1,212 @@
+ {
+"users":[
+{
+"id":22,
+"first_name":"Emmanuel",
+"surname":"Erim",
+"matric":"17/04598768",
+"email":"bryonerim@yahoo.com",
+"password":"bryon3662",
+"institution":"University of Calabar, Calabar",
+"campus":"unical",
+"department":"Computer Science",
+"level":"100",
+"phone":"09060966606",
+"image":"http://192.168.43.31:5000/assets/bryonerim--0.36334324203079915.jpeg",
+"created_at":"12/12/12", 
+"verified":"true",
+"verify_code":"374996",
+"courses":"undefined",
+"coins":31.04
+},
+{
+    "id": 20,
+    "first_name": "Emmanuel",
+    "surname": "Erim",
+    "matric": "17/04598768",
+    "email": "bryonerim@gmail.com",
+    "password": "bryon3662",
+    "institution": "University of Calabar, Calabar",
+    "campus": "unical",
+    "department": "Computer Science",
+    "level": "100",
+    "phone": "09060966606",
+    "image": "http://192.168.43.31:5000/assets/bryonerim--0.36334324203079915.jpeg",
+    "created_at": "12/12/12",
+    "verified": "true",
+    "verify_code": "374996",
+    "courses": "undefined",
+    "coins": 24.40
+}
+
+],
+"allcourse":[
+
+
+        {
+            "id": 1,
+            "code": "GSS101",
+            "title": "Use of English",
+            "campus": "unical",
+            "department": "General Studies",
+            "level": "100",
+            "user": "bryonerim@yahoo.com"
+        },
+
+        {
+            "id": 2,
+            "code": "GSS222",
+            "title": "Computer Applicattions",
+            "campus": "unical",
+            "department": "General Studies",
+            "level": "100",
+            "user": "bryonerim@yahoo.com"
+        }       
+],
+
+"assignments": [
+    {
+        "id": 1,
+        "code": "GSS101",
+        "title": "Use of English",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 2,
+        "code": "GSS222",
+        "title": "Computer Applicattions",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    }
+],
+"departments": [
+
+    {
+        "id": 1,
+        "name": "Computer Science",
+       
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 1,
+        "name": "Medicine & Surgery",
+        "user": "bryonerim@yahoo.com"
+    }
+],
+"lectures": [
+    {
+        "id": 1,
+        "code": "GSS101",
+        "title": "Use of English",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 2,
+        "code": "GSS222",
+        "title": "Computer Applicattions",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    }
+],
+"mycourses": [
+
+    {
+        "id": 1,
+        "course": "GSS101",
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 1,
+        "course": "GSS101",
+        "user": "bryonerim@yahoo.com"
+    }
+],
+"schedule": [
+    {
+        "id": 1,
+        "code": "GSS101",
+        "title": "Use of English",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 2,
+        "code": "GSS222",
+        "title": "Computer Applicattions",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    }
+],
+"transactions": [
+     {
+        "id": 1,
+        "transaction_id": "T142737788033086",
+        "item": "Wallet Funded",
+        "description_sender": "Payment to fund Microskool eNaira wallet",
+        "description_receiver": "Payment to fund Microskool eNaira wallet",
+        "sender": "bryonerim@gmail.com",
+        "receiver": "Microskool",
+        "amount":20,
+        "date":"12/12/12",
+        "status":"Approved"
+    },
+{
+    "id": 1,
+    "transaction_id": "T142737788033086",
+    "item": "Wallet Funded",
+    "description_sender": "Payment to fund Microskool eNaira wallet",
+    "description_receiver": "Payment to fund Microskool eNaira wallet",
+    "sender": "bryonerim@yahoo.com",
+    "receiver": "Microskool",
+    "amount": 10,
+    "date": "12/12/12",
+    "status": "Approved"
+}
+],
+"assignments    ": [
+    {
+        "id": 1,
+        "code": "GSS101",
+        "title": "Use of English",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    },
+    {
+        "id": 2,
+        "code": "GSS222",
+        "title": "Computer Applicattions",
+        "campus": "unical",
+        "department": "General Studies",
+        "level": "100",
+        "user": "bryonerim@yahoo.com"
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+}

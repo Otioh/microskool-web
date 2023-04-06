@@ -31,6 +31,7 @@ import { funSeque } from 'flame-tools';
 import { ProcessManager } from './Process';
 import Coins from './Components/Coins';
 import Resume from './Components/Resume';
+import UserProfile from './Components/UserProfile';
 
 
 function App() {
@@ -93,36 +94,42 @@ dispatch(setload(true))
 }, [email])
 
   return (
-<>
-<Alert msg={alert.msg} cap={alert.cap} status={alert.status}  type={alert.type} />
-<Loader load={dis.load} />
-<Spinner/>
-<Routes>
-  <Route path='/' element={<Login  />} />
-  <Route path='/login' element={<Login  />} />
-  <Route path='/signup' element={<Signup />} />
-  <Route path='/dashboard' element={<Dashboard />} />
-  <Route path='/calculator' element={<Calculator />} />
-  <Route path='/search' element={<Search />} />
-  <Route path='/reference' element={<Reference />} />
-  <Route path='/profile' element={<Profile />} />
-  <Route path='/schedule' element={<Schedule />} />
-  <Route path='/verifymail' element={<Verify email={email} /> } />
-  <Route path='/settings' element={<Settings />}/>
-  <Route path='/contribute' element={<ScheduleContribute/>}/>
-  <Route path='/assignment' element={<Assignments/>}/>
-  <Route path='/lectures' element={<Lectures/>}/>
-  <Route path='/player' element={<Player/>}/>
-  <Route path='/viewer' element={<Viewer/>}/>
-  <Route path='/synch' element={<Synch/>}/>
-  <Route path='/reset' element={<Reset/>}/>
-  <Route path='/courses' element={<Courses/>}/>
-  <Route path='/coins' element={<Coins/>}/>
-  <Route path='/resume' element={<Resume/>}/>
+    <>
+      <Alert
+        msg={alert.msg}
+        cap={alert.cap}
+        status={alert.status}
+        type={alert.type}
+      />
+      <Loader load={dis.load} />
+      <Spinner />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/calculator" element={<Calculator />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/reference" element={<Reference />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/verifymail" element={<Verify email={email} />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/contribute" element={<ScheduleContribute />} />
+        <Route path="/assignment" element={<Assignments />} />
+        <Route path="/lectures" element={<Lectures />} />
+        <Route path="/player" element={<Player />} />
+        <Route path="/viewer" element={<Viewer />} />
+        <Route path="/synch" element={<Synch />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/coins" element={<Coins />} />
+        <Route path="/resume" element={<Resume />} />
 
-</Routes>
-
-</>  );
+        <Route path="/user-profile" element={<UserProfile />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;

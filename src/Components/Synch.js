@@ -4,8 +4,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import icon from '../Images/micro.png'; 
-import { setCourse, setMyCourses } from '../Redux/Reducers/generalReducer';
+import { setCourse, setMyCourses, setTimeTable } from '../Redux/Reducers/generalReducer';
 import { updateUser } from '../Redux/Reducers/userReducer';
+import { data } from '../App.Config';
 
 function Synch() {
     let dispatch=useDispatch();
@@ -16,7 +17,7 @@ function Synch() {
     
     useEffect(()=>{
       
-
+      // dispatch(updateUser(data.users[0]))
         axios.get('http://192.168.43.31:5000/users/'+localStorage.getItem('email')+'').then((response)=>{
 
         if(response.data.success){
@@ -26,7 +27,7 @@ function Synch() {
         
 })
 
-
+      // dispatch(setMyCourses(data.mycourses))
 axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')+'').then((response)=>{
 
 if(response.data.success){
@@ -35,6 +36,17 @@ dispatch(setMyCourses(response.data.data))
 
 })
 
+      // dispatch(setMyCourses(data.mycourses))
+      axios.get('http://192.168.43.31:5000/schedules/'+localStorage.getItem("campus")+'/'+localStorage.getItem("department")).then((response) => {
+
+        if (response.data.success) {
+          dispatch(setTimeTable(response.data.data))
+        }
+
+      })
+
+
+      // dispatch(setCourse(data.allcourse))
 axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
    
 if(response.data.success){

@@ -32,6 +32,8 @@ import { ProcessManager } from './Process';
 import Coins from './Components/Coins';
 import Resume from './Components/Resume';
 import UserProfile from './Components/UserProfile';
+import MyEditor from "./Components/Editor";
+import FileManager from './Components/FileManager';
 
 
 function App() {
@@ -126,6 +128,8 @@ dispatch(setload(true))
         <Route path="/coins" element={<Coins />} />
         <Route path="/resume" element={<Resume />} />
 
+        <Route path="/editor" element={<MyEditor />} />
+        <Route path="/file-manager" element={<FileManager />} />
         <Route path="/user-profile" element={<UserProfile />} />
       </Routes>
     </>

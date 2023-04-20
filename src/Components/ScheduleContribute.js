@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
 
 import { useNavigate } from 'react-router-dom';
-import { correctVote, wrongVote , setAddPeriod, setSecondUser} from '../Redux/Reducers/generalReducer';
+import { correctVote, wrongVote , setAddPeriod, setSecondUser, setCorrectCount,  setWrongCount} from '../Redux/Reducers/generalReducer';
 import Modal from './Modal';
 import AddPeriod from './AddPeriod';
 
@@ -26,26 +26,21 @@ function ScheduleContribute() {
    let navigate=useNavigate()
    useEffect(()=>{
     localStorage.setItem('last_page', location.hash)
-
-    axios
-      .get(
-        "http://192.168.43.31:5000/votes/"+user.campus+"/"+user.department+"/"+user.level+"/schedule"
-      )
-      .then((res) => {
-res.data.data.forEach((vote)=>{
-  
-
-  if(vote.type==="correct"){
-         dispatch(correctVote(vote.subject_id));
-         
-  }else{
-         dispatch(wrongVote(vote.subject_id));
-           
+   
+axios
+  .get("http://192.168.43.31:5000/votes/user/"+user.email)
+  .then((resp) => {
+resp.data.data.forEach((id)=>{
+  if (id.type === "correct"){
+dispatch(correctVote(parseInt(id.subject_id)));
+  }else{ dispatch(wrongVote(parseInt(id.subject_id)));
   }
-})
-      });
-    }, [])
 
+})
+
+  });
+
+    }, [])
 
     useEffect(()=>{
 
@@ -60,7 +55,7 @@ const closePop=()=>{
 }
    
 const setRoll=()=>{
-dispatch(setalert({status:true, cap:'Welcome', type:'info', msg:'Any Period that receives more Wrong Votes than Correct Votes would be removed from schedule'}))
+dispatch(setalert({status:true, cap:'Welcome', type:'info', msg:'Any Period that receives more thumbs down than thumbs up would be removed from schedule'}))
 }
   useEffect(() => {
     setRoll()  

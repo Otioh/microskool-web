@@ -65,13 +65,20 @@ function Loader({load}) {
 
 
         // dispatch(setMyCourses(data.mycourses))
-        axios.get('http://192.168.43.31:5000/schedules/' + localStorage.getItem("campus") + '/' + localStorage.getItem("department")).then((response) => {
-
-          if (response.data.success) {
-            dispatch(setTimeTable(response.data.data))
-          }
-
-        })
+        axios
+          .get(
+            "http://192.168.43.31:5000/schedules/" +
+              localStorage.getItem("campus") +
+              "/" +
+              localStorage.getItem("department") +
+              "/" +
+              localStorage.getItem("level")
+          )
+          .then((response) => {
+            if (response.data.success) {
+              dispatch(setTimeTable(response.data.data));
+            }
+          });
    
       },
       ()=>{

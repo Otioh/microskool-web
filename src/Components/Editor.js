@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MicroskoolIcon from "../Images/micro.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faAdd, faDownload, faFile, faFileDownload, faPrint, faShareAlt} from '@fortawesome/free-solid-svg-icons';
+import {faAdd, faDownload, faFile, faFileDownload, faPrint, faSave, faShareAlt} from '@fortawesome/free-solid-svg-icons';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "draft-js/dist/Draft.css";
+import axios from 'axios';
+
 
 
 
@@ -14,15 +16,40 @@ import "draft-js/dist/Draft.css";
 function MyEditor() {
 
 const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const [filename, setfilename] = useState("document")
+const onEditorStateChange = (editorState) => {
+  setEditorState(editorState);
+  
+  axios
+    .post("http://localhost:5000/writefile", {
+      filename: "print.json",
+      data: convertToRaw(editorState.getCurrentContent()),
+    })
+    .then((res) => {});
 
-const onEditorStateChange=(editorState)=>{
-setEditorState(editorState)
+};
 
-}
+// useEffect(()=>{
+// axios.get("http://localhost:5000/writefile").then((res)=>{
+//   console.log(res.data)
+//   setEditorState(convertFromRaw(res.data))
+// });
+// }, [])
 
 const uploadFile=()=>{
 }
-const saveFile = () => {};
+const saveFile = () => {
+axios
+  .post("http://localhost:5000/writefile", {
+    filename: "print.json",
+    data: convertToRaw(editorState.getCurrentContent()),
+  })
+  .then((res) => {
+
+  });
+
+
+};
  
 
 
@@ -61,6 +88,10 @@ const saveFile = () => {};
               <FontAwesomeIcon icon={faAdd}></FontAwesomeIcon> New
             </button>
 
+            <button className="btn  margin" onClick={saveFile}>
+              <FontAwesomeIcon icon={faSave}></FontAwesomeIcon> Save
+            </button>
+
             <button className="btn  margin  ">
               <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon> Print
             </button>
@@ -77,7 +108,9 @@ const saveFile = () => {};
           <Editor
             editorState={editorState}
             placeholder="Type here"
-            onEditorStateChange={onEditorStateChange}
+            onEditorStateChange={(editorState) => {
+              onEditorStateChange(editorState);
+            }}
             editorStyle={{
               backgroundColor: "white",
               padding: "20px",

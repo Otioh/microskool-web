@@ -4,20 +4,35 @@ import Modal from './Modal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navigation from './Navigation';
-import { setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
+import { setAssignments, setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
 import AddAssignment from './AddAssignment';
 import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DropMenu from './DropMenu';
 import { useStepContext } from '@mui/material';
+import axios from 'axios';
 
 
 function Assignments() {
+   let dispatch = useDispatch();
+   let navigate = useNavigate();
   const user=useSelector((state)=>state.userReducer.user);
   const courses=useSelector((state)=>state.generalReducer.general.courses);
   const assignments=useSelector((state)=>state.generalReducer.general.assignments);
 const [seachterm, setseachterm] = useState('')
 
+
+useEffect(()=>{
+axios.get("http://localhost:5000/assignments/unical").then((res)=>{
+  if(res.data.success){
+    res.data.data.forEach((ass)=>{
+    
+    })
+dispatch(setAssignments(res.data.data));
+  }
+  
+});
+}, [])
 
 
 
@@ -65,8 +80,7 @@ useEffect(()=>{
   localStorage.setItem('last_page', location.hash)
   
   }, [])
-  let dispatch =useDispatch();
-  let navigate=useNavigate()
+ 
   return (
     <>
       <Navigation active={"assignment"} />
@@ -90,9 +104,15 @@ useEffect(()=>{
         )}
 
         <br />
-        <input className='form-control' style={{width:'200px', float:'right'}} placeholder='Search Assignment' type='search' onChange={(e)=>{
-          setseachterm(e.target.value)
-        }}/>
+        <input
+          className="form-control"
+          style={{ width: "200px", float: "right" }}
+          placeholder="Search Assignment"
+          type="search"
+          onChange={(e) => {
+            setseachterm(e.target.value);
+          }}
+        />
         <button
           className="btn microskool-button"
           onClick={() => {
@@ -102,6 +122,8 @@ useEffect(()=>{
           {" "}
           <FontAwesomeIcon icon={faAdd}></FontAwesomeIcon> New{" "}
         </button>
+
+ 
         <button
           className="btn microskool-border"
           onClick={() => {
@@ -112,67 +134,71 @@ useEffect(()=>{
           <FontAwesomeIcon icon={faBook}></FontAwesomeIcon> Manage Courses{" "}
         </button>
         <br />
-        {assignments.filter((eachAss)=>{
-          if(seachterm===""){
-            return eachAss
-          }else{
-            if (
-              eachAss.course.toLowerCase().includes(seachterm.toLowerCase()) ||
-              eachAss?.filestat
-                ?.toLowerCase()
-                .includes(seachterm.toLowerCase()) ||
-              eachAss.lecturer
-                .toLowerCase()
-                .includes(seachterm.toLowerCase()) ||
-              eachAss.question.toLowerCase().includes(seachterm.toLowerCase())
-            ) {
+        {assignments
+          .filter((eachAss) => {
+            if (seachterm === "") {
               return eachAss;
             } else {
-              return null;
+              if (
+                eachAss.course
+                  .toLowerCase()
+                  .includes(seachterm.toLowerCase()) ||
+                eachAss?.filestat
+                  ?.toLowerCase()
+                  .includes(seachterm.toLowerCase()) ||
+                eachAss.lecturer
+                  .toLowerCase()
+                  .includes(seachterm.toLowerCase()) ||
+                eachAss.question.toLowerCase().includes(seachterm.toLowerCase())
+              ) {
+                return eachAss;
+              } else {
+                return null;
+              }
             }
-          }
-        }).map((ass) => {
-          return (
-            <div
-              className="card shadow grid-item"
-              style={{ height: "auto", width: "200px" }}
-            >
-              <div className="card-header">
-                <h4>
-                  <FontAwesomeIcon icon={faBookOpen}></FontAwesomeIcon>{" "}
-                  {ass.course}
-                </h4>
-                <span className="badge bg-info">{ass.filestat}</span>
-              </div>
-              <div className="card-body" style={{}}>
-                <span className="icon" style={{ fontSize: "20pt" }}>
-                  <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {55}
-                </span>
-                <p style={{ fontSize: "small" }}>{ass.question}</p>
-                <span className="badge bg-info">{ass.lecturer}</span>
-                <span className="badge bg-warning"> {ass.deadline}</span>{" "}
-                <p className="text-secondary" style={{ fontSize: "small" }}>
-                  preview on mobile app
-                </p>
-              </div>
-              <div className="card-footer" style={{ fontSize: "small" }}>
-                <button
-                  className="btn btn-outline-success"
-                  onClick={handleClick}
-                >
-                  <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon> {65}
-                </button>
+          })
+          .map((ass) => {
+            return (
+              <div
+                className="card shadow grid-item"
+                style={{ height: "auto", width: "200px" }}
+              >
+                <div className="card-header">
+                  <h4>
+                    <FontAwesomeIcon icon={faBookOpen}></FontAwesomeIcon>{" "}
+                    {ass.course}
+                  </h4>
+                  <span className="badge bg-info">{ass.filestat}</span>
+                </div>
+                <div className="card-body" style={{}}>
+                  <span className="icon" style={{ fontSize: "20pt" }}>
+                    <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {55}
+                  </span>
+                  <p style={{ fontSize: "small" }}>{ass.question}</p>
+                  <span className="badge bg-info">{ass.lecturer}</span>
+                  <span className="badge bg-warning"> {ass.deadline}</span>{" "}
+                  <p className="text-secondary" style={{ fontSize: "small" }}>
+                    preview on mobile app
+                  </p>
+                </div>
+                <div className="card-footer" style={{ fontSize: "small" }}>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={handleClick}
+                  >
+                    <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon> {65}
+                  </button>
 
-                <button
-                  className="btn text-danger"
-                  onClick={handleClickWarning}
-                >
-                  <FontAwesomeIcon icon={faWarning}></FontAwesomeIcon>
-                </button>
+                  <button
+                    className="btn text-danger"
+                    onClick={handleClickWarning}
+                  >
+                    <FontAwesomeIcon icon={faWarning}></FontAwesomeIcon>
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
         <DropMenu
           items={[

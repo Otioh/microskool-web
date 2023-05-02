@@ -12,6 +12,8 @@ import {
   faCoins,
   faSearch,
   faGear,
+  faBook,
+  faFile,
 } from "@fortawesome/free-solid-svg-icons";
 import Alert from "./Alert";
 import Navigation from "./Navigation";
@@ -102,9 +104,9 @@ function Dashboard() {
           >
             <span className="icon">
               {" "}
-              <FontAwesomeIcon icon={faBookAtlas}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>
             </span>
-            Past Questions
+            My Courses
           </div>
           <div
             className="card shadow grid-menu"
@@ -123,9 +125,9 @@ function Dashboard() {
           >
             <span className="icon">
               {" "}
-              <FontAwesomeIcon icon={faCalculator}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faFile}></FontAwesomeIcon>
             </span>
-            GPA Calculator
+            MiSB
           </div>
 
           <div

@@ -9,12 +9,13 @@ import { setalert } from '../Redux/Reducers/displayReducer';
 function 
 FivePoint() {
   const alert=useSelector((state)=>state.displayReducer.display.alert)
+   const user = useSelector((state) => state.userReducer.user);
   const dispatch= useDispatch()
   const [courseList, setcourseList] = useState([]);
   const [course, setcourse] = useState("");
   const [credit, setcredit] = useState(0);
   const [grade, setgrade] = useState("");
-  const[GPA, setGPA]=useState(parseFloat(3.2).toFixed(2));
+  const [GPA, setGPA] = useState(parseFloat(user.cgpa).toFixed(2));
 const addCourse=()=>{
 if(course===""){
   dispatch(setalert({type:'danger', msg:'Course cannot be empty', cap:'Error', status:true}))

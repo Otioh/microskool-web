@@ -96,16 +96,7 @@ Schedule
 
 
 
-<div className={active==='calculator'?`menu-item active`:`menu-item`} onClick={()=>{
-    navigate('/calculator')
-}}>
-<div className='menu-icon'>
-    <FontAwesomeIcon icon={faCalculator}></FontAwesomeIcon>
-</div>
-<div className={navFall?'item-text fall':'item-text'}>
-Calculator
-</div>
-</div>
+
 
 
 <div className={active==='reference'?`menu-item active`:`menu-item`} onClick={()=>{

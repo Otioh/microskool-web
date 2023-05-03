@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faEdit} from '@fortawesome/free-solid-svg-icons';
+import { faSave, faEdit, faFile} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import { addAssignment, updateAssign } from '../Redux/Reducers/generalReducer';
@@ -109,19 +109,14 @@ setlecturer(e.target.value)
 </div>
 
 
-<div className='col-sm-4'>
-  <label for='file'>
-    Select Supporting Image
-  </label>
-<input className={`form-control`} id='file' type='file' onChange={(e)=>{
-setimage(e.target.value)
-}} />
-    </div>
+
         </div>
         <div className='row'>
 <div className='col-sm-4'>
-<button className={`btn microskool-button`}  onClick={saveAssign} >
-    <FontAwesomeIcon icon={faSave}/> Post
+<button className={`btn microskool-button`}  onClick={()=>{
+  navigate('/file-manager')
+}} >
+    <FontAwesomeIcon icon={faFile}/> Add/Create Safe Book
 </button>
 </div>
         </div>

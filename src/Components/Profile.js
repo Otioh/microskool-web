@@ -286,7 +286,7 @@ dispatch(setLogout(true))
 </div>
   </div>
   <div className='card-footer'>
-  <button className='btn btn-outline-success' title='Opening Wallet' onClick={()=>{
+  <button className='btn btn-outline-success' title='Open Wallet' onClick={()=>{
     navigate('/coins')
   }}><FontAwesomeIcon icon={faBarsProgress}></FontAwesomeIcon>  </button>
   

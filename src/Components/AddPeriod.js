@@ -36,26 +36,58 @@ dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', ca
       }else{
 
        
-        axios.post('http://192.168.43.31:5000/schedules/', { course, time_in, time_out, venue, day, user:user.email, campus:user.campus, department:user.department }).then((res)=>{
-if(res.data.success){
+        axios
+          .post("http://192.168.43.31:5000/schedules/", {
+            course,
+            time_in,
+            time_out,
+            venue,
+            day,
+            user: user.email,
+            campus: user.campus,
+            department: user.department,
+            level: user.level,
+          })
+          .then((res) => {
+            if (res.data.success) {
+              dispatch(
+                setalert({
+                  status: true,
+                  msg: "Added Succesfully",
+                  type: "success",
+                  cap: "Success",
+                })
+              );
+              dispatch(setAddPeriod(false));
+              // dispatch(setMyCourses(data.mycourses))
+              axios
+                .get(
+                  "http://192.168.43.31:5000/schedules/" +
+                    localStorage.getItem("campus") +
+                    "/" +
+                    localStorage.getItem("department") +
+                    "/" +
+                    localStorage.getItem("level")
+                )
+                .then((response) => {
+                  if (response.data.success) {
+                    dispatch(setTimeTable(response.data.data));
+                  }
+                });
+              // message.success("Added Succesfully");
+            } else {
+              dispatch(
+                setalert({
+                  status: true,
+                  msg: res.data.message,
+                  type: "danger",
+                  cap: "Error",
+                })
+              );
 
-  dispatch(setalert({ status: true, msg: 'Added Succesfully', type: 'success', cap: 'Success' }))
-  dispatch(setAddPeriod(false))
-  // dispatch(setMyCourses(data.mycourses))
-  axios.get('http://192.168.43.31:5000/schedules/' + localStorage.getItem("campus") + '/' + localStorage.getItem("department")).then((response) => {
-
-    if (response.data.success) {
-      dispatch(setTimeTable(response.data.data))
-    }
-
-  })
-  // message.success("Added Succesfully");
-}else{
-  dispatch(setalert({ status: true, msg: res.data.message, type: 'danger', cap: 'Error' }))
-
-  // message.error(res.data);
-}
-})
+              // message.error(res.data);
+            }
+          });
 
     }
 

@@ -33,17 +33,7 @@ const generalReducer = createSlice({
       withdrawCoins: false,
       secondUser: "",
       network: true,
-      assign: {
-        id: "hdhs",
-        question: "What is a noun",
-        date: "23/23",
-        deadline: "23/23/",
-        lecturer: "Mr Effiong",
-        user: "bryonerim@gmail.com",
-        image:
-          "http://192.168.43.31:3000/static/media/twelve.87605878a6985f4c4e97.png",
-        course: "GSS101",
-      },
+      
     },
   },
   reducers: {
@@ -84,6 +74,9 @@ const generalReducer = createSlice({
     updateAssign: (state, action) => {
       state.general.assignments.push(action.payload);
     },
+       setAssignments: (state, action) => {
+      state.general.assignments=action.payload;
+    },
     setAddPeriod: (state, action) => {
       state.general.addPeriod = action.payload;
     },
@@ -102,10 +95,30 @@ const generalReducer = createSlice({
     setTransactions: (state, action) => {
       state.general.transactions = action.payload;
     },
+    setWrongCount: (state, action) => {
+ for (let i = 0; i < state.general.timeTable.length; i++) {
+   if (
+     state.general.timeTable[i].id === parseInt(action.payload.id)
+   ) {
+     state.general.timeTable[i].wrong=action.payload.count;
+    
+     break;
+   }
+ }
+    },
+    setCorrectCount: (state, action) => {
+   for (let i = 0; i < state.general.timeTable.length; i++) {
+     if (state.general.timeTable[i].id === parseInt(action.payload.id)) {
+       state.general.timeTable[i].correct = action.payload.count;
+
+       break;
+     }
+   }
+    },
     wrongVote: (state, action) => {
       for (let i = 0; i < state.general.timeTable.length; i++) {
         if (
-          state.general.timeTable[i].id === action.payload &&
+          state.general.timeTable[i].id === parseInt(action.payload) &&
           state.general.timeTable[i].voted !== "true"
         ) {
           state.general.timeTable[i].wrong++;
@@ -118,7 +131,7 @@ const generalReducer = createSlice({
     correctVote: (state, action) => {
       for (let i = 0; i < state.general.timeTable.length; i++) {
         if (
-          state.general.timeTable[i].id === action.payload &&
+          state.general.timeTable[i].id === parseInt(action.payload) &&
           state.general.timeTable[i].voted !== "true"
         ) {
           state.general.timeTable[i].voted = "true";
@@ -153,5 +166,8 @@ export const {
   setWithdrawCoins,
   setTimeTable,
   setSecondUser,
+  setWrongCount,
+  setAssignments,
+  setCorrectCount,
 } = generalReducer.actions;
 export default generalReducer.reducer;

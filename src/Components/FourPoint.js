@@ -8,6 +8,7 @@ import { setalert } from '../Redux/Reducers/displayReducer';
 
 function FourPoint() {
   const alert=useSelector((state)=>state.displayReducer.display.alert)
+   const user = useSelector((state) => state.userReducer.user);
   const dispatch= useDispatch()
 
  
@@ -15,7 +16,7 @@ function FourPoint() {
   const [course, setcourse] = useState("");
   const [credit, setcredit] = useState(0);
   const [grade, setgrade] = useState("");
-const[GPA, setGPA]=useState(parseFloat(5.33).toFixed(2));
+const [GPA, setGPA] = useState(parseFloat(user.cgpa).toFixed(2));
 const addCourse=()=>{
 if(course===""){
 dispatch(setalert({type:'danger', msg:'Course cannot be empty', cap:'Error', status:true}))

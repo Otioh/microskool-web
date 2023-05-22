@@ -34,7 +34,7 @@ if(password===passwordConfirm){
 
 
 
-    axios.post('http://192.168.43.31:5000/users', {email,password, first_name, surname, phone, matric}).then((response)=>{
+    axios.post(`${process.env.REACT_APP_BACKEND}users`, {email,password, first_name, surname, phone, matric}).then((response)=>{
 
     if(response.data.success){
         funSeque({delaySeconds:2}, ()=>{

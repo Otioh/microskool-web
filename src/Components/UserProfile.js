@@ -14,7 +14,7 @@ function UserProfile() {
           );
       const [seUser, setSeUser]= useState({})
     useEffect(()=>{
-axios.get("http://192.168.43.31:5000/users/"+secondUser).then((res)=>{
+      axios.get(`${process.env.REACT_APP_BACKEND}users/`+secondUser).then((res)=>{
     setSeUser(res.data.data[0])
 })
     }, [])

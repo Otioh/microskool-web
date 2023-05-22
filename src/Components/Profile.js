@@ -41,20 +41,20 @@ function Profile() {
      
      }, [locked])
   useEffect(()=>{
-axios.get('http://192.168.43.31:5000/campuses').then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}campuses`).then((response)=>{
   if(response.data.success){
     setcampuses(response.data.data)
   }
 })
 
-axios.get('http://192.168.43.31:5000/departments').then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}departments`).then((response)=>{
   if(response.data.success){
     setdepartments(response.data.data)
   }
 })
 
     dispatch(setTransactions(data.transactions))
-axios.get('http://192.168.43.31:5000/transactions/'+user.email).then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}transactions/`+user.email).then((response)=>{
   if(response.data.success){
    dispatch( setTransactions(response.data.data))
   }
@@ -184,13 +184,13 @@ setPerson({...pereson, level:e.target.value})
         dispatch( updateUser(pereson) )
       dispatch(setEdit(false))
 if(network){
-      axios.post('http://192.168.43.31:5000/users/'+user.email+'', pereson).then((response)=>{
+      axios.post(`${process.env.REACT_APP_BACKEND}users/`+user.email+'', pereson).then((response)=>{
 
       })
 
     }else{
      let feedback= ProcessManager.addProcess(()=>{
-        axios.post('http://192.168.43.31:5000/users/'+user.email+'', pereson).then((response)=>{
+        axios.post(`${process.env.REACT_APP_BACKEND}users/`+user.email+'', pereson).then((response)=>{
 
       })
       })
@@ -246,7 +246,7 @@ dispatch(setLogout(true))
 
   <div className='table-responsive'>
     
-<table className='table text-success table-hover table-striped table-success table-striped-columns' style={{fontSize:'small'}}>
+<table className='table table-hover table-striped table-light table-striped-columns' style={{fontSize:'small'}}>
 <thead className='text-light bg-success'>
   <th>
     Item
@@ -272,7 +272,7 @@ dispatch(setLogout(true))
       {trans.amount}
       </td>
       <td>
-      {trans.date}
+      {new Date(trans.date).toDateString().substring(0,10)}
       </td>
     </tr>
     })

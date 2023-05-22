@@ -33,12 +33,12 @@ function Coins() {
     const [id, setid] = useState('')
     const [processed, setprocessed] = useState(false)
     const [ben, setben] = useState({})
-    const process = () => {
+    const processes = () => {
         if (!amount > 0 || id === '') {
             dispatch(setalert({ ...alert, msg: 'Email cannot be empty and Amount must be greater than 0', type: 'danger', status: true, cap: 'Error' }))
 
         } else {
-            axios.get('http://192.168.43.31:5000/users/' + id + '').then((res) => {
+            axios.get(`${process.env.REACT_APP_BACKEND}users/` + id + '').then((res) => {
                 if (res.data.success) {
                     setben(res.data.data[0]);
                     setprocessed(true)
@@ -67,15 +67,15 @@ function Coins() {
         text: "Pay Now",
         onSuccess: (msg) => {
 
-            axios.post('http://192.168.43.31:5000/transactions', { transaction_id: msg.reference, item: 'Wallet Funded', description_sender: 'Payment to fund Microskool eNaira wallet', description_receiver: 'Payment to fund Microskool eNaira wallet', sender: user.email, receiver: 'Microskool', amount, status: msg.message }).then((res) => {
+            axios.post(`${process.env.REACT_APP_BACKEND}transactions`, { transaction_id: msg.reference, item: 'Wallet Funded', description_sender: 'Payment to fund Microskool eNaira wallet', description_receiver: 'Payment to fund Microskool eNaira wallet', sender: user.email, receiver: 'Microskool', amount, status: msg.message }).then((res) => {
                 console.log(parseFloat(user.coins) + parseFloat(amount))
-                axios.post('http://192.168.43.31:5000/users/' + user.email + '', { ...user, coins: parseFloat(user.coins) + parseFloat(amount) }).then((response) => {
+                axios.post(`${process.env.REACT_APP_BACKEND}users/` + user.email + '', { ...user, coins: parseFloat(user.coins) + parseFloat(amount) }).then((response) => {
                     dispatch(setalert({ ...alert, msg: res.data.message, type: 'success', status: true, cap: 'Success' }))
                     dispatch(setFundCoins(false))
-                    axios.get('http://192.168.43.31:5000/transactions/' + user.email).then((response) => {
+                    axios.get(`${process.env.REACT_APP_BACKEND}transactions/` + user.email).then((response) => {
                         if (response.data.success) {
                             dispatch(setTransactions(response.data.data))
-                            axios.get('http://192.168.43.31:5000/users/' + localStorage.getItem('email') + '').then((response) => {
+                            axios.get(`${process.env.REACT_APP_BACKEND}users/` + localStorage.getItem('email') + '').then((response) => {
 
                                 if (response.data.success) {
                                     dispatch(updateUser(response.data.data[0]))
@@ -107,7 +107,7 @@ function Coins() {
     const [code, setcode] = useState('');
     const [title, settitle] = useState('');
     useEffect(() => {
-        axios.get('http://192.168.43.31:5000/transactions/' + user.email).then((response) => {
+        axios.get(`${process.env.REACT_APP_BACKEND}transactions/` + user.email).then((response) => {
             if (response.data.success) {
                 dispatch(setTransactions(response.data.data))
             }
@@ -119,7 +119,7 @@ function Coins() {
     const createCourse = ({ code, title, department, level }) => {
 
         if (network) {
-            axios.post('http://192.168.43.31:5000/courses/', { code, title, campus: user.campus, department, level, user: user.email }).then((res) => {
+            axios.post(`${process.env.REACT_APP_BACKEND}courses/`, { code, title, campus: user.campus, department, level, user: user.email }).then((res) => {
                 if (res.data.success) {
                     dispatch(setalert({ ...alert, msg: res.data.message, type: 'success', status: true, cap: 'Success' }))
                     dispatch(setaddCourse(false))
@@ -132,7 +132,7 @@ function Coins() {
             let feedback = '';
             feedback = ProcessManager.addProcess(
                 () => {
-                    axios.post('http://192.168.43.31:5000/courses/', { code, title, campus: user.campus, department, level, user: user.email }).then((res) => {
+                    axios.post(`${process.env.REACT_APP_BACKEND}courses/`, { code, title, campus: user.campus, department, level, user: user.email }).then((res) => {
                         if (res.data.success) {
                             dispatch(setalert({ ...alert, msg: res.data.message, type: 'success', status: true, cap: 'Success' }))
                         }
@@ -154,7 +154,7 @@ function Coins() {
 
 
     const postCourse = () => {
-        axios.post('http://192.168.43.31:5000/courses/', { code, title, campus: user.campus, department, level, user: user.email }).then((response) => {
+        axios.post(`${process.env.REACT_APP_BACKEND}courses/`, { code, title, campus: user.campus, department, level, user: user.email }).then((response) => {
 
         })
     }
@@ -165,7 +165,7 @@ function Coins() {
     }, [])
 
     useEffect(() => {
-        axios.get('http://192.168.43.31:5000/courses/' + user.campus + '').then((response) => {
+        axios.get(`${process.env.REACT_APP_BACKEND}courses/` + user.campus + '').then((response) => {
 
             if (response.data.success) {
 
@@ -173,7 +173,7 @@ function Coins() {
 
             }
         })
-        axios.get('http://192.168.43.31:5000/departments').then((response) => {
+        axios.get(`${process.env.REACT_APP_BACKEND}departments`).then((response) => {
             if (response.data.success) {
                 setdepartments(response.data.data)
             }
@@ -334,13 +334,13 @@ function Coins() {
                         </h4>
                         <div className=" table-responsive-lg">
                           <table
-                            className="table text-success table-hover table-striped table-success table-striped-columns"
+                            className="table table-hover table-striped table-striped-columns"
                             style={{ fontSize: "small" }}
                           >
                             <thead className="text-light bg-success">
                               <th>Item</th>
                               <th>Description</th>
-                              <th>Sender</th>
+                       
 
                               <th>Amount</th>
                               <th>Date</th>
@@ -356,9 +356,9 @@ function Coins() {
                                         ? trans.description_receiver
                                         : trans.description_sender}
                                     </td>
-                                    <td>{trans.sender}</td>
+                                   
                                     <td>{trans.amount}</td>
-                                    <td>{trans.date}</td>
+                                    <td>{new Date(trans.date).toDateString()}</td>
                                     <td>{trans.status}</td>
                                   </tr>
                                 );
@@ -438,7 +438,7 @@ function Coins() {
                             onClick={() => {
                               axios
                                 .post(
-                                  "http://192.168.43.31:5000/transactions/validate",
+                                  `${process.env.REACT_APP_BACKEND}transactions/validate`,
                                   {
                                     sender: user.email,
                                     amount,
@@ -449,7 +449,7 @@ function Coins() {
                                   if (resp.data.success) {
                                     axios
                                       .post(
-                                        "http://192.168.43.31:5000/transactions",
+                                        `${process.env.REACT_APP_BACKEND}transactions`,
                                         {
                                           transaction_id:
                                             "T255" + Math.random() * 2344354,
@@ -592,7 +592,7 @@ function Coins() {
                             onClick={() => {
                               axios
                                 .post(
-                                  "http://192.168.43.31:5000/transactions/validate",
+                                  `${process.env.REACT_APP_BACKEND}transactions/validate`,
                                   {
                                     sender: user.email,
                                     amount,
@@ -603,7 +603,7 @@ function Coins() {
                                   if (res.data.success) {
                                     axios
                                       .post(
-                                        "http://192.168.43.31:5000/transactions",
+                                        `${process.env.REACT_APP_BACKEND}transactions`,
                                         {
                                           transaction_id:
                                             "T255" + Math.random() * 2344354,
@@ -628,7 +628,7 @@ function Coins() {
                                         if (res.data.success) {
                                           axios
                                             .post(
-                                              "http://192.168.43.31:5000/users/" +
+                                              `${process.env.REACT_APP_BACKEND}users/` +
                                                 user.email +
                                                 "",
                                               {
@@ -651,7 +651,7 @@ function Coins() {
                                             });
                                           axios
                                             .post(
-                                              "http://192.168.43.31:5000/users/" +
+                                              `${process.env.REACT_APP_BACKEND}users/` +
                                                 ben.email +
                                                 "",
                                               {
@@ -684,7 +684,7 @@ function Coins() {
                                           dispatch(setTransferCoins(false));
                                           axios
                                             .get(
-                                              "http://192.168.43.31:5000/transactions/" +
+                                              `${process.env.REACT_APP_BACKEND}transactions/` +
                                                 user.email
                                             )
                                             .then((response) => {
@@ -696,7 +696,7 @@ function Coins() {
                                                 );
                                                 axios
                                                   .get(
-                                                    "http://192.168.43.31:5000/users/" +
+                                                    `${process.env.REACT_APP_BACKEND}users/` +
                                                       localStorage.getItem(
                                                         "email"
                                                       ) +
@@ -744,7 +744,7 @@ function Coins() {
                         ) : (
                           <button
                             className="btn microskool-button"
-                            onClick={process}
+                              onClick={processes}
                           >
                             Process
                           </button>

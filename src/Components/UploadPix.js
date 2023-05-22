@@ -22,12 +22,12 @@ function UploadPix() {
       <input type={'file'} className='form-control form-control-file' onChange={(e)=>{
         formData.append('avatar', e.target.files[0])
         formData.append('email', user.email)
-     if(network){axios.post('http://192.168.43.31:5000/profile/'+user.email+'', formData).then((response)=>{
+     if(network){axios.post(`${process.env.REACT_APP_BACKEND}profile/`+user.email+'', formData).then((response)=>{
 
      location.reload()
       
  })}else{ let feedback=ProcessManager.addProcess(()=>{
-  axios.post('http://192.168.43.31:5000/profile/'+user.email+'', formData).then((response)=>{
+   axios.post(`${process.env.REACT_APP_BACKEND}profile/`+user.email+'', formData).then((response)=>{
 
   
      

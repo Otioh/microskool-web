@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faEdit, faFile} from '@fortawesome/free-solid-svg-icons';
+import { faSave, faEdit, faFile, faTimes, faUser} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import { addAssignment, updateAssign } from '../Redux/Reducers/generalReducer';
-import { setalert, setload } from '../Redux/Reducers/displayReducer';
+import { addAssignment, setSecondUser, setaddAssignment, updateAssign } from '../Redux/Reducers/generalReducer';
+import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,8 @@ let navigate=useNavigate()
     const [deadline, setdeadline] = useState("")
     const [course, setCourse] = useState("")
     const [lecturer, setlecturer] = useState("")
-    const [image, setimage] = useState('');
+    const [file, setfile] = useState({});
+    const [revFile, setrevFile] = useState(null)
 
 useEffect(()=>{
   dispatch(setalert({status:false, msg:'', type:'info'}))
@@ -28,31 +29,28 @@ useEffect(()=>{
 },[])
 
     const saveAssign=()=>{
-   
-      if(question==="" || deadline==="" || course==="" || lecturer==="" || image===""){
-        // message.warning("All Fields are required");
+
+      if(question==="" || deadline==="" || course==="" || lecturer==="" || file.filename==="" || revFile===null){
+    
 dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', cap:'Error'}))
       }else{
+        dispatch(setspin(true))
+        const formData=new FormData()
+        formData.append('file', file.file)
+    
+        axios.post(`${process.env.REACT_APP_BACKEND}postFile/${user.id}`, formData).then((res)=>{
+          
+        
 
-        dispatch(updateAssign({
-          id:Math.random(0,100),
-          question,
-          date:new Date(),
-          deadline,
-          lecturer,
-          user:user.email,
-          image:'http://192.168.43.31:3000/static/media/twelve.87605878a6985f4c4e97.png',
-          course
-      }))
-dispatch(addAssignment(false))
-dispatch(setalert({status:true, msg:'Added Succesfully', type:'success', cap:'Success'}))
-//         axios.get(`https://microskool.com/app/saveperiod.php?email=${sessionStorage.getItem("session")}&&code=${Course}&&day=${day}&&timein=${Time_In}&&timeout=${Time_Out}&&venue=${venue}`).then((res)=>{
-// if(res.data==="success"){
-//   // message.success("Added Succesfully");
-// }else{
-//   // message.error(res.data);
-// }
-// })
+})
+
+        axios.post(`${process.env.REACT_APP_BACKEND}assignments`, { course, question, deadline, lecturer,filename:user.id+"*"+file.filename, file:file.file, campus:user.campus, filestat:"MiSB|"+file.filesize+"| -- Pages", user }).then((respons)=>{
+          dispatch(setspin(false))
+    dispatch(setaddAssignment(false))
+            dispatch(setalert({ status: true, msg: respons.data.message, type: 'info', cap: 'Info' }))
+
+})
+     
 
     }
 
@@ -91,6 +89,9 @@ setCourse(e.target.value)
 
         </div>
         <div className='col-sm-4' >
+          <label>
+            Deadline
+          </label>
 <input className={`form-control`} placeholder='Deadline' type='date' onChange={(e)=>{
 setdeadline(e.target.value)
 }} /> 
@@ -107,16 +108,54 @@ setquestion(e.target.value)
 setlecturer(e.target.value)
 }} /> 
 </div>
+      <span className={` microskool-border`}>
+       
+        <FontAwesomeIcon icon={faFile} /> <label>Attach .misb</label> <input type='file' id='misb' accept='.misb' onChange={(e)=>{
+          dispatch(setspin(true))
+         const formData = new FormData()
+       
+          formData.append('file', e.target.files[0])
 
+          axios.post(`${process.env.REACT_APP_BACKEND}file/${e.target.files[0].name}`, formData).then((res) => {
+if(res.data.success){
+  setrevFile(res.data.data)
+  dispatch(setalert({ status: true, msg: "File Details Retrieved", type: 'info', cap: 'Info' }))
+  dispatch(setspin(false))
+
+}else{
+  setrevFile(null)
+  dispatch(setspin(false))
+  dispatch(setalert({ status: true, msg: res.data.message, type: 'danger', cap: 'Error' }))
+  document.getElementById('misb').value = null;
+}
+            })
+          setfile({ filename: e.target.files[0].name, filesize: parseFloat(e.target.files[0].size/1000).toFixed(1)+"KB", file: e.target.files[0]})
+        }} />
+
+        {revFile ? <span><strong> {revFile?.title?.substring(0, 32)}</strong>...  <i>edited by </i> {revFile?.editorname}</span> : <></>} {revFile ? <button className='btn microskool-button' onClick={()=>{
+          dispatch(setSecondUser(revFile?.author));
+          navigate('/user-profile');
+        
+        }}> <FontAwesomeIcon icon={faUser}></FontAwesomeIcon></button>:<></>}
+
+        {revFile ? <button className='btn text-danger' onClick={() => {
+          setrevFile(null)
+  
+          dispatch(setalert({ status: true, msg: "File Reset", type: 'info', cap: 'Info' }))
+          document.getElementById('misb').value = null;
+
+        }}> <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button> : <></>}
+
+</span>
 
 
         </div>
+        <br/>
         <div className='row'>
 <div className='col-sm-4'>
-<button className={`btn microskool-button`}  onClick={()=>{
-  navigate('/file-manager')
-}} >
-    <FontAwesomeIcon icon={faFile}/> Add/Create Safe Book
+
+          <button className={`btn microskool-button`} onClick={saveAssign} >
+   Post
 </button>
 </div>
         </div>

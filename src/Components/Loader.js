@@ -37,7 +37,7 @@ function Loader({load}) {
 
       },
       ()=>{
-        axios.get('http://192.168.43.31:5000/users/'+localStorage.getItem('email')+'').then((response)=>{
+        axios.get(`${process.env.REACT_APP_BACKEND}users/`+localStorage.getItem('email')+'').then((response)=>{
 
         if(response.data.success){
     dispatch(updateUser(response.data.data[0]))
@@ -54,7 +54,7 @@ function Loader({load}) {
 
         // dispatch(setMyCourses(data.mycourses))
 
-         axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
+         axios.get(`${process.env.REACT_APP_BACKEND}mycourses/`+localStorage.getItem('email')).then((response)=>{
 
          if(response.data.success){
          
@@ -67,7 +67,7 @@ function Loader({load}) {
         // dispatch(setMyCourses(data.mycourses))
         axios
           .get(
-            "http://192.168.43.31:5000/schedules/" +
+            `${process.env.REACT_APP_BACKEND}schedules/` +
               localStorage.getItem("campus") +
               "/" +
               localStorage.getItem("department") +
@@ -85,7 +85,7 @@ function Loader({load}) {
      
         setTimeout(() => {
           // dispatch(setCourse(data.allcourse))
-          axios.get('http://192.168.43.31:5000/courses/'+user.campus).then((response)=>{
+          axios.get(`${process.env.REACT_APP_BACKEND}courses/`+user.campus).then((response)=>{
 
           if(response.data.success){
           

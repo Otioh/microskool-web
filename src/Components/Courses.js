@@ -138,7 +138,7 @@ const [title, settitle] = useState('');
 const createCourse=({code, title, department, level})=>{
 
   if(network){
-    axios.post('http://192.168.43.31:5000/courses/', {code, title, campus:user.campus, department, level, user:user.email}).then((res)=>{
+    axios.post(`${process.env.REACT_APP_BACKEND}courses/`, {code, title, campus:user.campus, department, level, user:user.email}).then((res)=>{
       if(res.data.success){
         dispatch(setalert({...alert, msg:res.data.message, type:'success', status:true, cap:'Success'}))
         dispatch(setaddCourse(false))
@@ -151,7 +151,7 @@ const createCourse=({code, title, department, level})=>{
   let feedback='';
   feedback=ProcessManager.addProcess(
         ()=>{
-      axios.post('http://192.168.43.31:5000/courses/', {code, title, campus:user.campus, department, level, user:user.email}).then((res)=>{
+      axios.post(`${process.env.REACT_APP_BACKEND}courses/`, {code, title, campus:user.campus, department, level, user:user.email}).then((res)=>{
         if(res.data.success){
           dispatch(setalert({...alert, msg:res.data.message, type:'success', status:true, cap:'Success'}))
         }
@@ -171,7 +171,7 @@ const createCourse=({code, title, department, level})=>{
 
 
 const postCourse=()=>{
-  axios.post('http://192.168.43.31:5000/courses/', {code, title, campus:user.campus, department, level, user:user.email}).then((response)=>{
+  axios.post(`${process.env.REACT_APP_BACKEND}courses/`, {code, title, campus:user.campus, department, level, user:user.email}).then((response)=>{
 
   })
 }
@@ -182,7 +182,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
 }, [])
 
   useEffect(()=>{
-    axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}courses/`+user.campus+'').then((response)=>{
      
     if(response.data.success){
     
@@ -190,7 +190,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
         
     }
     })
-    axios.get('http://192.168.43.31:5000/departments').then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}departments`).then((response)=>{
   if(response.data.success){
     setdepartments(response.data.data)
   }
@@ -223,7 +223,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
 <strong>{course.course}</strong>
 <button className='btn text-danger' onClick={()=>{
   if(network){
-    axios.delete('http://192.168.43.31:5000/mycourses/'+course.id).then((response)=>{
+    axios.delete(`${process.env.REACT_APP_BACKEND}mycourses/`+course.id).then((response)=>{
       if(response.data.success){
         dispatch(setalert({...alert, msg:response.data.message, type:'success', status:true, cap:'Success'}))
      
@@ -232,7 +232,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
      
       } 
      
-      axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
+      axios.get(`${process.env.REACT_APP_BACKEND}mycourses/`+localStorage.getItem('email')).then((response)=>{
 
       if(response.data.success){
       
@@ -245,7 +245,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
   })
   }else{
  dispatch(setalert({...alert, msg: ProcessManager.addProcess(()=>{
-  axios.delete('http://192.168.43.31:5000/mycourses/'+course.id).then((response)=>{
+  axios.delete(`${process.env.REACT_APP_BACKEND}mycourses/`+course.id).then((response)=>{
     if(response.data.success){
       dispatch(setalert({...alert, msg:response.data.message, type:'success', status:true, cap:'Success'}))
    
@@ -253,7 +253,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
       dispatch(setalert({...alert, msg:response.data.message, type:'danger', status:true, cap:'Error'}))
    
     }    
-  axios.get('http://192.168.43.31:5000/mycourses/'+localStorage.getItem('email')).then((response)=>{
+  axios.get(`${process.env.REACT_APP_BACKEND}mycourses/`+localStorage.getItem('email')).then((response)=>{
 
       if(response.data.success){
       
@@ -390,7 +390,7 @@ return    <option value={`${departmen.name}`}>
                          
 
                                   if (network) {
-                                    axios.post('http://192.168.43.31:5000/mycourses', { user: user.email, code: courseHodler.code }).then((response) => {
+                                    axios.post(`${process.env.REACT_APP_BACKEND}mycourses`, { user: user.email, code: courseHodler.code }).then((response) => {
                                     handleClose(event)  
                                     if (response.data.success) {
                                         dispatch(setalert({ ...alert, msg: response.data.message, type: 'success', status: true, cap: 'Success' }))
@@ -399,7 +399,7 @@ return    <option value={`${departmen.name}`}>
                                         dispatch(setalert({ ...alert, msg: response.data.message, type: 'danger', status: true, cap: 'Error' }))
 
                                       }
-                                      axios.get('http://192.168.43.31:5000/mycourses/' + localStorage.getItem('email')).then((response) => {
+                                      axios.get(`${process.env.REACT_APP_BACKEND}mycourses/` + localStorage.getItem('email')).then((response) => {
 
                                         if (response.data.success) {
 
@@ -414,7 +414,7 @@ return    <option value={`${departmen.name}`}>
                                     dispatch(setalert({
                                       ...alert, msg: ProcessManager.addProcess(
                                         () => {
-                                          axios.post('http://192.168.43.31:5000/mycourses', { user: user.email, code: course.code }).then((response) => {
+                                          axios.post(`${process.env.REACT_APP_BACKEND}mycourses`, { user: user.email, code: course.code }).then((response) => {
                                             if (response.data.success) {
                                               dispatch(setalert({ ...alert, msg: response.data.message, type: 'success', status: true, cap: 'Success' }))
 
@@ -422,7 +422,7 @@ return    <option value={`${departmen.name}`}>
                                               dispatch(setalert({ ...alert, msg: response.data.message, type: 'danger', status: true, cap: 'Error' }))
 
                                             }
-                                            axios.get('http://192.168.43.31:5000/mycourses/' + localStorage.getItem('email')).then((response) => {
+                                            axios.get(`${process.env.REACT_APP_BACKEND}mycourses/` + localStorage.getItem('email')).then((response) => {
 
                                               if (response.data.success) {
 

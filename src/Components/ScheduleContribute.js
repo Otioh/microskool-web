@@ -28,7 +28,7 @@ function ScheduleContribute() {
     localStorage.setItem('last_page', location.hash)
    
 axios
-  .get("http://192.168.43.31:5000/votes/user/"+user.email)
+  .get(`${process.env.REACT_APP_BACKEND}votes/user/`+user.email)
   .then((resp) => {
 resp.data.data.forEach((id)=>{
   if (id.type === "correct"){
@@ -124,7 +124,7 @@ return (
         }
         onClick={() => {
           axios
-            .post(`http://192.168.43.31:5000/votes`, {
+            .post(`${process.env.REACT_APP_BACKEND}votes`, {
               subject: "schedule",
               subject_id: period.id,
               type: "correct",
@@ -168,7 +168,7 @@ return (
         }
         onClick={() => {
           axios
-            .post(`http://192.168.43.31:5000/votes`, {
+            .post(`${process.env.REACT_APP_BACKEND}votes`, {
               subject: "schedule",
               subject_id: period.id,
               type: "wrong",

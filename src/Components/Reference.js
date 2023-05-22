@@ -18,7 +18,7 @@ function Reference() {
     const {navigationFall, locked}=useSelector((state)=>state.displayReducer.display);
     let dispatch=useDispatch()
 useEffect(()=>{
-  axios.get('http://192.168.43.31:5000/courses/'+user.campus+'').then((response)=>{
+  axios.get(`${process.env.REACT_APP_BACKEND}courses/`+user.campus+'').then((response)=>{
    
   if(response.data.success){
   

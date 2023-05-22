@@ -6,81 +6,98 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navigation from './Navigation';
 import { setAssignments, setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
 import AddAssignment from './AddAssignment';
-import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faFileEdit, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DropMenu from './DropMenu';
+import {Tabs, Tab} from 'react-bootstrap';
 import { useStepContext } from '@mui/material';
 import axios from 'axios';
+import { setalert } from '../Redux/Reducers/displayReducer';
 
 
 function Assignments() {
-   let dispatch = useDispatch();
-   let navigate = useNavigate();
-  const user=useSelector((state)=>state.userReducer.user);
-  const courses=useSelector((state)=>state.generalReducer.general.courses);
-  const assignments=useSelector((state)=>state.generalReducer.general.assignments);
-const [seachterm, setseachterm] = useState('')
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
+  const user = useSelector((state) => state.userReducer.user);
+  const courses = useSelector((state) => state.generalReducer.general.courses);
+  const assignments = useSelector((state) => state.generalReducer.general.assignments);
+  const [seachterm, setseachterm] = useState('')
 
 
-useEffect(()=>{
-axios.get("http://localhost:5000/assignments/unical").then((res)=>{
-  if(res.data.success){
-    res.data.data.forEach((ass)=>{
-    
-    })
-dispatch(setAssignments(res.data.data));
-  }
-  
-});
-}, [])
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_BACKEND}assignments/${user.campus}`).then((res) => {
+      if (res.data.success) {
+        res.data.data.forEach((ass) => {
+
+        })
+        dispatch(setAssignments(res.data.data));
+      }
+
+    });
+  }, [])
 
 
 
-    const [anchorEl, setAnchorEl] = useState(null);
-       const [anchorElWarn, setAnchorElWarn] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElWarn, setAnchorElWarn] = useState(null);
   const open = Boolean(anchorEl);
-    const openWarn = Boolean(anchorElWarn);
+  const openWarn = Boolean(anchorElWarn);
+const [file, setfile] = useState("")
+
   const handleClick = (event) => {
-       setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget);
+    
   };
-    const handleClickWarning = (event) => {
-      setAnchorElWarn(event.currentTarget);
-    };
-  
+  const handleClickWarning = (event) => {
+    setAnchorElWarn(event.currentTarget);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-    const handleCloseWarn = () => {
-      setAnchorElWarn(null);
-    };
+  const handleCloseWarn = () => {
+    setAnchorElWarn(null);
+  };
 
-  const handleNextAction=()=>{
-navigate('/editor')
+  const copy = () => {
+    location.replace(`${process.env.REACT_APP_BACKEND}downloadFile/`+file)
+    }
+
+  
+
+
+
+
+
+
+
+  const preview=()=>{
+
   }
 
-
-   const { navigationFall, locked, navFall } = useSelector(
-     (state) => state.displayReducer.display
-   );
-   const [assign, setAssign]=useState({question:'', image:'', course:'', deadline:'', lecturer:''});
-   const {viewAssignment, addAssignment}=useSelector((state)=>state.generalReducer.general);
-  const closePop=()=>{
+  const { navigationFall, locked, navFall } = useSelector(
+    (state) => state.displayReducer.display
+  );
+  const [assign, setAssign] = useState({ question: '', image: '', course: '', deadline: '', lecturer: '' });
+  const { viewAssignment, addAssignment } = useSelector((state) => state.generalReducer.general);
+  const closePop = () => {
     dispatch(setViewAssignment(false))
   }
-const closePopAss=()=>{
-  dispatch(setaddAssignment(false))
-}
-useEffect(()=>{
+  const closePopAss = () => {
+    dispatch(setaddAssignment(false))
+  }
+  useEffect(() => {
 
-  if(locked){
-   navigate('/resume')}
- 
- }, [locked])
-useEffect(()=>{
-  localStorage.setItem('last_page', location.hash)
-  
+    if (locked) {
+      navigate('/resume')
+    }
+
+  }, [locked])
+  useEffect(() => {
+    localStorage.setItem('last_page', location.hash)
+
   }, [])
- 
+
   return (
     <>
       <Navigation active={"assignment"} />
@@ -122,67 +139,137 @@ useEffect(()=>{
           {" "}
           <FontAwesomeIcon icon={faAdd}></FontAwesomeIcon> New{" "}
         </button>
+        <a target='_blank' href='https://misb.microskool.com/' className="btn microskool-border" style={{margin:'5px'}}>
+          <FontAwesomeIcon icon={faFileEdit}></FontAwesomeIcon>
+  Open MiSB
+</a>
+
+        <button
+          className="btn microskool-border"
+          onClick={() => {
+            navigate("/courses");
+          }}
+        >
+          {" "}
+          <FontAwesomeIcon icon={faBook}></FontAwesomeIcon> Manage Courses{" "}
+        </button>
 
 
-        <div className='row'>
-<div className='col-sm-6'>
-<div className='card'>
-<div className='card-header'>
-<span className='title'>
-Assignments for you 
-</span> {user.first_name} 
-<button  className="btn microskool-border" onClick={()=>{
-dispatch(setaddAssignment(true))
-}}>
-    <FontAwesomeIcon icon={faAdd} />  New 
-</button>
-</div>
-<div className='card-body'>
-<div className='assignment-list'>
-<ul className='list-group '>
+        <Tabs defaultActiveKey={'all'} style={{margin:'20px'}}>
+          <Tab eventKey={'all'} title='Recent' >
+            {assignments
+              .filter((eachAss) => {
+                if (seachterm === "") {
+                  return eachAss;
+                } else {
+                  if (
+                    eachAss.course
+                      .toLowerCase()
+                      .includes(seachterm.toLowerCase()) ||
+                    eachAss?.filestat
+                      ?.toLowerCase()
+                      .includes(seachterm.toLowerCase()) ||
+                    eachAss.lecturer
+                      .toLowerCase()
+                      .includes(seachterm.toLowerCase()) ||
+                    eachAss.question.toLowerCase().includes(seachterm.toLowerCase())
+                  ) {
+                    return eachAss;
+                  } else {
+                    return null;
+                  }
+                }
+              })
+              .map((ass) => {
+                return (
+                  <div
+                    className="card shadow grid-item"
+                    style={{ height: "auto", width: "200px" }}
+                  >
+                    <div className="card-header">
+                      <h4>
+                        <FontAwesomeIcon icon={faBookOpen}></FontAwesomeIcon>{" "}
+                        {ass.course}
+                      </h4>
+                      <span className="badge bg-microskool">{ass.filestat}</span>
+                    </div>
+                    <div className="card-body" style={{}}>
+                      <span className="icon" style={{ fontSize: "20pt" }}>
+                        <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {96}
+                      </span>
+                      <p style={{ fontSize: "small" }}>{ass.question}</p>
+                      <span className="badge bg-info">{ass.lecturer}</span>
+                      <span className="badge bg-warning"> {ass.deadline}</span>{" "}
+                   
+                    </div>
+                    <div className="card-footer" >
+                     
+                      <button className='btn' onClick={()=>{
+                      
+                        setfile(ass.file)
+                        }}>
 
-{
-  assignments.map((assignment, key)=>{
-    return <li key={key} style={{cursor:'pointer'}} className='list-group-item d-flex justify-content-between align-items-center' onClick={()=>{
-navigate('/viewer')
-    }}>
-    <img style={{width:'50px', height:'50px', borderRadius:'17px'}} src={assignment.image} alt={assignment.course} />
-    <span>  {
-        assignment.course
-      }</span>
+                  
+                      <button
+                        className="btn microskool-button"
+                          onClick={handleClick}
+                      >
+                        <FontAwesomeIcon  icon={faDownload}></FontAwesomeIcon> 
+                      </button>
+                      </button>
 
-    <span>  {
-        assignment.question.substring(0,12)
-      }....</span>
+                      <button
+                        className="btn text-danger"
+                        onClick={handleClickWarning}
+                      >
+                        <FontAwesomeIcon icon={faWarning}></FontAwesomeIcon>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
 
-      <span>
-        {assignment.deadline}
-      </span>
-      <span>
-        {
-          assignment.lecturer
-        }
-      </span>
-    </li>
-  })
-}
+</Tab>
+          <Tab eventKey={'draft'} title='My Draft'>
+            Draft here
+          </Tab>
 
-</ul>
-
-
-</div>
-
-
-</div>
-</div>
-</div>
-        </div>
-        { viewAssignment?<Modal config={{align:'flex-end', justify:'right'}} body={<div className='container'><div className='card'> {assign.question} <i>Assignment By: {assign.lecturer}</i> </div><img src={assignments[0].image}  alt={assignments[0].course} /></div>} header={`${assign.course} Assignment to be submitted ${assign.deadline}`} footer={<button className='btn-close' onClick={()=>{closePop()}} ></button> } />:<></>}
-        { addAssignment?<Modal config={{align:'flex-end', justify:'right'}} body={<AddAssignment/>} header={`Post New Assignment`} footer={<button className='btn-close' onClick={()=>{closePopAss()}} ></button> } />:<></>}
-
-        </div>
+        </Tabs>
      
+       
+        <DropMenu
+          items={[
+            {
+              handleNextAction:copy,
+              icon: faDownload,
+              title: "Grab a Copy",
+            },
+            {
+              handleNextAction: handleClose,
+              icon: faTimes,
+              title: "Cancel",
+            },
+          ]}
+          open={open}
+          anchorEl={anchorEl}
+        />
 
+        <DropMenu
+          items={[
+            {
+              handleNextAction:()=>{},
+              icon: faWarning,
+              title: "Report this as misleading",
+            },
+            {
+              handleNextAction: handleCloseWarn,
+              icon: faTimes,
+              title: "Cancel",
+            },
+          ]}
+          open={openWarn}
+          anchorEl={anchorElWarn}
+        />
       </div>
     </>
   );

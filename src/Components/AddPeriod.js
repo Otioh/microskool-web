@@ -37,7 +37,7 @@ dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', ca
 
        
         axios
-          .post("http://192.168.43.31:5000/schedules/", {
+          .post(`${process.env.REACT_APP_BACKEND}schedules/`, {
             course,
             time_in,
             time_out,
@@ -62,7 +62,7 @@ dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', ca
               // dispatch(setMyCourses(data.mycourses))
               axios
                 .get(
-                  "http://192.168.43.31:5000/schedules/" +
+                  `${process.env.REACT_APP_BACKEND}schedules/` +
                     localStorage.getItem("campus") +
                     "/" +
                     localStorage.getItem("department") +

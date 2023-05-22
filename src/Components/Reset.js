@@ -25,7 +25,7 @@ let next='/synch';
 const  verified= ()=>{
   dispatch(setload(true))
     let neu=false;
-        axios.get('http://192.168.43.31:5000/auth/'+email).then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}auth/`+email).then((response)=>{
             console.log(response.data.data);
             if(response.data.success){
                 dispatch(setalert({ status:true, type:'success',cap:'Success', msg:"Authentication Completed"}));
@@ -45,7 +45,7 @@ return neu;
 
 const process=  ()=>{
  let ss=false;
-    axios.post('http://localhost:5000/auth', {email,password}).then((response)=>{
+    axios.post(`${process.env.REACT_APP_BACKEND}auth`, {email,password}).then((response)=>{
 
     if(response.data.success){
     funSeque({delaySeconds:2, isPromise:true},()=>{

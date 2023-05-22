@@ -21,7 +21,7 @@ useEffect(()=>{
   // dispatch(setMyCourses(data.mycourses))
   axios
     .get(
-      "http://192.168.43.31:5000/schedules/" +
+      `${process.env.REACT_APP_BACKEND}schedules/` +
         user.campus +
         "/" +
         user.department +

@@ -42,7 +42,7 @@ let next='/synch';
 const  verified= ()=>{
   dispatch(setspin(true))
     let neu=false;
-        axios.get('http://192.168.43.31:5000/auth/'+email).then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}/auth/`+email).then((response)=>{
 
             if(response.data.success){
                 if(response.data.data){
@@ -73,7 +73,7 @@ return neu;
 
 
 
-const process=  ()=>{
+const processes=  ()=>{
  let ss=false;
 
     dispatch(updateUser(data.users[0]))
@@ -91,7 +91,7 @@ const process=  ()=>{
     localStorage.setItem('password', data.users[0].password)
 
 
-axios.post('http://192.168.43.31:5000/auth', {email,password}).then((response)=>{
+    axios.post(`${process.env.REACT_APP_BACKEND}auth`, {email,password}).then((response)=>{
 
     if(response.data.success){
     funSeque({delaySeconds:2, isPromise:false},()=>{
@@ -181,7 +181,7 @@ document.getElementById('btn').disabled=true
 <div className='card-footer'>
 
 <button className='btn microskool-button' onClick={()=>{
-                          funSeque({ delaySeconds: 2, isPromise: true },verified,process)
+                          funSeque({ delaySeconds: 2, isPromise: true },verified,processes)
 }}>
         <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login
         </button>

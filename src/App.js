@@ -47,41 +47,41 @@ let navigate=useNavigate()
 const [result, setresult] = useState(false);
 let dispatch=useDispatch();
 
-useEffect(()=>{
-  setInterval(() => {
-    checkNetwork()()
-  }, 30000);
-  setTimeout(() => {
-    setlanded(true)
-  }, 12000);
-},[])
+// useEffect(()=>{
+//   setInterval(() => {
+//     checkNetwork()()
+//   }, 30000);
+//   setTimeout(() => {
+//     setlanded(true)
+//   }, 12000);
+// },[])
 
 
 
 
-useEffect(()=>{
+// useEffect(()=>{
 
-if(network){
-  dispatch(setalert({ cap:'Network', status:true, type:'good_network', msg:'Connection Secured'}))
-ProcessManager.process()
+// if(network){
+//   dispatch(setalert({ cap:'Network', status:true, type:'good_network', msg:'Connection Secured'}))
+// ProcessManager.process()
 
-}else{
-dispatch(setalert({ cap:'Network Error', status:true, type:'bad_network', msg:'No Internet Connection'}))
-}
-}, [network])
-const checkNetwork=()=>{
-  let status=false;
-  axios.get('http://192.168.43.31:5000/').then((re)=>{
-status=true;
-  })
-  return ()=>{
-    setTimeout(() => {
-      dispatch(setNetwork(status))
-return status
-    }, 2000);
+// }else{
+// dispatch(setalert({ cap:'Network Error', status:true, type:'bad_network', msg:'No Internet Connection'}))
+// }
+// }, [network])
+// const checkNetwork=()=>{
+//   let status=false;
+//   axios.get('http://192.168.43.31:5000/').then((re)=>{
+// status=true;
+//   })
+//   return ()=>{
+//     setTimeout(() => {
+//       dispatch(setNetwork(status))
+// return status
+//     }, 2000);
 
-  }
-}
+//   }
+// }
 
 
 useEffect(()=>{

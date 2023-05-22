@@ -14,7 +14,7 @@ function Verify({email}) {
  const [code, setCode]= useState('');
  const alert=useSelector((state)=>state.displayReducer.display.alert)
   const verify=()=>{
-    axios.post('http://192.168.43.31:5000/auth/'+email, {code}).then((response)=>{
+    axios.post(`${process.env.REACT_APP_BACKEND}auth/`+email, {code}).then((response)=>{
       if(response.data.success){
         funSeque({delaySeconds:2},()=>{
           dispatch(setalert({...alert, status:true, type:'success', msg:response.data.message}))

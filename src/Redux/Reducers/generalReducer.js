@@ -8,19 +8,7 @@ const generalReducer = createSlice({
       timeTable: [],
       transactions: [],
       myCourses: [],
-      assignments: [
-        {
-          id: "hdhs",
-          question: "What is a noun",
-          date: "23/23",
-          deadline: "23/23/",
-          lecturer: "Mr Effiong",
-          user: "bryonerim@gmail.com",
-          image:
-            "http://192.168.43.31:3000/static/media/twelve.87605878a6985f4c4e97.png",
-          course: "GSS101",
-        },
-      ],
+      assignments: [],
       edit: false,
       logout: false,
       addPeriod: false,

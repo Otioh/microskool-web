@@ -216,7 +216,7 @@ return (
               })()
             : (function (email) {
                 dispatch(setSecondUser(email));
-                navigate("/user-profile");
+              navigate("/user/" + email);
               })(period.user);
         }}
       >

@@ -75,6 +75,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={()=>{
+              navigate('/lectures')
+            }}
           >
             <span className="icon">
               {" "}
@@ -88,6 +91,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/assignment')
+            }}
           >
             <span className="icon">
               {" "}
@@ -101,6 +107,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/courses')
+            }}
           >
             <span className="icon">
               {" "}
@@ -111,6 +120,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/schedule')
+            }}
           >
             <span className="icon">
               {" "}
@@ -118,10 +130,10 @@ function Dashboard() {
             </span>
             Lecture Schedule
           </div>
-
-          <div
+          <a href="https://misb-microskool.netlify.app/" target="_blank" rel="noreferrer">          <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+        
           >
             <span className="icon">
               {" "}
@@ -129,10 +141,14 @@ function Dashboard() {
             </span>
             MiSB
           </div>
+          </a>
 
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/reference')
+            }}
           >
             <span className="icon">
               {" "}
@@ -144,6 +160,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/profile')
+            }}
           >
             <span className="icon">
               {" "}
@@ -155,6 +174,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/coins')
+            }}
           >
             <span className="icon">
               {" "}
@@ -166,6 +188,9 @@ function Dashboard() {
           <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
+            onClick={() => {
+              navigate('/settings')
+            }}
           >
             <span className="icon">
               {" "}
@@ -174,16 +199,7 @@ function Dashboard() {
             Settings
           </div>
 
-          <div
-            className="card shadow grid-menu"
-            style={{ height: "105px", width: "105px" }}
-          >
-            <span className="icon">
-              {" "}
-              <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
-            </span>
-            Search
-          </div>
+       
         </div>
       </div>
     </>

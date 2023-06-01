@@ -88,39 +88,56 @@ Change Password <span style={{float:"right"}}><button className="btn btn-outline
 <div className='card-title'>
 <div style={{marginBottom:"15px"}}>
 <h6>Notification Medium</h6>
-<label>
-  E-Mails
-</label><span style={{float:"right"}}>
-<input type='checkbox' className='form-control form-check form-check-input' checked /></span>
-<br/>
-<label>
-  SMS
-</label><span style={{float:"right"}}>
-<input className='form-control form-check form-check-input' type='checkbox' checked /></span>
+<ul className='list-group'>
+                      <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <label>
+                          E-Mails
+                        </label><span >
+                          <input type='checkbox' className='form-control form-check form-check-input' checked /></span>
 
+</li>
+                      <li className='list-group-item' style={{display:'flex', justifyContent:'space-between'}}>
+                        <label>
+                          SMS
+                        </label><span >
+                          <input className='form-control form-check form-check-input' type='checkbox' checked /></span>
+
+                      </li>
+                      <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <label>
+                          Push
+                        </label><span >
+                          <input className='form-control form-check form-check-input' type='checkbox' checked /></span>
+
+                      </li>
+</ul>
 <br/>
-<label>
-  Push 
-</label><span style={{float:"right"}}>
-<input className='form-control form-check form-check-input' type='checkbox' checked /></span>
-<br/><br/>
+
+
 <h6>Notification Frequency</h6>
+                    <ul className='list-group'>
+                      <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
+
 <label>
   Regular
 </label><span style={{float:"right"}}>
 <input type='radio' checked /></span>
-<br/>
+</li>
+                      <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
+
 <label>
   Daily
 </label><span style={{float:"right"}}>
 <input type='radio'  /></span>
+</li>
+                      <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-<br/>
 <label>
   Weekly 
 </label><span style={{float:"right"}}>
 <input type='radio'  /></span>
-
+</li>
+</ul>
 </div>
 </div>
 

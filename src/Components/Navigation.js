@@ -17,12 +17,12 @@ let navigate=useNavigate();
 <img alt='logo' src={MicroskoolIcon}/>
 </div>
      <text className={navFall?'item-text title fall':'item-text title'}> Microskool</text>
-     { navFall?<button className='no-btn navbtn' onClick={()=>{
+              {navFall ? <button className='no-btn navbtn' draggable onDragCapture={() => { dispatch(toggleNavFall()) }} onClick={()=>{
         dispatch(toggleNavFall());
      }}>
         <FontAwesomeIcon icon={faArrowAltCircleRight}></FontAwesomeIcon>
      </button>:
-     <button className='no-btn navbtn' onClick={()=>{
+                  <button className='no-btn navbtn' draggable onDragCapture={() => { dispatch(toggleNavFall()) }} onClick={()=>{
         dispatch(toggleNavFall());
      }}>
         <FontAwesomeIcon icon={faArrowAltCircleLeft}></FontAwesomeIcon>
@@ -32,16 +32,7 @@ let navigate=useNavigate();
    
 <hr/>
 <div>
-<div className={active==='search'?`menu-item active`:`menu-item`} onClick={()=>{
-    navigate('/search')
-}}>
-<div className='menu-icon'>
-    <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
-</div>
-<div className={navFall?'item-text fall':'item-text'} >
-Search
-</div>
-</div>
+
 
 
 

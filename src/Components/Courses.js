@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
-import twelve from '../Images/twelve.png';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera, faBook, faGear, faSearch, faTimes, faCheck, faAdd } from '@fortawesome/free-solid-svg-icons';
+import {  faUser, faBook, faGear, faSearch, faTimes, faCheck, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
-import { updateUser } from '../Redux/Reducers/userReducer';
+
 import { DataGrid } from '@mui/x-data-grid';
 import { setCourse, setEdit, setLogout, setMyCourses, setaddCourse } from '../Redux/Reducers/generalReducer';
-import { funSeque } from 'flame-tools';
-import UploadPix from './UploadPix';
+
 import axios from 'axios';
-import { setalert, setload } from '../Redux/Reducers/displayReducer';
+import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
 import { ProcessManager } from '../Process';
 import { data } from '../App.Config';
 import Menu, { MenuProps } from "@mui/material/Menu";
@@ -44,7 +43,7 @@ function Courses() {
     setAnchorEl(null);
   };
 
-  const selectComponents=(id)=>{
+  const selectComponents=(id)=>{ 
    setCourseHolder(id)
     setAdded(false)
     myCourses.forEach((cur) => {
@@ -195,7 +194,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
     setdepartments(response.data.data)
   }
 })
-  })
+  }, [])
 
   
   return (
@@ -223,6 +222,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
 <strong>{course.course}</strong>
 <button className='btn text-danger' onClick={()=>{
   if(network){
+    dispatch(setspin(true))
     axios.delete(`${process.env.REACT_APP_BACKEND}mycourses/`+course.id).then((response)=>{
       if(response.data.success){
         dispatch(setalert({...alert, msg:response.data.message, type:'success', status:true, cap:'Success'}))
@@ -237,7 +237,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
       if(response.data.success){
       
         dispatch(setMyCourses(response.data.data))
-      
+        dispatch(setspin(false))
       }
       
       })
@@ -390,6 +390,7 @@ return    <option value={`${departmen.name}`}>
                          
 
                                   if (network) {
+                                    dispatch(setspin(true))
                                     axios.post(`${process.env.REACT_APP_BACKEND}mycourses`, { user: user.email, code: courseHodler.code }).then((response) => {
                                     handleClose(event)  
                                     if (response.data.success) {
@@ -404,6 +405,7 @@ return    <option value={`${departmen.name}`}>
                                         if (response.data.success) {
 
                                           dispatch(setMyCourses(response.data.data))
+                                          dispatch(setspin(false))
 
                                         }
                                       })

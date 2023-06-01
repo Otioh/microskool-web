@@ -132,11 +132,7 @@ if(res.data.success){
           setfile({ filename: e.target.files[0].name, filesize: parseFloat(e.target.files[0].size/1000).toFixed(1)+"KB", file: e.target.files[0]})
         }} />
 
-        {revFile ? <span><strong> {revFile?.title?.substring(0, 32)}</strong>...  <i>edited by </i> {revFile?.editorname}</span> : <></>} {revFile ? <button className='btn microskool-button' onClick={()=>{
-          dispatch(setSecondUser(revFile?.author));
-          navigate('/user-profile');
-        
-        }}> <FontAwesomeIcon icon={faUser}></FontAwesomeIcon></button>:<></>}
+        {revFile ? <span><strong> {revFile?.title?.substring(0, 32)}</strong>...  <i>edited by </i> {revFile?.editorname}</span> : <></>} {revFile ? <a target='_blank' rel='noreferrer' href={'/#/user/'+revFile?.author} className='btn microskool-button' > <FontAwesomeIcon icon={faUser}></FontAwesomeIcon></a>:<></>}
 
         {revFile ? <button className='btn text-danger' onClick={() => {
           setrevFile(null)

@@ -7,7 +7,7 @@ function Spinner() {
     
   return (
     <div style={spin?{display:'block'}:{display:'none'}}>
-      <span className='spinner-grow text-microskool' style={{position:'fixed', right:'1%'}}>
+      <span className='spinner-grow text-microskool' style={{position:'fixed', right:'1%', zIndex:600000}}>
 
       </span>
     </div>

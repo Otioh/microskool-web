@@ -234,11 +234,11 @@ dispatch(setLogout(true))
   <div className='col-sm-4'>
 <div className='card'>
   <div className='card-header'>
-<div className='title text-success'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> eNaira Earnings</div>
+<div className='title text-microskool'><FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> Mi Wallet</div>
   </div>
   <div className='card-body'>
-<h1 className=' text-success'>
-  <FontAwesomeIcon  icon={faCoins}></FontAwesomeIcon> {parseFloat(user.coins).toFixed(2)}
+<h1 >
+                    <FontAwesomeIcon icon={faCoins} className=' text-warning'></FontAwesomeIcon> {parseFloat(user.coins).toFixed(2)}
 </h1>
 <hr/>
 <div className='hist' style={{width:'100%'}}>
@@ -247,7 +247,7 @@ dispatch(setLogout(true))
   <div className='table-responsive'>
     
 <table className='table table-hover table-striped table-light table-striped-columns' style={{fontSize:'small'}}>
-<thead className='text-light bg-success'>
+<thead className='text-light bg-microskool'>
   <th>
     Item
   </th>
@@ -286,7 +286,7 @@ dispatch(setLogout(true))
 </div>
   </div>
   <div className='card-footer'>
-  <button className='btn btn-outline-success' title='Open Wallet' onClick={()=>{
+  <button className='btn btn-outline-warning' title='Open Wallet' onClick={()=>{
     navigate('/coins')
   }}><FontAwesomeIcon icon={faBarsProgress}></FontAwesomeIcon>  </button>
   

@@ -35,6 +35,7 @@ import UserProfile from './Components/UserProfile';
 import MyEditor from "./Components/Editor";
 import FileManager from './Components/FileManager';
 import NotFound from './Components/NotFound';
+import User from './Components/User';
 
 
 function App() {
@@ -122,7 +123,7 @@ dispatch(setload(true))
         <Route path="/contribute" element={<ScheduleContribute />} />
         <Route path="/assignment" element={<Assignments />} />
         <Route path="/lectures" element={<Lectures />} />
-        <Route path="/player" element={<Player />} />
+        <Route path="/player/:id" element={<Player />} />
         <Route path="/viewer" element={<Viewer />} />
         <Route path="/synch" element={<Synch />} />
         <Route path="/reset" element={<Reset />} />
@@ -130,6 +131,7 @@ dispatch(setload(true))
         <Route path="/coins" element={<Coins />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user/:email" element={<User />} />
       </Routes>
     </>
   );

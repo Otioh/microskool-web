@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
-import twelve from '../Images/twelve.png';
+import { DataGrid } from '@mui/x-data-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faPhone, faIdCard, faSchool, faPeopleGroup, faLevelUp, faEdit, faUserGear, faBookSkull, faSave, faCreditCard, faShare, faShareAlt, faPowerOff, faCamera, faBook, faGear, faSearch, faTimes, faCheck, faCoins, faMoneyBill, faBank } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -56,6 +56,49 @@ function Coins() {
         }
 
     }, [locked])
+
+
+  const columns = [
+    { field: 'transaction_id', headerName: 'Trans. ID', width: 90 },
+    {
+      field: 'item',
+      headerName: 'Item',
+      width: 150,
+
+    },
+    {
+      field: 'description_receiver',
+      headerName: 'Description',
+      width: 150,
+
+    },
+    {
+      field: 'amount',
+      headerName: 'Amount',
+      width: 150,
+
+    },
+
+    {
+      field: 'date',
+      headerName: 'Date',
+      width: 150,
+
+
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 150,
+  
+
+    },
+  ];
+
+
+
+
+
     const componentProps = {
         email: user.email,
         amount: (parseFloat(amount) + charge) * 100,
@@ -113,7 +156,7 @@ function Coins() {
             }
         })
 
-    }, [network, dispatch])
+    }, [ ])
 
 
     const createCourse = ({ code, title, department, level }) => {
@@ -178,7 +221,7 @@ function Coins() {
                 setdepartments(response.data.data)
             }
         })
-    })
+    }, [])
 
 
     return (
@@ -191,13 +234,13 @@ function Coins() {
                 <div className="card shadow">
                   <div className="card-header">
                     <div className="title">
-                      <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> eNaira
+                      <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> Mi
                       Wallet
                     </div>
                   </div>
                   <div className="card-body">
                     <div className="row">
-                      <div className="col-sm-3">
+                      <div className="col-sm-3"> 
                         <ul className=" list-group">
                           <h6>Wallet Actions</h6>
                           <li className="list-group-item">
@@ -325,7 +368,7 @@ function Coins() {
                           <></>
                         )}
 
-                        <h4 className="text-success">
+                        <h4 >
                           <FontAwesomeIcon
                             style={{ color: "gold" }}
                             icon={faCoins}
@@ -333,38 +376,15 @@ function Coins() {
                           {parseFloat(user.coins).toFixed(2)}
                         </h4>
                         <div className=" table-responsive-lg">
-                          <table
-                            className="table table-hover table-striped table-striped-columns"
-                            style={{ fontSize: "small" }}
-                          >
-                            <thead className="text-light bg-success">
-                              <th>Item</th>
-                              <th>Description</th>
                        
+                          <div style={{ height: '420px' }}>
+                          <DataGrid
+                            rows={transactions}
+                            columns={columns}
+                           
 
-                              <th>Amount</th>
-                              <th>Date</th>
-                              <th>Status</th>
-                            </thead>
-                            <tbody>
-                              {transactions.map((trans) => {
-                                return (
-                                  <tr>
-                                    <td>{trans.item}</td>
-                                    <td>
-                                      {trans.receiver === user.email
-                                        ? trans.description_receiver
-                                        : trans.description_sender}
-                                    </td>
-                                   
-                                    <td>{trans.amount}</td>
-                                    <td>{new Date(trans.date).toDateString()}</td>
-                                    <td>{trans.status}</td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
+                          />
+                          </div>
                         </div>
                       </div>
                     </div>

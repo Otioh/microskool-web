@@ -245,32 +245,33 @@ function Coins() {
                           <h6>Wallet Actions</h6>
                           <li className="list-group-item">
                             <button
-                              className="btn text-danger"
+                              className="btn "
                               onClick={() => {
                                 dispatch(setFundCoins(true));
                               }}
                             >
                               <FontAwesomeIcon
+                               className=" text-microskool"
                                 icon={faMoneyBill}
                               ></FontAwesomeIcon>{" "}
                               Fund Wallet
                             </button>
                             <button
-                              className="btn text-microskool"
+                              className="btn "
                               onClick={() => {
                                 dispatch(setTransferCoins(true));
                               }}
                             >
-                              <FontAwesomeIcon icon={faShare}></FontAwesomeIcon>{" "}
+                              <FontAwesomeIcon className=" text-microskool" icon={faShare}></FontAwesomeIcon>{" "}
                               Transfer Coins
                             </button>
                             <button
-                              className="btn text-warning"
+                              className="btn "
                               onClick={() => {
                                 dispatch(setWithdrawCoins(true));
                               }}
                             >
-                              <FontAwesomeIcon icon={faBank}></FontAwesomeIcon>{" "}
+                              <FontAwesomeIcon  className=" text-microskool" icon={faBank}></FontAwesomeIcon>{" "}
                               Widthdraw
                             </button>
                           </li>

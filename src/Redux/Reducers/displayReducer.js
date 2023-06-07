@@ -8,7 +8,7 @@ const displayReducer=createSlice({
         theme:'light',
        load:false,
        spin:false,
-       locked:true,
+       locked:false,
        alert:{
        msg:"Enter your details",
        cap:"Welcome",

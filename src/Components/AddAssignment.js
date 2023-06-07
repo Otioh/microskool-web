@@ -44,7 +44,7 @@ dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', ca
 
 })
 
-        axios.post(`${process.env.REACT_APP_BACKEND}assignments`, { course, question, deadline, lecturer,filename:user.id+"*"+file.filename, file:file.file, campus:user.campus, filestat:"MiSB|"+file.filesize+"| -- Pages", user }).then((respons)=>{
+        axios.post(`${process.env.REACT_APP_BACKEND}assignments`, { course, question, deadline, lecturer,filename:user.id+"*"+file.filename, file:file.file, campus:user.campus, filestat:"MiSB|"+file.filesize+"| -- Pages", user:user.email }).then((respons)=>{
           dispatch(setspin(false))
     dispatch(setaddAssignment(false))
             dispatch(setalert({ status: true, msg: respons.data.message, type: 'info', cap: 'Info' }))

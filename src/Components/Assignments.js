@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navigation from './Navigation';
 import { setAssignments, setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
 import AddAssignment from './AddAssignment';
-import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faFileEdit, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faFileEdit, faRemove, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DropMenu from './DropMenu';
 import {Tabs, Tab} from 'react-bootstrap';
@@ -23,7 +23,7 @@ function Assignments() {
   const assignments = useSelector((state) => state.generalReducer.general.assignments);
   const [seachterm, setseachterm] = useState('')
 
-
+  const { alert } = useSelector((state) => state.displayReducer.display)
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BACKEND}assignments/${user.campus}`).then((res) => {
       if (res.data.success) {
@@ -195,7 +195,7 @@ const [file, setfile] = useState("")
                     </div>
                     <div className="card-body" style={{}}>
                       <span className="icon" style={{ fontSize: "20pt" }}>
-                        <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {96}
+                        <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {150}
                       </span>
                       <p style={{ fontSize: "small" }}>{ass.question}</p>
                       <span className="badge bg-info">{ass.lecturer}</span>
@@ -231,7 +231,35 @@ const [file, setfile] = useState("")
 
 </Tab>
           <Tab eventKey={'draft'} title='My Draft'>
-            Draft here
+           <div style={{margin:'10px'}}>
+            <ul className='list-group'>
+              {
+                  assignments.filter((assign)=>{
+                    if(assign.user===user.email){
+                      return assign
+                    }
+                  }).map((ass) => {
+                    return <li className='list-group-item' style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+  <strong>{ass.course}</strong> <span>{ass.question.substring(0,70)} ...</span> <button className='btn btn-outline-danger' onClick={()=>{
+                        axios.delete(`${process.env.REACT_APP_BACKEND}assignments/${ass.id}`).then((resp)=>{
+                          dispatch(setalert({...alert, status:true, msg:resp.data.message, type:'success'}))
+                          axios.get(`${process.env.REACT_APP_BACKEND}assignments/${user.campus}`).then((res) => {
+                            if (res.data.success) {
+                              res.data.data.forEach((ass) => {
+
+                              })
+                              dispatch(setAssignments(res.data.data));
+                            }
+
+                          });
+                        })
+  }}><FontAwesomeIcon icon={faRemove}></FontAwesomeIcon> Delete</button>
+</li>
+                  })
+              }
+            </ul>
+
+           </div>
           </Tab>
 
         </Tabs>

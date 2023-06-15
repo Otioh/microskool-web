@@ -139,7 +139,7 @@ const [file, setfile] = useState("")
           {" "}
           <FontAwesomeIcon icon={faAdd}></FontAwesomeIcon> New{" "}
         </button>
-        <a target='_blank' href='https://misb.microskool.com/' className="btn microskool-border" style={{margin:'5px'}}>
+        <a target='_blank' href='https://mi-safe-book.netlify.app' className="btn microskool-border" style={{margin:'5px'}}>
           <FontAwesomeIcon icon={faFileEdit}></FontAwesomeIcon>
   Open MiSB
 </a>

@@ -130,7 +130,7 @@ function Dashboard() {
             </span>
             Lecture Schedule
           </div>
-          <a href="https://misb-microskool.netlify.app/" target="_blank" rel="noreferrer">          <div
+          <a href="https://mi-safe-book.netlify.app" target="_blank" rel="noreferrer">          <div
             className="card shadow grid-menu"
             style={{ height: "105px", width: "105px" }}
         

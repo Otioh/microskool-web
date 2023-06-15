@@ -36,7 +36,7 @@ function Lectures() {
               <h3 className='text-microskool'>Lectures</h3>
 </div>
 <div className='card-body'>
-              <ul className='list-group'>
+              <ul className='list-group responsive'>
                 {
                   lectures.length>0?lectures.map((lecture)=>{
                     return <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>

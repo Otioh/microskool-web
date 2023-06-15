@@ -28,7 +28,7 @@ function DropMenu({
         {items.map((item) => {
           return (
             <MenuItem onClick={item.handleNextAction}>
-              <FontAwesomeIcon icon={item.icon}></FontAwesomeIcon> {item.title}
+              <FontAwesomeIcon icon={item.icon}></FontAwesomeIcon>{"   "} {item.title}
             </MenuItem>
           );
         })}

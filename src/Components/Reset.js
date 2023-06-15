@@ -8,7 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { funSeque} from 'flame-tools';
 import { useSelector, useDispatch} from 'react-redux';
-import { setalert, setload } from '../Redux/Reducers/displayReducer';
+import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
+
+import {Modal, ModalHeader, ModalBody, ModalTitle, ModalFooter} from 'react-bootstrap';
 
 function Reset() {
  
@@ -17,59 +19,64 @@ const user  = useSelector((state)=>{
 return state.userReducer.user;
    })
    const alert=useSelector((state)=>state.displayReducer.display.alert)
-   
-   const [email, setEmail]= useState(user.email);
-   const [password, setpassword] = useState(user.password)
+   const [modal, setmodal] = useState(false)
+   const [email, setEmail]= useState("");
+   const [password, setpassword] = useState()
+const [code, setcode] = useState('')
+const [confirm, setconfirm] = useState("")
+
 let navigate=useNavigate();
 let next='/synch';
-const  verified= ()=>{
-  dispatch(setload(true))
-    let neu=false;
-    axios.get(`${process.env.REACT_APP_BACKEND}auth/`+email).then((response)=>{
-            console.log(response.data.data);
-            if(response.data.success){
-                dispatch(setalert({ status:true, type:'success',cap:'Success', msg:"Authentication Completed"}));
-            neu=true;
-           
-           }else{
-          
-            dispatch(setalert({ status:true, type:'danger', msg:"Verify your email to continue"}));
-          
-            next='/verifymail';
-           }
-            
-        }) 
-return neu;
-        
-}
 
-const process=  ()=>{
+
+    const handlePasswordChange=(e)=>{
+        e.preventDefault();
+        dispatch(setspin(true));
+        axios.post(`${process.env.REACT_APP_BACKEND}reset`, { email, currentPassword:code, code, newPassword:password }).then((response) => {
+
+            if (response.data.success) {
+
+
+                dispatch(setalert({ status: true, cap: 'Password Reset', type: 'success', msg: response.data.message }))
+
+
+                dispatch(setspin(false))
+                setmodal(false)
+
+
+
+            } else {
+
+                dispatch(setalert({ status: true, type: 'danger', cap: 'Error', msg: response.data.message }))
+                dispatch(setspin(false))
+            }
+
+
+        })
+    }
+
+
+
+const processes=  ()=>{
+    dispatch(setspin(true))
  let ss=false;
-    axios.post(`${process.env.REACT_APP_BACKEND}auth`, {email,password}).then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND}reset/${email}`).then((response)=>{
 
     if(response.data.success){
-    funSeque({delaySeconds:2, isPromise:true},()=>{
-dispatch(updateUser(response.data.data[0]))
-    },
-     ()=>{
+
         
-        dispatch(setalert({status:true,cap:'Email Verification', type:'danger', msg:response.data.message}))
+        dispatch(setalert({status:true,cap:'Password Reset', type:'success', msg:response.data.message}))
 
-        dispatch(setalert({ cap:'Congrats', status:true, type:'success', msg:response.data.message}))
-        dispatch(setload(false))
-    return true
-   
-},
-()=>{
+      
+        dispatch(setspin(false))
+setmodal(true)
 
-    navigate(next);
-}
 
-)
+
 }else{
 
     dispatch(setalert({ status:true,  type:'danger',cap:'Error', msg:response.data.message}))
-    dispatch(setload(false))
+    dispatch(setspin(false))
 }
     
 
@@ -91,7 +98,37 @@ useEffect(() => {
 
   return (
     <>
+<Modal show={modal} animation={true} autoFocus={true} backdrop={true} onHide={()=>{
+setmodal(!modal)
+}} keyboard={true} onEscapeKeyDown={
+    ()=>{
+        setmodal(!modal)
+    }
+} >
+<ModalHeader>
+    <ModalTitle>
+        Change Password
+    </ModalTitle>
+</ModalHeader>
+<ModalBody>
+    <form onSubmit={handlePasswordChange}>
 
+    <input required className='form-control' placeholder='Confirm. Code or Current Password' onChange={(e)=>{
+        setcode(e.target.value);
+    }} />
+                      <input className='form-control' type='password' placeholder='New Password' required onChange={(e) => {
+                          setpassword(e.target.value);
+                      }} />
+                      <input className='form-control' type='password' placeholder='Confirm Password' required onChange={(e) => {
+                          setconfirm(e.target.value);
+                      }} />
+<button className='btn microskool-button'>
+    Change
+</button>
+    </form>
+</ModalBody>
+
+</Modal>
 <div className='mother centered'>
     <div className='card shadow margin'>
 <div className='card-header'>
@@ -110,7 +147,7 @@ setEmail(e.target.value)
 <div className='card-footer'>
 
 <button className='btn microskool-button' onClick={()=>{
-     funSeque({isPromise:true},verified,process)
+                          funSeque({ isPromise: true }, processes)
 }}>
         <FontAwesomeIcon icon={faKey}></FontAwesomeIcon> Reset
         </button>

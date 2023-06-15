@@ -195,7 +195,7 @@ const [file, setfile] = useState("")
                     </div>
                     <div className="card-body" style={{}}>
                       <span className="icon" style={{ fontSize: "20pt" }}>
-                        <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> {150}
+                       
                       </span>
                       <p style={{ fontSize: "small" }}>{ass.question}</p>
                       <span className="badge bg-info">{ass.lecturer}</span>
@@ -270,7 +270,7 @@ const [file, setfile] = useState("")
             {
               handleNextAction:copy,
               icon: faDownload,
-              title: "Grab a Copy",
+              title: "Download MiSB",
             },
             {
               handleNextAction: handleClose,

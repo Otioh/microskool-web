@@ -12,8 +12,10 @@ import { setCourse, setEdit, setLogout, setMyCourses, setaddCourse, setTransacti
 import { funSeque } from 'flame-tools';
 import UploadPix from './UploadPix';
 import axios from 'axios';
+import { Box, Typography } from '@mui/material';
 import { setalert, setload } from '../Redux/Reducers/displayReducer';
 import { ProcessManager } from '../Process';
+import { brown, lightGreen } from '@mui/material/colors';
 
 
 
@@ -49,6 +51,7 @@ function Coins() {
         }
     }
 
+
     useEffect(() => {
 
         if (locked) {
@@ -59,7 +62,23 @@ function Coins() {
 
 
   const columns = [
-    { field: 'transaction_id', headerName: 'Trans. ID', width: 90 },
+    {
+      field: 'type', headerName: 'Trans. Type', width: 90, renderCell: ({ row: { type } }) => (
+        <Box
+          sx={{
+            backgroundColor:
+              type === "Credit"
+                ? 'green'
+                : 'brown',
+            paddingX: "8px",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography color="#fff">{type}</Typography>
+        </Box>
+      ),
+},
+    { field: 'transaction_id', headerName: 'Trans. ID', width: 90, editable:true },
     {
       field: 'item',
       headerName: 'Item',
@@ -67,7 +86,7 @@ function Coins() {
 
     },
     {
-      field: 'description_receiver',
+      field: 'description',
       headerName: 'Description',
       width: 150,
 
@@ -152,7 +171,15 @@ function Coins() {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND}transactions/` + user.email).then((response) => {
             if (response.data.success) {
-                dispatch(setTransactions(response.data.data))
+              const transacts = response.data.data.map((trans)=>{
+      if(trans.sender===user.email){
+        return {...trans, description:trans.description_sender, type:'Debit'}
+      }else{
+        return { ...trans, description: trans.description_receiver, type: 'Credit' }
+      }
+    })
+
+              dispatch(setTransactions(transacts))
             }
         })
 
@@ -380,7 +407,7 @@ function Coins() {
                        
                           <div style={{ height: '420px' }}>
                           <DataGrid
-                            rows={transactions}
+                              rows={transactions}
                             columns={columns}
                            
 

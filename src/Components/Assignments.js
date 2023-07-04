@@ -122,8 +122,8 @@ const [file, setfile] = useState("")
         <br />
         <input
           className="form-control"
-          style={{ width: "260px", float: "right" }}
-          placeholder="Search Assignment Resource"
+          style={{ width: "180px", float: "right" }}
+          placeholder="Search Resource"
           type="search"
           onChange={(e) => {
             setseachterm(e.target.value);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navigation from './Navigation';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faUser, faBook, faGear, faSearch, faTimes, faCheck, faAdd } from '@fortawesome/free-solid-svg-icons';
+import {  faUser, faBook, faGear, faSearch, faTimes, faCheck, faAdd, faTrash, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
 
@@ -273,7 +273,7 @@ dispatch(setalert({...alert, msg:'Select the courses for the Semester as feature
 
 
 
-}}> <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon> </button>
+}}> <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon> </button>
         </li>
 
     })

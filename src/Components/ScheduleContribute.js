@@ -35,12 +35,7 @@ resp.data.data.forEach((id)=>{
 dispatch(correctVote(parseInt(id.subject_id)));
   }else{ dispatch(wrongVote(parseInt(id.subject_id)));
   }
-
-})
-
-  });
-
-    }, [])
+})});},[])
 
     useEffect(()=>{
 

@@ -3,17 +3,18 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideoCamera } from '@fortawesome/free-solid-svg-icons';
+import { faTelevision, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 function Lectures() {
     const {navFall, locked}=useSelector((state)=>state.displayReducer.display);
+  const user = useSelector((state) => state.userReducer.user);
     let navigate=useNavigate();
   const [lectures, setlectures]= useState([])
 
     useEffect(()=>{
       localStorage.setItem('last_page', location.hash)
-      axios.get(`${process.env.REACT_APP_BACKEND}lectures`).then((res)=>{
+      axios.get(`${process.env.REACT_APP_BACKEND}lectures/${user.campus}`).then((res)=>{
        if( res.data.success){
         setlectures(res.data.data)
        }
@@ -39,18 +40,18 @@ function Lectures() {
               <ul className='list-group responsive'>
                 {
                   lectures.length>0?lectures.map((lecture)=>{
-                    return <li className='list-group-item' style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <strong>{lecture.course}</strong>
+                    return <li className='list-group-item hover ' style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }} onClick={() => {
+                      navigate('/player/' + lecture.lid + '/' + lecture.course + '/' + lecture.lecturer + '/' + lecture.topic)
+                    
+                    }}>
+                      <strong style={{fontSize:'xx-large'}}>  <FontAwesomeIcon icon={faTelevision} /> </strong>
                       <i>
-                        {lecture.topic}
+                        {lecture.course}
                         <br />
-                        <b>{lecture.lecturer}</b>
+                        <b className='text-success'>{lecture.lecturer}</b>
                       </i>
-                      <span className='badge text-success'>Active</span>
-                      <button className='btn microskool-button' onClick={()=>{
-                        navigate('/player/'+lecture.lid)
-                      }}>
-                        <FontAwesomeIcon icon={faVideoCamera} /> Join</button>
+                     
+  
                     </li>
                   }) :<h6>No Active Lecture</h6>
                 }

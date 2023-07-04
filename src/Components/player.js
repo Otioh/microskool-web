@@ -6,20 +6,10 @@ import {useParams} from 'react-router-dom';
 
 function Player() {
     const {navFall, locked}=useSelector((state)=>state.displayReducer.display);
-  const [lecture, setlecture] = useState()
-  const {id} =useParams()
 
-    useEffect(()=>{
-      axios.get(`${process.env.REACT_APP_BACKEND}lectures/${id}`).then((res) => {
-        if (res.data.success) {
-          setlecture(res.data.data)
-        }
-      })
+  const lecture =useParams()
 
-      localStorage.setItem('last_page', location.hash)
-      
-      }, [])
- 
+   
   return (
     <>
           <Navigation active={'lectures'} />
@@ -30,7 +20,7 @@ function Player() {
               <h5>[<strong>{lecture?.course}</strong>] {lecture?.topic}</h5>
   </div>
   <div className='card-body'>
-              <video  controls src={lecture?.video} autoPlay style={{width:'100%'}}>
+              <video controls  src={`http://localhost:5000/lectures/watch/${lecture.id}`} autoPlay style={{width:'100%'}} disablePictureInPicture disableRemotePlayback >
              
 
               </video>

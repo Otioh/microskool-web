@@ -123,7 +123,7 @@ dispatch(setload(true))
         <Route path="/contribute" element={<ScheduleContribute />} />
         <Route path="/assignment" element={<Assignments />} />
         <Route path="/lectures" element={<Lectures />} />
-        <Route path="/player/:id" element={<Player />} />
+        <Route path="/player/:id/:course/:lecturer/:topic" element={<Player />} />
         <Route path="/viewer" element={<Viewer />} />
         <Route path="/synch" element={<Synch />} />
         <Route path="/reset" element={<Reset />} />

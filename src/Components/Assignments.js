@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navigation from './Navigation';
 import { setAssignments, setViewAssignment, setaddAssignment } from '../Redux/Reducers/generalReducer';
 import AddAssignment from './AddAssignment';
-import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faFileEdit, faRemove, faThumbsUp, faTimes, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faBook, faBookOpen, faCoins, faDownLong, faDownload, faEye, faFileEdit, faRemove, faThumbsUp, faTimes, faWarning, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DropMenu from './DropMenu';
 import {Tabs, Tab} from 'react-bootstrap';
@@ -22,10 +22,11 @@ function Assignments() {
   const courses = useSelector((state) => state.generalReducer.general.courses);
   const assignments = useSelector((state) => state.generalReducer.general.assignments);
   const [seachterm, setseachterm] = useState('')
+  const [previewing, setpreview] = useState(false)
 
   const { alert } = useSelector((state) => state.displayReducer.display)
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND}assignments/${user.campus}`).then((res) => {
+    axios.get(`${process.env.REACT_APP_BACKEND}assignments`).then((res) => {
       if (res.data.success) {
         res.data.data.forEach((ass) => {
 
@@ -70,11 +71,6 @@ const [file, setfile] = useState("")
 
 
 
-
-  const preview=()=>{
-
-  }
-
   const { navigationFall, locked, navFall } = useSelector(
     (state) => state.displayReducer.display
   );
@@ -106,7 +102,7 @@ const [file, setfile] = useState("")
           <Modal
             config={{ align: "flex-end", justify: "right" }}
             body={<AddAssignment />}
-            header={`Post New Assignment`}
+            header={`Post New Resource`}
             footer={
               <button
                 className="btn-close"
@@ -120,11 +116,14 @@ const [file, setfile] = useState("")
           <></>
         )}
 
+
+    
+
         <br />
         <input
           className="form-control"
-          style={{ width: "200px", float: "right" }}
-          placeholder="Search Assignment"
+          style={{ width: "260px", float: "right" }}
+          placeholder="Search Assignment Resource"
           type="search"
           onChange={(e) => {
             setseachterm(e.target.value);
@@ -169,10 +168,8 @@ const [file, setfile] = useState("")
                     eachAss?.filestat
                       ?.toLowerCase()
                       .includes(seachterm.toLowerCase()) ||
-                    eachAss.lecturer
-                      .toLowerCase()
-                      .includes(seachterm.toLowerCase()) ||
-                    eachAss.question.toLowerCase().includes(seachterm.toLowerCase())
+                    eachAss.question.toLowerCase().includes(seachterm.toLowerCase())||
+                    eachAss.title.toLowerCase().includes(seachterm.toLowerCase())
                   ) {
                     return eachAss;
                   } else {
@@ -187,10 +184,13 @@ const [file, setfile] = useState("")
                     style={{ height: "auto", width: "200px" }}
                   >
                     <div className="card-header">
-                      <h4>
+                      <h4 style={{margin:0, padding:0}}>
                         <FontAwesomeIcon icon={faBookOpen}></FontAwesomeIcon>{" "}
                         {ass.course}
                       </h4>
+                      <div style={{width:'100%', textAlign:'center', textTransform:'uppercase'}}>
+                        {ass.campus}
+                      </div>
                       <span className="badge bg-microskool">{ass.filestat}</span>
                     </div>
                     <div className="card-body" style={{}}>
@@ -198,8 +198,8 @@ const [file, setfile] = useState("")
                        
                       </span>
                       <p style={{ fontSize: "small" }}>{ass.question}</p>
-                      <span className="badge bg-info">{ass.lecturer}</span>
-                      <span className="badge bg-warning"> {ass.deadline}</span>{" "}
+                      <span className="badge bg-info" style={{textTransform:'uppercase'}}>{ass.title}</span>
+                      <span className="badge bg-warning"> {ass.date.substring(0,16) }</span>{" "}
                    
                     </div>
                     <div className="card-footer" >
@@ -217,6 +217,7 @@ const [file, setfile] = useState("")
                         <FontAwesomeIcon  icon={faDownload}></FontAwesomeIcon> 
                       </button>
                       </button>
+                 
 
                       <button
                         className="btn text-danger"
@@ -253,7 +254,7 @@ const [file, setfile] = useState("")
 
                           });
                         })
-  }}><FontAwesomeIcon icon={faRemove}></FontAwesomeIcon> Delete</button>
+  }}><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Delete</button>
 </li>
                   })
               }

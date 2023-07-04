@@ -30,8 +30,8 @@ useEffect(()=>{
 
     const saveAssign=()=>{
 
-      if(question==="" || deadline==="" || course==="" || lecturer==="" || file.filename==="" || revFile===null){
-    
+      if(question==="" ||  course==="" ||  file.filename==="" || revFile===null){
+
 dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', cap:'Error'}))
       }else{
         dispatch(setspin(true))
@@ -39,20 +39,13 @@ dispatch(setalert({status:true, msg:'All Fields are required', type:'danger', ca
         formData.append('file', file.file)
     
         axios.post(`${process.env.REACT_APP_BACKEND}postFile/${user.id}`, formData).then((res)=>{
-          
-        
-
 })
 
-        axios.post(`${process.env.REACT_APP_BACKEND}assignments`, { course, question, deadline, lecturer,filename:user.id+"*"+file.filename, file:file.file, campus:user.campus, filestat:"MiSB|"+file.filesize+"| -- Pages", user:user.email }).then((respons)=>{
+        axios.post(`${process.env.REACT_APP_BACKEND}assignments`, { course, question, title: revFile.title,filename:user.id+"*"+file.filename, file:file.file, campus:user.campus, filestat:"MiSB|"+file.filesize+"| -- Pages", user:user.email }).then((respons)=>{
           dispatch(setspin(false))
     dispatch(setaddAssignment(false))
             dispatch(setalert({ status: true, msg: respons.data.message, type: 'info', cap: 'Info' }))
-
-})
-     
-
-    }
+})}
 
   
   }
@@ -88,26 +81,14 @@ setCourse(e.target.value)
 </div>
 
         </div>
-        <div className='col-sm-4' >
-          <label>
-            Deadline
-          </label>
-<input className={`form-control`} placeholder='Deadline' type='date' onChange={(e)=>{
-setdeadline(e.target.value)
-}} /> 
-
-</div>
+ 
 <div className='col-sm-4' >
 <textarea className={`form-control`} placeholder='Question' type='text' onChange={(e)=>{
 setquestion(e.target.value)
 }} ></textarea> 
 
 </div>
-<div className='col-sm-4' >
-<input className={`form-control`} placeholder='Lecturer Name' type='text' onChange={(e)=>{
-setlecturer(e.target.value)
-}} /> 
-</div>
+
       <span className={` microskool-border`}>
        
         <FontAwesomeIcon icon={faFile} /> <label>Attach .misb</label> <input type='file' id='misb' accept='.misb' onChange={(e)=>{
@@ -131,6 +112,7 @@ if(res.data.success){
             })
           setfile({ filename: e.target.files[0].name, filesize: parseFloat(e.target.files[0].size/1000).toFixed(1)+"KB", file: e.target.files[0]})
         }} />
+        
 
         {revFile ? <span><strong> {revFile?.title?.substring(0, 32)}</strong>...  <i>edited by </i> {revFile?.editorname}</span> : <></>} {revFile ? <a target='_blank' rel='noreferrer' href={'/#/user/'+revFile?.author} className='btn microskool-button' > <FontAwesomeIcon icon={faUser}></FontAwesomeIcon></a>:<></>}
 

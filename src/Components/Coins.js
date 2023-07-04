@@ -88,7 +88,7 @@ function Coins() {
     {
       field: 'description',
       headerName: 'Description',
-      width: 150,
+      width: 350,
 
     },
     {

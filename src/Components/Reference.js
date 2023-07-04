@@ -46,7 +46,7 @@ useEffect(()=>{
     {
       field: 'title',
       headerName: 'Title',
-      width: 150,
+      width: 250,
  
     },
 

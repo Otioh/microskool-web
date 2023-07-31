@@ -52,12 +52,12 @@ const {email}=useParams()
                                         </strong>
                                     </li>
                                     <li className="list-group-item">
-                                        <a target="__blank" style={{ textDecoration: 'none', color: 'inherit' }} href={`http://whatsapp.com/chat/${seUser.phone}`} >
+                                        <a target="__blank" style={{ textDecoration: 'none', color: 'inherit' }} href={`https://wa.me/${seUser.phone}`} >
                                             {" "}
                                             <FontAwesomeIcon
                                                 icon={faPhoneSquare}
                                             ></FontAwesomeIcon>{" "}
-                                            {seUser.phone}
+                                            WhatsApp
                                         </a>
                                     </li>
                                     <li className="list-group-item">

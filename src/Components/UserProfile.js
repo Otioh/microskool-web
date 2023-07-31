@@ -54,7 +54,7 @@ function UserProfile() {
                       <FontAwesomeIcon
                         icon={faPhoneSquare}
                       ></FontAwesomeIcon>{" "}
-                      {seUser.phone}
+                     WhatsApp
                     </a>
                   </li>
                   <li className="list-group-item">

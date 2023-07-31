@@ -152,30 +152,7 @@
     }
 ],
 "transactions": [
-     {
-        "id": 1,
-        "transaction_id": "T142737788033086",
-        "item": "Wallet Funded",
-        "description_sender": "Payment to fund Microskool eNaira wallet",
-        "description_receiver": "Payment to fund Microskool eNaira wallet",
-        "sender": "bryonerim@gmail.com",
-        "receiver": "Microskool",
-        "amount":20,
-        "date":"12/12/12",
-        "status":"Approved"
-    },
-{
-    "id": 1,
-    "transaction_id": "T142737788033086",
-    "item": "Wallet Funded",
-    "description_sender": "Payment to fund Microskool eNaira wallet",
-    "description_receiver": "Payment to fund Microskool eNaira wallet",
-    "sender": "bryonerim@yahoo.com",
-    "receiver": "Microskool",
-    "amount": 10,
-    "date": "12/12/12",
-    "status": "Approved"
-}
+     
 ],
 "assignments    ": [
     {

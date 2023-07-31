@@ -191,11 +191,13 @@ Report a problem <span style={{float:"right"}}><button className="btn btn-outlin
     <div style={{border:"solid 2px lightgray", boxShadow:"none"}} className={`card padding shadow ${theme}`}>
 <div className='card-title'>
 <h6>About Microskool</h6>
-                  &copy; Microskool 2023 --- version 3.0.0 -- Click to Install <span style={{ float: "right" }}><a target="__blank" href="http://microskool.com/downloads" className="btn btn-outline-secondary"><FontAwesomeIcon icon={faDownload} /> </a></span>
+                  &copy; Microskool 2023 --version 3.0.1 <span style={{ float: "right" }}><a target="__blank" href="http://microskool.com/downloads" className="btn btn-outline-secondary"><FontAwesomeIcon icon={faDownload} /> Install </a></span>
 </div>
-<br/>
+
 <div className='card-footer'>
- <i className='tag'> <h > <FontAwesomeIcon icon={faGear} /> Powered by <a href="https://firsta.com.ng/" target="__blank">Firsta</a> </h></i>
+ <i className='tag'> <h > <FontAwesomeIcon icon={faGear} /> Powered by <a href="https://firsta.com.ng/" target="__blank">
+  <img alt='Firsta Logo' title='Firsta' style={{height:'25px'}} src={require('../Images/firstalogo.png')} />
+  </a> </h></i>
 </div>
 </div>
     </div>

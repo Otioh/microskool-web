@@ -93,7 +93,12 @@ function Profile() {
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon> {user.email}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPhone}></FontAwesomeIcon> {user.phone}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faIdCard}></FontAwesomeIcon> {user.matric}</div>
-<div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faSchool}></FontAwesomeIcon> {user.institution}</div>
+                  <div style={{ margin: '7px', width: '80%' }}><FontAwesomeIcon icon={faSchool}></FontAwesomeIcon> {user.institution}
+                    {
+                      pereson.campus &&
+                      <img style={{ width: '20px' }} alt='logo' src={process.env.REACT_APP_BACKEND + 'assets/' + pereson.campus + '.png'} />
+                    }
+                  </div>              
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faPeopleGroup}></FontAwesomeIcon> {user.department}</div>
 <div style={{margin:'7px',width:'80%'}}><FontAwesomeIcon icon={faLevelUp}></FontAwesomeIcon> {user.level}</div>
 {
@@ -112,10 +117,12 @@ setPerson({...pereson, surname:e.target.value})
       <input placeholder='JAMB/Matric' value={pereson.matric} className='form-control form-text'onChange={(e)=>{
 setPerson({...pereson, matric:e.target.value})
         }} />
+        <div style={{display:'flex'}}>
+
 <select className='form-select' 
 onChange={(e)=>{
-setPerson({...pereson, institution:e.target.value.split('---')[0], campus:e.target.value.split('---')[1]})
-        }} >
+  setPerson({...pereson, institution:e.target.value.split('---')[0], campus:e.target.value.split('---')[1]})
+}} >
       {
         user.institution===""?        <option >
 Select Campus        </option>
@@ -123,16 +130,21 @@ Select Campus        </option>
 {user.institution}
 </option>
 
-      }
+}
 {
   campuses.map((campus)=>{
-return    <option value={`${campus.name}---${campus.acro}`}>
+    return    <option value={`${campus.name}---${campus.acro}`}>
    {`${campus.name}---${campus.acro}`}
     </option>
   })
 }
 </select>
-
+       
+                      {
+                        pereson.campus &&
+                        <img style={{ width: '40px' }} alt='logo' src={process.env.REACT_APP_BACKEND + 'assets/' + pereson.campus + '.png'} />
+                      }
+  </div>
 
         <select  className='form-select' onChange={(e)=>{
 setPerson({...pereson, department:e.target.value})
@@ -161,7 +173,7 @@ setPerson({...pereson, level:e.target.value})
         <option value={user.level}>
           {user.level} --Level
         </option>
-        <option value='100'>
+        <option value='100'> 
           100
         </option>
         <option value='200'>

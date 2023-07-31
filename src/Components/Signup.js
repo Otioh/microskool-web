@@ -7,7 +7,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { funSeque } from 'flame-tools';
 import { useDispatch, useSelector } from 'react-redux';
-import { setalert, setload } from '../Redux/Reducers/displayReducer';
+import { setalert, setload, setspin } from '../Redux/Reducers/displayReducer';
 
 
 
@@ -29,15 +29,18 @@ function Signup() {
 
 let navigate=useNavigate();
 
-const process=()=>{
+const handleprocess=()=>{
+   
+    console.log('yh')
 if(password===passwordConfirm){
 
-
+    dispatch(setspin(true))
 
     axios.post(`${process.env.REACT_APP_BACKEND}users`, {email,password, first_name, surname, phone, matric}).then((response)=>{
-
+        dispatch(setspin(false))
     if(response.data.success){
         funSeque({delaySeconds:2}, ()=>{
+            dispatch(setspin(false))
         dispatch(setalert({...alert, cap:'Congrats', status:true, type:'success', msg:response.data.message}))
 },
 ()=>{
@@ -111,15 +114,21 @@ setpasswordConfirm(e.target.value)
 </div>
 <div className='card-footer'>
 
-<button className='btn microskool-button' onClick={process}>
+                      <button className='btn microskool-button' onClick={()=>{
+                        console.log('first')
+                        handleprocess()
+                      }}>
         <FontAwesomeIcon icon={faUserLock}></FontAwesomeIcon> Sign Up
         </button>
+        
         <Link to='/login'>
         <button className='btn microskool-outline-button'>
         <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login?
         </button>   
 </Link>
 </div>
+
+          
     </div>
 
 </div>

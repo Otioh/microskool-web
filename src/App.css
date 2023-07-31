@@ -247,3 +247,13 @@ height: auto;
     background-color: rgb(83, 83, 170);
     color: white;
 }
+
+.exam-option{
+margin: 5px;
+}
+
+.exam-option:hover{
+    background-color: rgba(83, 83, 170, 0.7) !important;
+    color: white;
+ 
+}

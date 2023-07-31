@@ -91,7 +91,7 @@ setquestion(e.target.value)
 
       <span className={` microskool-border`}>
        
-        <FontAwesomeIcon icon={faFile} /> <label>Attach .misb</label> <input type='file' id='misb' accept='.misb' onChange={(e)=>{
+        <FontAwesomeIcon icon={faFile} /> <label for='misb'>Attach .misb</label> <input type='file' id='misb' accept='.misb' onChange={(e)=>{
           dispatch(setspin(true))
          const formData = new FormData()
        

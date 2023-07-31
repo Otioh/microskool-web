@@ -76,27 +76,15 @@ return neu;
 const processes=  ()=>{
  let ss=false;
 
-    dispatch(updateUser(data.users[0]))
-    localStorage.setItem('email', email)
-    localStorage.setItem('first_name', data.users[0].first_name)
-    localStorage.setItem('surname', data.users[0].surname)
-    localStorage.setItem('phone', data.users[0].phone)
-    localStorage.setItem('matric', data.users[0].matric)
-    localStorage.setItem('institution', data.users[0].institution)
-    localStorage.setItem('department', data.users[0].department)
-    localStorage.setItem('level', data.users[0].level)
-    localStorage.setItem('campus', data.users[0].campus)
-    localStorage.setItem('coins', data.users[0].coins + '')
-    localStorage.setItem('image', data.users[0].image)
-    localStorage.setItem('password', data.users[0].password)
+ 
 
 
     axios.post(`${process.env.REACT_APP_BACKEND}auth`, {email,password}).then((response)=>{
-
+        dispatch(setspin(false))
     if(response.data.success){
     funSeque({delaySeconds:2, isPromise:false},()=>{
 dispatch(updateUser(response.data.data[0]))
-localStorage.setItem('email', email)
+        localStorage.setItem('email', response.data.data[0].email)
 localStorage.setItem('first_name', response.data.data[0].first_name)
 localStorage.setItem('surname', response.data.data[0].surname)
 localStorage.setItem('phone', response.data.data[0].phone)
@@ -136,6 +124,9 @@ localStorage.setItem('password', response.data.data[0].password)
 
     }).then(()=>{
         ss=true
+    }).catch(err=>{
+        dispatch(setspin(true))
+        dispatch(setalert({ status: true, type: 'danger', cap: 'Error', msg: err+", please try again" }))
     })
 return ss;
   

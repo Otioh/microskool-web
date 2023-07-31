@@ -36,6 +36,7 @@ import MyEditor from "./Components/Editor";
 import FileManager from './Components/FileManager';
 import NotFound from './Components/NotFound';
 import User from './Components/User';
+import CBT from './Components/CBT';
 
 
 function App() {
@@ -131,6 +132,7 @@ dispatch(setload(true))
         <Route path="/coins" element={<Coins />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/general-exams" element={<CBT/>} />
         <Route path="/user/:email" element={<User />} />
       </Routes>
     </>

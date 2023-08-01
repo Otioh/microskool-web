@@ -122,7 +122,7 @@ setpasswordConfirm(e.target.value)
         </button>
         
         <Link to='/login'>
-        <button className='btn microskool-outline-button'>
+        <button className='btn microskool-text'>
         <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login?
         </button>   
 </Link>

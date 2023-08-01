@@ -31,7 +31,7 @@ let navigate=useNavigate();
 
 const handleprocess=()=>{
    
-    console.log('yh')
+ 
 if(password===passwordConfirm){
 
     dispatch(setspin(true))
@@ -115,7 +115,7 @@ setpasswordConfirm(e.target.value)
 <div className='card-footer'>
 
                       <button className='btn microskool-button' onClick={()=>{
-                        console.log('first')
+                    
                         handleprocess()
                       }}>
         <FontAwesomeIcon icon={faUserLock}></FontAwesomeIcon> Sign Up

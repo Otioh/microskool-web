@@ -177,14 +177,14 @@ document.getElementById('btn').disabled=true
         <FontAwesomeIcon icon={faLock}></FontAwesomeIcon> Login
         </button>
 <br/>
-<button className='btn microskool-outline-button' onClick={()=>{
+<button className='btn microskool-text' onClick={()=>{
     navigate('/reset')
 }}>
         <FontAwesomeIcon icon={faKey}></FontAwesomeIcon> Reset Password
         </button>   
 <Link to='/signup'>
 
-        <button className='btn microskool-outline-button'>
+        <button className='btn microskool-text'>
         <FontAwesomeIcon icon={faUserLock}></FontAwesomeIcon> Sign Up
         </button>   
         </Link>

@@ -8,22 +8,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setalert } from '../Redux/Reducers/displayReducer';
 import { funSeque } from 'flame-tools';
 
-function Verify({email}) {
-  let navigate=useNavigate();
-  let dispatch=useDispatch();
- const [code, setCode]= useState('');
- const alert=useSelector((state)=>state.displayReducer.display.alert)
-  const verify=()=>{
-    axios.post(`${process.env.REACT_APP_BACKEND}auth/`+email, {code}).then((response)=>{
-      if(response.data.success){
-        funSeque({delaySeconds:2},()=>{
-          dispatch(setalert({...alert, status:true, type:'success', msg:response.data.message}))
-      }, ()=>{
-        navigate('/dashboard')
-      } )
-       
-      }else{
-        dispatch(setalert({...alert, status:true, type:'danger', msg:response.data.message}))
+function Verify({ email }) {
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+  const [code, setCode] = useState('');
+  const alert = useSelector((state) => state.displayReducer.display.alert)
+  const verify = () => {
+    axios.post(`${process.env.REACT_APP_BACKEND}auth/` + email, { code }).then((response) => {
+      if (response.data.success) {
+        funSeque({ delaySeconds: 2 }, () => {
+          dispatch(setalert({ ...alert, status: true, cap: 'Verified', type: 'success', msg: response.data.message }))
+        }, () => {
+          navigate('/dashboard')
+        })
+
+      } else {
+        dispatch(setalert({ ...alert, status: true, cap: 'Error', type: 'danger', msg: response.data.message }))
       }
     })
   }
@@ -34,42 +34,42 @@ function Verify({email}) {
 
         </div>
         <div className='col-sm-4'>
- 
-        <div className='card shadow'>
-        <div className='card-header'>
-Email Confirmation
-        </div>
-        <div className='card-body'>
-Enter Code sent to your email (<strong>{email}</strong>):
-<input type='text' value={code} placeholder='Enter Code' className='form-control' onChange={(e)=>{
-  setCode(e.target.value);
-  dispatch(setalert({...alert, status:false}))
 
-}} />
-        </div>
-        <div className='card-footer'>
-<button className='btn microskool-button' onClick={()=>{
-if(code===''){
-dispatch(setalert({...alert, status:true, cap:'Error', type:'danger', msg:"Verification Code can't be empty"}))
+          <div className='card shadow'>
+            <div className='card-header'>
+              Email Confirmation
+            </div>
+            <div className='card-body'>
+              Enter Code sent to your email (<strong>{email}</strong>):
+              <input type='text' value={code} placeholder='Enter Code' className='form-control' onChange={(e) => {
+                setCode(e.target.value);
+                dispatch(setalert({ ...alert, status: false }))
 
-}else{
-  verify()
-}
- 
-}}>
-  <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Verify
-</button>
-        </div>
+              }} />
+            </div>
+            <div className='card-footer'>
+              <button className='btn microskool-button' onClick={() => {
+                if (code === '') {
+                  dispatch(setalert({ ...alert, status: true, cap: 'Error', type: 'danger', msg: "Verification Code can't be empty" }))
 
-      </div>
-  
+                } else {
+                  verify()
+                }
+
+              }}>
+                <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon> Verify
+              </button>
+            </div>
+
+          </div>
+
         </div>
         <div className='col-sm-4'>
 
         </div>
 
       </div>
-        </div>
+    </div>
   )
 }
 

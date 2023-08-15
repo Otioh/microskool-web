@@ -35,6 +35,8 @@ function Coins() {
     const [id, setid] = useState('')
     const [processed, setprocessed] = useState(false)
     const [ben, setben] = useState({})
+
+
     const processes = () => {
         if (!amount > 0 || id === '') {
             dispatch(setalert({ ...alert, msg: 'Email cannot be empty and Amount must be greater than 0', type: 'danger', status: true, cap: 'Error' }))
@@ -168,6 +170,7 @@ function Coins() {
     const [department, setdepartment] = useState('');
     const [code, setcode] = useState('');
     const [title, settitle] = useState('');
+    
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND}transactions/` + user.email).then((response) => {
             if (response.data.success) {

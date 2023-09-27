@@ -25,17 +25,23 @@ function ScheduleContribute() {
    const dispatch= useDispatch()
    let navigate=useNavigate()
    useEffect(()=>{
-    localStorage.setItem('last_page', location.hash)
-   
-axios
-  .get(`${process.env.REACT_APP_BACKEND}votes/user/`+user.email)
-  .then((resp) => {
-resp.data.data.forEach((id)=>{
-  if (id.type === "correct"){
-dispatch(correctVote(parseInt(id.subject_id)));
-  }else{ dispatch(wrongVote(parseInt(id.subject_id)));
-  }
-})});},[])
+     setTimeout(() => {
+
+
+       axios
+         .get(`${process.env.REACT_APP_BACKEND}votes/user/` + user.email)
+         .then((resp) => {
+           resp.data.data.forEach((id) => {
+             if (id.type === "correct") {
+               dispatch(correctVote(parseInt(id.subject_id)));
+             } else {
+               dispatch(wrongVote(parseInt(id.subject_id)));
+             }
+           })
+         }).catch(err => console.log(err));
+
+     }, 1000);
+   }, [])
 
     useEffect(()=>{
 

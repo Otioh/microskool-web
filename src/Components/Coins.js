@@ -127,7 +127,7 @@ function Coins() {
             name: user.first_name + " " + user.surname,
             phone: user.phone,
         },
-        publicKey: 'pk_test_76d889f9a617a15465f4326ee38e3ac3bd9e69bf',
+      publicKey: 'pk_live_fb900597742799bfb71394ddc6501da929054eec',
         text: "Pay Now",
         onSuccess: (msg) => {
 
@@ -446,6 +446,7 @@ function Coins() {
                             <PaystackButton
                               className="btn microskool-button"
                               {...componentProps}
+
                             />
                             <button
                               className="btn-close"
